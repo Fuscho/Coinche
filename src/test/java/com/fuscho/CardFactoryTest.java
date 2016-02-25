@@ -28,5 +28,9 @@ public class CardFactoryTest {
         Assert.assertEquals(diamondsCards.size(), 8);
         Assert.assertEquals(heartsCards.size(), 8);
         Assert.assertEquals(spadesCards.size(), 8);
+        Assert.assertEquals(clubsCards.stream().map(Card::getValue).distinct().count(), 8);
+        Assert.assertEquals(diamondsCards.stream().map(Card::getValue).distinct().count(), 8);
+        Assert.assertEquals(heartsCards.stream().map(Card::getValue).distinct().count(), 8);
+        Assert.assertEquals(spadesCards.stream().map(Card::getValue).distinct().count(), 8);
     }
 }
