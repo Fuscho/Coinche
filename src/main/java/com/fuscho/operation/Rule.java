@@ -6,7 +6,7 @@ import com.fuscho.model.card.SuitCard;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public static class Rule {
+public class Rule {
 
     /**
         cartes du joueur
