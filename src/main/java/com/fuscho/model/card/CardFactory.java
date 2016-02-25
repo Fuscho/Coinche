@@ -1,4 +1,6 @@
-package com.fuscho;
+package com.fuscho.model.card;
+
+import com.fuscho.SuitCard;
 
 import java.util.ArrayList;
 import java.util.List;

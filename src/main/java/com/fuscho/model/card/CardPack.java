@@ -1,4 +1,4 @@
-package com.fuscho;
+package com.fuscho.model.card;
 
 import java.util.List;
 

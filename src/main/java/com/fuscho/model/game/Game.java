@@ -1,4 +1,6 @@
-package com.fuscho;
+package com.fuscho.model.game;
+
+import com.fuscho.model.player.Player;
 
 public class Game {
     private Player player1;
