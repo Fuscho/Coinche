@@ -18,7 +18,11 @@ public enum ValueCard {
     public final Integer trumpOrder;
     public final Integer withoutTrumpOrder;
 
-    private ValueCard(Integer[] trump, Integer[] withoutTrump){
+    /**
+     * @param trump : Value and order of the card trump
+     * @param withoutTrump : Value and order of the card without trump
+     */
+    ValueCard(Integer[] trump, Integer[] withoutTrump){
         this.trumpValue = trump[0];
         this.trumpOrder = trump[1];
         this.withoutTrumpValue = withoutTrump[0];

@@ -13,6 +13,8 @@ public class CardPack {
 
     public void shuffleCards(){
         Collections.shuffle(cards);
+        Collections.shuffle(cards);
+        Collections.shuffle(cards);
     }
 
     public void cutCards(){
@@ -20,10 +22,14 @@ public class CardPack {
     }
 
     public List<Card> dealThreeCards() {
-        return cards.subList(0, 2);
+        List<Card> cardsToGive = this.cards.subList(0, 3);
+        this.cards = this.cards.subList(3, this.cards.size());
+        return cardsToGive;
     }
 
     public List<Card> dealTwoCards() {
-        return cards.subList(0, 1);
+        List<Card> cardsToGive = this.cards.subList(0, 2);
+        this.cards = this.cards.subList(2, this.cards.size());
+        return cardsToGive;
     }
 }

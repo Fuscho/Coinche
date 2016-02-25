@@ -1,7 +1,10 @@
 package com.fuscho.model.game;
 
+import com.fuscho.model.card.Card;
 import com.fuscho.model.card.CardPack;
 import com.fuscho.model.player.Player;
+
+import java.util.List;
 
 public class Game {
 
@@ -12,18 +15,41 @@ public class Game {
     private CardPack cardPack;
     private Score score;
 
+    public Game(){
+        this.cardPack = new CardPack();
+        this.score = new Score();
+    }
+
+    public void addPlayer(Player player){
+        if(player1 == null){
+            player1 = player;
+        } else if(player2 == null){
+            player2 = player;
+        } else if(player3 == null){
+            player3 = player;
+        } else if(player4 == null){
+            player4 = player;
+        }
+    }
+
     public void dealCards(){
-        player1.getCards().addAll(cardPack.dealThreeCards());
-        player2.getCards().addAll(cardPack.dealThreeCards());
-        player3.getCards().addAll(cardPack.dealThreeCards());
-        player4.getCards().addAll(cardPack.dealThreeCards());
-        player1.getCards().addAll(cardPack.dealTwoCards());
-        player2.getCards().addAll(cardPack.dealTwoCards());
-        player3.getCards().addAll(cardPack.dealTwoCards());
-        player4.getCards().addAll(cardPack.dealTwoCards());
-        player1.getCards().addAll(cardPack.dealThreeCards());
-        player2.getCards().addAll(cardPack.dealThreeCards());
-        player3.getCards().addAll(cardPack.dealThreeCards());
-        player4.getCards().addAll(cardPack.dealThreeCards());
+        List<Card> cards = cardPack.dealThreeCards();
+        player1.addCards(cards);
+        player2.addCards(cardPack.dealThreeCards());
+        player3.addCards(cardPack.dealThreeCards());
+        player4.addCards(cardPack.dealThreeCards());
+        player1.addCards(cardPack.dealTwoCards());
+        player2.addCards(cardPack.dealTwoCards());
+        player3.addCards(cardPack.dealTwoCards());
+        player4.addCards(cardPack.dealTwoCards());
+        player1.addCards(cardPack.dealThreeCards());
+        player2.addCards(cardPack.dealThreeCards());
+        player3.addCards(cardPack.dealThreeCards());
+        player4.addCards(cardPack.dealThreeCards());
+    }
+
+    public void launchGame() {
+        this.cardPack.shuffleCards();
+        this.dealCards();
     }
 }
