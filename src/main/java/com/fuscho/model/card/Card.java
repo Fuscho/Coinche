@@ -1,5 +1,6 @@
-package com.fuscho;
+package com.fuscho.model.card;
 
+import com.fuscho.SuitCard;
 import lombok.Data;
 
 /**

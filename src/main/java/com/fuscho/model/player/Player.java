@@ -1,4 +1,6 @@
-package com.fuscho;
+package com.fuscho.model.player;
+
+import com.fuscho.model.card.Card;
 
 import java.util.List;
 
