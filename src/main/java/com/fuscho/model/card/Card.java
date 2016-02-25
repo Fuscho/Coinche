@@ -1,6 +1,5 @@
 package com.fuscho.model.card;
 
-import com.fuscho.SuitCard;
 import lombok.Data;
 
 /**
@@ -14,6 +13,22 @@ public class Card {
     public Card(SuitCard suit, ValueCard value){
         this.suit = suit;
         this.value = value;
+    }
+
+    public Integer getCardOrder(Card card, SuitCard trumpSuit){
+        if(card.getSuit().equals(trumpSuit)){
+            return this.value.trumpOrder;
+        } else {
+            return this.value.withoutTrumpOrder;
+        }
+    }
+
+    public Integer getCardValueScore(Card card, SuitCard trumpSuit){
+        if(card.getSuit().equals(trumpSuit)){
+            return this.value.trumpValue;
+        } else {
+            return this.value.withoutTrumpValue;
+        }
     }
 }
 

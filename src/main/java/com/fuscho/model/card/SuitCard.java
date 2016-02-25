@@ -1,7 +1,10 @@
 package com.fuscho.model.card;
 
 /**
- * Créer par mchoraine le 25/02/2016.
+ * Clubs : Trèfle
+ * Diamonds : Carreau
+ * Hearts : Coeur
+ * Spades : Pique
  */
 public enum SuitCard {
     Clubs, Diamonds, Hearts, Spades
