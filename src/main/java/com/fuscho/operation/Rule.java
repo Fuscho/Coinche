@@ -43,7 +43,7 @@ public class Rule {
         //Player has the asked suit
         if (possibleMoves.size() > 0) {
             //asked suit is trump suit
-            possibleMoves = getPossibleMovesTrump(possibleMoves, possibleMoves, trumpSuit, masterCard);
+            possibleMoves = getPossibleMovesTrump(possibleMoves, false, trumpSuit, masterCard);
 
         } else {
             //Player hasn't the asked suit
@@ -57,7 +57,8 @@ public class Rule {
                     //Player can play all cards
                     possibleMoves = playerHand;
                 }else{
-                    possibleMoves = getPossibleMovesTrump(playerHand, possibleMoves, trumpSuit, masterCard);
+
+                    possibleMoves = getPossibleMovesTrump(playerHand, true,trumpSuit, masterCard);
                 }
             }
         }
@@ -65,7 +66,7 @@ public class Rule {
         return possibleMoves;
     }
 
-    public static List<Card> getPossibleMovesTrump(List<Card> playerHand, List<Card> possibleMoves, SuitCard trumpSuit, Card masterCard){
+    private static List<Card> getPossibleMovesTrump( List<Card> possibleMoves, Boolean cut, SuitCard trumpSuit, Card masterCard){
 
         if(masterCard.getSuit() == trumpSuit){
 
@@ -74,15 +75,18 @@ public class Rule {
                     stream()
                     .filter(card -> card.getCardOrder(trumpSuit) > masterCard.getCardOrder(trumpSuit))
                     .collect(Collectors.toList());
-
             if (possibleMovesHigher.size() > 0) {
                 possibleMoves = possibleMovesHigher;
             }
-            //Player hasn't stronger card than asked => Play what you want
-            possibleMoves = playerHand;
+            //play what you want
         }else{
+            List<Card> trumpCards = possibleMoves.stream().filter(card -> card.getSuit() == trumpSuit).collect(Collectors.toList());
+            if(cut && trumpCards.size()>0){
+                //PLayer must cut
+                possibleMoves = trumpCards;
+            }
             //Play what you want
-            possibleMoves = playerHand;
+
         }
 
         return possibleMoves;
