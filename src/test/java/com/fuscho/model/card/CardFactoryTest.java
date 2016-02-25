@@ -1,8 +1,6 @@
-package com.fuscho;
+package com.fuscho.model.card;
 
-import com.fuscho.model.card.Card;
-import com.fuscho.model.card.CardFactory;
-import com.fuscho.model.card.SuitCard;
+import com.fuscho.model.card.factory.CardFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
