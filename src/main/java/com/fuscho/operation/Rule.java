@@ -6,7 +6,7 @@ import com.fuscho.model.card.SuitCard;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public static class Rule {
+public class Rule {
 
     /**
         cartes du joueur
@@ -43,20 +43,7 @@ public static class Rule {
         //Player has the asked suit
         if (possibleMoves.size() > 0) {
             //asked suit is trump suit
-            if (askedSuit == trumpSuit) {
-                //Player has stronger card than master card
-                List<Card> possibleMovesHigher = possibleMoves.
-                        stream()
-                        .filter(card -> card.getCardOrder(trumpSuit) > masterCard.getCardOrder(trumpSuit))
-                        .collect(Collectors.toList());
-
-                if (possibleMovesHigher.size() > 0) {
-                    possibleMoves = possibleMovesHigher;
-                }
-                //Player hasn't stronger card than asked => DO NOTHING (possibleMoves doesn't change)
-
-            }
-            //asked suit isn't trump suit => DO NOTHING (possibleMoves doesn't change)
+            possibleMoves = getPossibleMovesTrump(possibleMoves, possibleMoves, trumpSuit, masterCard);
 
         } else {
             //Player hasn't the asked suit
@@ -70,27 +57,35 @@ public static class Rule {
                     //Player can play all cards
                     possibleMoves = playerHand;
                 }else{
-
-                    if(masterCard.getSuit() == trumpSuit){
-                        //Player has stronger card than masterCard
-                        List<Card> possibleMovesHigher = possibleMoves.
-                                stream()
-                                .filter(card -> card.getCardOrder(trumpSuit) > masterCard.getCardOrder(trumpSuit))
-                                .collect(Collectors.toList());
-
-                        if (possibleMovesHigher.size() > 0) {
-                            possibleMoves = possibleMovesHigher;
-                        }
-                        //Player hasn't stronger card than asked => Play what you want
-                        possibleMoves = playerHand;
-                    }else{
-                        //Play what you want
-                        possibleMoves = playerHand;
-                    }
+                    possibleMoves = getPossibleMovesTrump(playerHand, possibleMoves, trumpSuit, masterCard);
                 }
             }
         }
 
         return possibleMoves;
+    }
+
+    public static List<Card> getPossibleMovesTrump(List<Card> playerHand, List<Card> possibleMoves, SuitCard trumpSuit, Card masterCard){
+
+        if(masterCard.getSuit() == trumpSuit){
+
+            //Player has stronger card than masterCard
+            List<Card> possibleMovesHigher = possibleMoves.
+                    stream()
+                    .filter(card -> card.getCardOrder(trumpSuit) > masterCard.getCardOrder(trumpSuit))
+                    .collect(Collectors.toList());
+
+            if (possibleMovesHigher.size() > 0) {
+                possibleMoves = possibleMovesHigher;
+            }
+            //Player hasn't stronger card than asked => Play what you want
+            possibleMoves = playerHand;
+        }else{
+            //Play what you want
+            possibleMoves = playerHand;
+        }
+
+        return possibleMoves;
+
     }
 }
