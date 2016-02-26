@@ -6,6 +6,13 @@
     <title>Fuscho Coinche</title>
 </head>
 <body>
-    ${user}
+    <div id="containerJ1">
+    </div>
+    <div id="containerJ2">
+    </div>
+    <div id="containerJ3">
+    </div>
+    <div id="containerJ4">
+    </div>
 </body>
 </html>

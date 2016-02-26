@@ -13,7 +13,7 @@ public class HomeController {
     @RequestMapping("/")
     public ModelAndView index() {
         ModelAndView home = new ModelAndView("home");
-        home.addObject("user", "JB le pd");
+        home.addObject("user", "JB");
         return home;
     }
 }
