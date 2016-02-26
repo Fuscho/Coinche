@@ -6,6 +6,6 @@
     <title>Fuscho Coinche</title>
 </head>
 <body>
-    ${user}
+    ${user} coucou toi petite bite
 </body>
 </html>

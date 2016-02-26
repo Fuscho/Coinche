@@ -37,10 +37,20 @@ public class TurnRound {
             } else {
                 masterCard = Rule.getMasterCard(cardsOnTable, trumpSuit);
             }
+            if(card.equals(masterCard)){
+                winning = player;
+            }
             cardsOnTable.add(card);
         } else {
             log.error("Not this player turn");
         }
     }
 
+    public Boolean isPartenaireMaster(Player player) {
+        return winning.equals(player.getPartner());
+    }
+
+    public void winnerCollectCards() {
+        winning.addCardsWin(cardsOnTable);
+    }
 }

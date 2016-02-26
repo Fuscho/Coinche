@@ -2,13 +2,16 @@ package com.fuscho.model.game;
 
 import com.fuscho.model.card.CardPack;
 import com.fuscho.model.player.Player;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+@Slf4j
 public class Game {
 
-    private Player player1;
-    private Player player2;
-    private Player player3;
-    private Player player4;
+    private List<Player> players;
     private CardPack cardPack;
     private Score score;
 
@@ -18,34 +21,32 @@ public class Game {
     }
 
     public void addPlayer(Player player){
-        if(player1 == null){
-            player1 = player;
-        } else if(player2 == null){
-            player2 = player;
-        } else if(player3 == null){
-            player3 = player;
-        } else if(player4 == null){
-            player4 = player;
+        if(players == null){
+            players = Arrays.asList(new Player[4]);
         }
-    }
-
-    public void dealCards(){
-        player1.addCards(cardPack.dealThreeCards());
-        player2.addCards(cardPack.dealThreeCards());
-        player3.addCards(cardPack.dealThreeCards());
-        player4.addCards(cardPack.dealThreeCards());
-        player1.addCards(cardPack.dealTwoCards());
-        player2.addCards(cardPack.dealTwoCards());
-        player3.addCards(cardPack.dealTwoCards());
-        player4.addCards(cardPack.dealTwoCards());
-        player1.addCards(cardPack.dealThreeCards());
-        player2.addCards(cardPack.dealThreeCards());
-        player3.addCards(cardPack.dealThreeCards());
-        player4.addCards(cardPack.dealThreeCards());
+        int position = players.indexOf(null);
+        players.set(position, player);
     }
 
     public void launchGame() {
+        players.stream().forEach(player -> player.setPartner(players.get((players.indexOf(player) + 2 ) % 4)));
         this.cardPack.shuffleCards();
+    }
+
+    public void dealCards(){
+        players.stream().forEach(player -> player.addCards(cardPack.dealThreeCards()));
+        players.stream().forEach(player -> player.addCards(cardPack.dealTwoCards()));
+        players.stream().forEach(player -> player.addCards(cardPack.dealThreeCards()));
+    }
+
+    public Player getNextPlayer(Player player){
+        int playerPosition = players.indexOf(player);
+        if(playerPosition == 3){
+            playerPosition = 0;
+        } else {
+            playerPosition++;
+        }
+        return players.get(playerPosition);
     }
 
     public RoundGame startRound(){
