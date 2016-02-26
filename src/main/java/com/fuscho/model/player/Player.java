@@ -34,4 +34,9 @@ public abstract class Player {
         }
         this.cardsWin.addAll(cardsReceive);
     }
+
+    @Override
+    public String toString(){
+        return "fdp";
+    }
 }
