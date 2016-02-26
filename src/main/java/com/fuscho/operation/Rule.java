@@ -32,36 +32,45 @@ public class Rule {
                                 -> oui si tu as au dessus
                                     -> oui tu pose un atout au dessus
                                     -> non tu joues ce que tu veux
-                                -> non tu joues ce que tu veux
+                                -> non tu as de l'atout
+                                    -> oui tu coupe
+                                    -> non tu joues ce que tu veux
                         -> non tu joues ce que tu veux
      */
 
     public static List<Card> getPossibleMoves(List<Card> playerHand, SuitCard askedSuit, SuitCard trumpSuit, Card masterCard, Boolean partnerIsMaster) {
+        List<Card> possibleMoves;
+        if(askedSuit != null){
+            possibleMoves = playerHand.stream().filter(card -> card.getSuit() == askedSuit).collect(Collectors.toList());
 
-        List<Card> possibleMoves = playerHand.stream().filter(card -> card.getSuit() == askedSuit).collect(Collectors.toList());
+            //Player has the asked suit
+            if (possibleMoves.size() > 0) {
+                //asked suit is trump suit
+                possibleMoves = getPossibleMovesTrump(possibleMoves, false, trumpSuit, masterCard);
 
-        //Player has the asked suit
-        if (possibleMoves.size() > 0) {
-            //asked suit is trump suit
-            possibleMoves = getPossibleMovesTrump(possibleMoves, false, trumpSuit, masterCard);
-
-        } else {
-            //Player hasn't the asked suit
-            //asked suit is trump suit
-            if (askedSuit == trumpSuit) {
-                //Player can play all cards
-                possibleMoves = playerHand;
-            }else{
-                //Player's partner is master
-                if(partnerIsMaster){
+            } else {
+                //Player hasn't the asked suit
+                //asked suit is trump suit
+                if (askedSuit == trumpSuit) {
                     //Player can play all cards
                     possibleMoves = playerHand;
                 }else{
+                    //Player's partner is master
+                    if(partnerIsMaster){
+                        //Player can play all cards
+                        possibleMoves = playerHand;
+                    }else{
 
-                    possibleMoves = getPossibleMovesTrump(playerHand, true,trumpSuit, masterCard);
+                        possibleMoves = getPossibleMovesTrump(playerHand, true,trumpSuit, masterCard);
+                    }
                 }
             }
+        }else{
+            //Player start the run, play what you want
+            possibleMoves = playerHand;
+
         }
+
 
         return possibleMoves;
     }
