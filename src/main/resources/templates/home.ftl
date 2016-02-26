@@ -15,6 +15,7 @@
         <div id="containerJ4"></div>
         <div id="containerJ1">
             <select name="select" id="cardsSelect"></select>
+            <button type="playButton" onclick="playBtnClick()">Play!</button>
         </div>
     </body>
 </html>
