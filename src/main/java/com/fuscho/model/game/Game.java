@@ -14,6 +14,7 @@ public class Game {
     private List<Player> players;
     private CardPack cardPack;
     private Score score;
+    private RoundGame currentRound;
     private static Game INSTANCE;
 
     public static Game getInstance(){
@@ -32,6 +33,10 @@ public class Game {
         }
         int position = players.indexOf(null);
         players.set(position, player);
+    }
+
+    public List<Player> getPlayers(){
+        return players;
     }
 
     public void launchGame() {
@@ -57,6 +62,11 @@ public class Game {
 
     public RoundGame startRound(){
         this.dealCards();
-        return new RoundGame();
+        currentRound = new RoundGame();
+        return currentRound;
+    }
+
+    public RoundGame getCurrentRound() {
+        return currentRound;
     }
 }

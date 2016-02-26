@@ -2,6 +2,7 @@ package com.fuscho.rest;
 
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
+import com.fuscho.model.card.ValueCard;
 import com.fuscho.model.game.ContractRound;
 import com.fuscho.model.game.Game;
 import com.fuscho.model.game.RoundGame;
@@ -20,29 +21,42 @@ import java.util.Map;
 @Slf4j
 public class CardController {
 
-    private Game game;
-    private RoundGame roundGame;
-    private Player humanPlayer;
-
     @RequestMapping(method = RequestMethod.POST, value = "/init")
     public List<Card> initGame() {
-        game = new Game();
-        humanPlayer = new HumanPlayer();
+        Game game = new Game();
         Player player2 = new IAPlayer();
         Player player3 = new IAPlayer();
         Player player4 = new IAPlayer();
-        game.addPlayer(humanPlayer);
+        game.addPlayer(new HumanPlayer());
         game.addPlayer(player2);
         game.addPlayer(player3);
         game.addPlayer(player4);
         game.launchGame();
-        roundGame = game.startRound();
-        return humanPlayer.getCards();
+        game.startRound();
+        return game.getPlayers().get(0).getCards();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/bid")
     public void bidRound(@RequestBody Map bid) {
-        roundGame.playerBid(humanPlayer, ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
+        Game.getInstance().getCurrentRound().playerBid(Game.getInstance().getPlayers().get(0), ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
+        Game.getInstance().getCurrentRound().startTurn(Game.getInstance().getPlayers().get(0));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/play")
+    public List<Card> playCard(@RequestBody Map card) {
+        Card cardToPlay = new Card(SuitCard.valueOf(String.valueOf(card.get("suit"))), ValueCard.valueOf(String.valueOf(card.get("value"))));
+        Player humanPlayer = Game.getInstance().getPlayers().get(0);
+        log.info("{}", humanPlayer);
+        log.info("{}", card);
+        log.info("{}", cardToPlay);
+        RoundGame roundGame = Game.getInstance().getCurrentRound();
+        roundGame.playerPlayCard(humanPlayer, cardToPlay);
+        roundGame.nextPlayer(Game.getInstance());
+        while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer){
+            roundGame.playerPlayCard(humanPlayer, new Card(SuitCard.valueOf(String.valueOf(card.get("suit"))), ValueCard.valueOf(String.valueOf(card.get("value")))));
+            roundGame.nextPlayer(Game.getInstance());
+        }
+        return humanPlayer.getCards();
     }
 
 }
