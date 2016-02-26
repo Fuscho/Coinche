@@ -23,6 +23,7 @@ public class RoundGame {
 
     public void playerPlayCard(Player player, Card card) {
         currentTurn.play(player, card);
+        player.playThisCard(card);
     }
 
     public void playerBid(Player player, ContractRound.ContractPoint bidPoint, SuitCard suit) {
@@ -35,5 +36,9 @@ public class RoundGame {
 
     public void startTurn(Player player) {
         currentTurn = new TurnRound(player, contractRound.getTrumpSuit());
+    }
+
+    public void nextPlayer(Player player) {
+        currentTurn.setPlayerTurn(player);
     }
 }

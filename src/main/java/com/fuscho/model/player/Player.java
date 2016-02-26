@@ -25,4 +25,8 @@ public class Player {
         }
         this.cards.addAll(cardsReceive);
     }
+
+    public void playThisCard(Card card) {
+        cards.remove(card);
+    }
 }

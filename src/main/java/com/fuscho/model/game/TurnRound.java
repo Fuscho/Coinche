@@ -38,6 +38,8 @@ public class TurnRound {
                 masterCard = Rule.getMasterCard(cardsOnTable, trumpSuit);
             }
             cardsOnTable.add(card);
+        } else {
+            log.error("Not this player turn");
         }
     }
 

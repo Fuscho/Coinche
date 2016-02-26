@@ -99,9 +99,9 @@ public class Rule {
     /**
      * Si y a de l'atout sur la table -> la plus forte à l'atout
      * Sinon la plus forte normal
-     * @param cardsOnTable
-     * @param trumpSuit
-     * @return
+     * @param cardsOnTable : Cards that have been played
+     * @param trumpSuit : Suit trump
+     * @return Card
      */
     public static Card getMasterCard(List<Card> cardsOnTable, SuitCard trumpSuit) {
         Optional<Card> first = cardsOnTable.stream().filter(c -> c.getSuit().equals(trumpSuit)).findFirst();
