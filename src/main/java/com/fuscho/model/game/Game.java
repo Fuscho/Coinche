@@ -1,10 +1,7 @@
 package com.fuscho.model.game;
 
-import com.fuscho.model.card.Card;
 import com.fuscho.model.card.CardPack;
 import com.fuscho.model.player.Player;
-
-import java.util.List;
 
 public class Game {
 
@@ -33,8 +30,7 @@ public class Game {
     }
 
     public void dealCards(){
-        List<Card> cards = cardPack.dealThreeCards();
-        player1.addCards(cards);
+        player1.addCards(cardPack.dealThreeCards());
         player2.addCards(cardPack.dealThreeCards());
         player3.addCards(cardPack.dealThreeCards());
         player4.addCards(cardPack.dealThreeCards());
@@ -50,6 +46,10 @@ public class Game {
 
     public void launchGame() {
         this.cardPack.shuffleCards();
+    }
+
+    public RoundGame startRound(){
         this.dealCards();
+        return new RoundGame();
     }
 }

@@ -3,7 +3,10 @@ package com.fuscho.operation;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Rule {
@@ -100,5 +103,27 @@ public class Rule {
 
         return possibleMoves;
 
+    }
+
+    /**
+     * Si y a de l'atout sur la table -> la plus forte à l'atout
+     * Sinon la plus forte normal
+     * @param cardsOnTable
+     * @param trumpSuit
+     * @return
+     */
+    public static Card getMasterCard(List<Card> cardsOnTable, SuitCard trumpSuit) {
+        Optional<Card> first = cardsOnTable.stream().filter(c -> c.getSuit().equals(trumpSuit)).findFirst();
+        if(first.isPresent()){
+            Comparator<Card> comparator = Comparator.comparing(card -> card.getValue().trumpOrder);
+            List<Card> trumpCards = cardsOnTable.stream().filter(card -> card.getSuit().equals(trumpSuit)).collect(Collectors.toList());
+            Collections.sort(trumpCards, comparator.reversed());
+            return trumpCards.get(0);
+        } else {
+            Comparator<Card> comparator = Comparator.comparing(card -> card.getValue().withoutTrumpOrder);
+            List<Card> askedCards = cardsOnTable.stream().filter(card -> card.getSuit().equals(cardsOnTable.get(0).getSuit())).collect(Collectors.toList());
+            Collections.sort(askedCards, comparator.reversed());
+            return askedCards.get(0);
+        }
     }
 }
