@@ -39,18 +39,16 @@ public class CardController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/bid")
-    public void bidRound(@RequestBody Map bid) {
-        Game.getInstance().getCurrentRound().playerBid(Game.getInstance().getPlayers().get(0), ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
-        Game.getInstance().getCurrentRound().startTurn(Game.getInstance().getPlayers().get(0));
+    public void bidRound() {
+        Player player = Game.getInstance().getPlayers().get(0);
+        Game.getInstance().getCurrentRound().playerBid(player, ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
+        Game.getInstance().getCurrentRound().startTurn(player);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/play")
+    @RequestMapping(method = RequestMethod.POST, value = "/play", produces = "application/json")
     public Map playCard(@RequestBody Map card) {
         Card cardToPlay = new Card(SuitCard.valueOf(String.valueOf(card.get("suit"))), ValueCard.valueOf(String.valueOf(card.get("value"))));
         Player humanPlayer = Game.getInstance().getPlayers().get(0);
-        log.info("{}", humanPlayer);
-        log.info("{}", card);
-        log.info("{}", cardToPlay);
         RoundGame roundGame = Game.getInstance().getCurrentRound();
         roundGame.playerPlayCard(humanPlayer, cardToPlay);
         roundGame.nextPlayer(Game.getInstance());
