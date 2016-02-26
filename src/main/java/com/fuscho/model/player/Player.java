@@ -12,12 +12,10 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class Player {
+public abstract class Player {
     private List<Card> cards;
-    private OtherPlayer adversary1;
-    private OtherPlayer adversary2;
-    private OtherPlayer partner;
-    private Boolean human;
+    private List<Card> cardsWin;
+    private Player partner;
 
     public void addCards(List<Card> cardsReceive) {
         if(cards==null){
@@ -28,5 +26,12 @@ public class Player {
 
     public void playThisCard(Card card) {
         cards.remove(card);
+    }
+
+    public void addCardsWin(List<Card> cardsReceive) {
+        if(cardsWin==null){
+            this.cardsWin = new ArrayList<>();
+        }
+        this.cardsWin.addAll(cardsReceive);
     }
 }

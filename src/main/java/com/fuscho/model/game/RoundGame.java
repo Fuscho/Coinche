@@ -13,13 +13,9 @@ import java.util.List;
 @Data
 public class RoundGame {
     private ContractRound contractRound;
-    private List<Card> cardsWinTeamA;
-    private List<Card> cardsWinTeamB;
     private TurnRound currentTurn;
 
-    public RoundGame(){
-
-    }
+    public RoundGame(){}
 
     public void playerPlayCard(Player player, Card card) {
         currentTurn.play(player, card);
@@ -38,7 +34,12 @@ public class RoundGame {
         currentTurn = new TurnRound(player, contractRound.getTrumpSuit());
     }
 
-    public void nextPlayer(Player player) {
-        currentTurn.setPlayerTurn(player);
+    public void nextPlayer(Game game) {
+        if(currentTurn.getCardsOnTable().size() < 4){
+            currentTurn.setPlayerTurn(game.getNextPlayer(currentTurn.getPlayerTurn()));
+        } else {
+            currentTurn.winnerCollectCards();
+            startTurn(currentTurn.getWinning());
+        }
     }
 }
