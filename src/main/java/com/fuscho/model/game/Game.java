@@ -14,10 +14,16 @@ public class Game {
     private List<Player> players;
     private CardPack cardPack;
     private Score score;
+    private static Game INSTANCE;
+
+    public static Game getInstance(){
+        return INSTANCE;
+    }
 
     public Game(){
         this.cardPack = new CardPack();
         this.score = new Score();
+        INSTANCE = this;
     }
 
     public void addPlayer(Player player){

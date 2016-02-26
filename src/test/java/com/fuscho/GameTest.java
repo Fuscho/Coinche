@@ -59,6 +59,11 @@ public class GameTest {
         // Go to next turn
         roundGame.nextPlayer(game);
         Assert.assertEquals(roundGame.getCurrentTurn().getPlayerTurn().getCardsWin().size(), 4);
+
+        for (int i = 0; i < 4*7; i++) {
+            roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), getRandomCard(roundGame.getCurrentTurn().getPlayerTurn().getCards(), currentTurn.getSuitAsked(), contractRound.getTrumpSuit(), Rule.getMasterCard(currentTurn.getCardsOnTable(), contractRound.getTrumpSuit()), currentTurn.isPartenaireMaster(roundGame.getCurrentTurn().getPlayerTurn())));
+            roundGame.nextPlayer(game);
+        }
     }
 
 
