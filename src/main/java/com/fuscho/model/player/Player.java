@@ -1,6 +1,7 @@
 package com.fuscho.model.player;
 
 import com.fuscho.model.card.Card;
+import com.fuscho.model.game.TurnRound;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +35,8 @@ public abstract class Player {
         }
         this.cardsWin.addAll(cardsReceive);
     }
+
+    public abstract Card getRandomCard(TurnRound currentTurn);
 
     @Override
     public String toString(){
