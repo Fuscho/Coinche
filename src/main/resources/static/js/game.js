@@ -23,11 +23,9 @@ $( document ).ready(function() {
 var playBtnClick = function(){
     var card;
     var conceptName = $('#cardsSelect').find(":selected").text();
-   // card["suit"] = ...
-   // card["value"] = ...
     var card = {
-        suit : "Clubs",
-        value: "Nine"
+        suit : conceptName.split(" ")[0],
+        value: conceptName.split(" ")[1]
     };
     $.ajax({
         method: "POST",
