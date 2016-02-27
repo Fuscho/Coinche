@@ -14,6 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public abstract class Player {
+
+    private String name;
     private List<Card> cards;
     private List<Card> cardsWin;
     private Player partner;
@@ -40,6 +42,6 @@ public abstract class Player {
 
     @Override
     public String toString(){
-        return "fdp";
+        return this.name;
     }
 }

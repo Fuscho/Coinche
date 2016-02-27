@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class IAPlayer extends Player{
 
+    public IAPlayer(String name) {
+        this.setName(name);
+    }
+
     @Override
     public Card getRandomCard(TurnRound currentTurn) {
         List<Card> possibleMoves = Rule.getPossibleMoves(this.getCards(), currentTurn.getSuitAsked(), currentTurn.getTrumpSuit(), currentTurn.getMasterCard(), currentTurn.isPartenaireMaster(this));

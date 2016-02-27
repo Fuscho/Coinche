@@ -26,10 +26,10 @@ public class CardController {
     @RequestMapping(method = RequestMethod.POST, value = "/init")
     public Map initGame() {
         Game game = new Game();
-        Player player2 = new IAPlayer();
-        Player player3 = new IAPlayer();
-        Player player4 = new IAPlayer();
-        game.addPlayer(new HumanPlayer());
+        Player player2 = new IAPlayer("IA1");
+        Player player3 = new IAPlayer("IA2");
+        Player player4 = new IAPlayer("IA3");
+        game.addPlayer(new HumanPlayer("Human"));
         game.addPlayer(player2);
         game.addPlayer(player3);
         game.addPlayer(player4);

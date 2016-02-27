@@ -28,13 +28,15 @@ var playBtnClick = function(){
         data : JSON.stringify(card),
         contentType : 'application/json'
     }).done(function( data ) {
+        updateCardPlayer(data);
         console.log(data)
     });
 };
 
 var updateCardPlayer= function(cards){
+    $('#cardsSelect option').remove();
     cards["cards"].forEach(function(card){
-        if($.inArray(card, cards["playable"] )){
+        if($.inArray(card, cards["playableCards"] )){
             $('#cardsSelect').append($('<option>', {
                 value: card["suit"]+" "+card["value"],
                 text: card["suit"]+" "+card["value"]

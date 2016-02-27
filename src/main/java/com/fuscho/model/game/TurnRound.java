@@ -31,6 +31,7 @@ public class TurnRound {
 
     public void play(Player player, Card card){
         if(player.equals(playerTurn)){
+            cardsOnTable.add(card);
             if(cardsOnTable.size() == 0){
                 suitAsked = card.getSuit();
                 masterCard = card;
@@ -38,9 +39,9 @@ public class TurnRound {
                 masterCard = Rule.getMasterCard(cardsOnTable, trumpSuit);
             }
             if(card.equals(masterCard)){
+                log.info("{} is master", player.getName());
                 winning = player;
             }
-            cardsOnTable.add(card);
         } else {
             log.error("Not this player turn");
         }

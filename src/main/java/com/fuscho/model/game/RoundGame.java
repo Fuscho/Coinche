@@ -20,7 +20,7 @@ public class RoundGame {
     public RoundGame(){}
 
     public void playerPlayCard(Player player, Card card) {
-        log.info("player play : {}", card);
+        log.info("{} play : {}", player, card);
         currentTurn.play(player, card);
         player.playThisCard(card);
     }
@@ -41,8 +41,8 @@ public class RoundGame {
         if(currentTurn.getCardsOnTable().size() < 4){
             currentTurn.setPlayerTurn(game.getNextPlayer(currentTurn.getPlayerTurn()));
         } else {
+            log.info("We have a winner : {} {}", currentTurn.getMasterCard(), currentTurn.getWinning() );
             currentTurn.winnerCollectCards();
-            log.info("We have a winner : ", currentTurn.getMasterCard() );
             startTurn(currentTurn.getWinning());
         }
     }

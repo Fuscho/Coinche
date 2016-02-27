@@ -8,6 +8,10 @@ import com.fuscho.model.game.TurnRound;
  */
 public class HumanPlayer extends Player {
 
+    public HumanPlayer(String name) {
+        this.setName(name);
+    }
+
     @Override
     public Card getRandomCard(TurnRound currentTurn) {
         return null;
