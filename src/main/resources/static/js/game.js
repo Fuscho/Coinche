@@ -7,12 +7,7 @@ $( document ).ready(function() {
         method: "POST"
     })
     .done(function( data ) {
-        data.forEach(function(card){
-           $('#cardsSelect').append($('<option>', {
-                value: card["suit"]+" "+card["value"],
-                text: card["suit"]+" "+card["value"]
-            }));
-        });
+        updateCardPlayer(data);
         $.post("/api/bid", "test").done(function( data ) {
             console.log("contrat fait")
         });
@@ -33,6 +28,23 @@ var playBtnClick = function(){
         data : JSON.stringify(card),
         contentType : 'application/json'
     }).done(function( data ) {
-        console.log("contrat fait")
+        console.log(data)
     });
 };
+
+var updateCardPlayer= function(cards){
+    cards["cards"].forEach(function(card){
+        if($.inArray(card, cards["playable"] )){
+            $('#cardsSelect').append($('<option>', {
+                value: card["suit"]+" "+card["value"],
+                text: card["suit"]+" "+card["value"]
+            }));
+        }else{
+            $('#cardsSelect').append($('<option disabled>', {
+                value: card["suit"]+" "+card["value"],
+                text: card["suit"]+" "+card["value"]
+            }));
+        };
+
+    });
+}

@@ -24,7 +24,7 @@ import java.util.Map;
 public class CardController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/init")
-    public List<Card> initGame() {
+    public Map initGame() {
         Game game = new Game();
         Player player2 = new IAPlayer();
         Player player3 = new IAPlayer();
@@ -35,7 +35,11 @@ public class CardController {
         game.addPlayer(player4);
         game.launchGame();
         game.startRound();
-        return game.getPlayers().get(0).getCards();
+        Player humanPlayer = game.getPlayers().get(0);
+        Map<String, List<Card>> result = new HashMap<>();
+        result.put("cards", humanPlayer.getCards());
+        result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), null, null, null, null));
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/bid")
