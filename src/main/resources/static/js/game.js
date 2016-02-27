@@ -33,6 +33,8 @@ $( document ).ready(function() {
 var playBtnClick = function(){
     var card;
     var conceptName = $('#cardsSelect').find(":selected").text();
+    console.log(conceptName);
+    conceptName.split()
    // card["suit"] = ...
    // card["value"] = ...
 
