@@ -13,19 +13,9 @@ $( document ).ready(function() {
                 text: card["suit"]+" "+card["value"]
             }));
         });
-    });
-    //BID
-    var value = {
-        "value": "fdp"
-    }
-    $.ajax({
-        url: "/api/bid",
-        method: "POST",
-        dataType: "json",
-        data: value
-    })
-    .done(function( data ) {
-        console.log("contrat fait")
+        $.post("/api/bid", "test").done(function( data ) {
+            console.log("contrat fait")
+        });
     });
 });
 
@@ -33,9 +23,16 @@ $( document ).ready(function() {
 var playBtnClick = function(){
     var card;
     var conceptName = $('#cardsSelect').find(":selected").text();
-    console.log(conceptName);
-    conceptName.split()
-   // card["suit"] = ...
-   // card["value"] = ...
-
-}
+    var card = {
+        suit : conceptName.split(" ")[0],
+        value: conceptName.split(" ")[1]
+    };
+    $.ajax({
+        method: "POST",
+        url :"/api/play",
+        data : JSON.stringify(card),
+        contentType : 'application/json'
+    }).done(function( data ) {
+        console.log("contrat fait")
+    });
+};

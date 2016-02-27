@@ -9,10 +9,12 @@ import com.fuscho.model.game.RoundGame;
 import com.fuscho.model.player.HumanPlayer;
 import com.fuscho.model.player.IAPlayer;
 import com.fuscho.model.player.Player;
+import com.fuscho.operation.Rule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,26 +39,28 @@ public class CardController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/bid")
-    public void bidRound(@RequestBody Map bid) {
-        Game.getInstance().getCurrentRound().playerBid(Game.getInstance().getPlayers().get(0), ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
-        Game.getInstance().getCurrentRound().startTurn(Game.getInstance().getPlayers().get(0));
+    public void bidRound() {
+        Player player = Game.getInstance().getPlayers().get(0);
+        Game.getInstance().getCurrentRound().playerBid(player, ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
+        Game.getInstance().getCurrentRound().startTurn(player);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/play")
-    public List<Card> playCard(@RequestBody Map card) {
+    @RequestMapping(method = RequestMethod.POST, value = "/play", produces = "application/json")
+    public Map playCard(@RequestBody Map card) {
         Card cardToPlay = new Card(SuitCard.valueOf(String.valueOf(card.get("suit"))), ValueCard.valueOf(String.valueOf(card.get("value"))));
         Player humanPlayer = Game.getInstance().getPlayers().get(0);
-        log.info("{}", humanPlayer);
-        log.info("{}", card);
-        log.info("{}", cardToPlay);
         RoundGame roundGame = Game.getInstance().getCurrentRound();
         roundGame.playerPlayCard(humanPlayer, cardToPlay);
         roundGame.nextPlayer(Game.getInstance());
         while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer){
-            roundGame.playerPlayCard(humanPlayer, new Card(SuitCard.valueOf(String.valueOf(card.get("suit"))), ValueCard.valueOf(String.valueOf(card.get("value")))));
+            roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), roundGame.getCurrentTurn().getPlayerTurn().getRandomCard(roundGame.getCurrentTurn()));
             roundGame.nextPlayer(Game.getInstance());
         }
-        return humanPlayer.getCards();
+        Map<String, List<Card>> result = new HashMap<>();
+        result.put("cards", humanPlayer.getCards());
+        result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer)));
+        result.put("cardsPlay", roundGame.getCurrentTurn().getCardsOnTable());
+        return result;
     }
 
 }

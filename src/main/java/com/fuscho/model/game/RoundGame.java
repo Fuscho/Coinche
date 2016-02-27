@@ -41,6 +41,7 @@ public class RoundGame {
             currentTurn.setPlayerTurn(game.getNextPlayer(currentTurn.getPlayerTurn()));
         } else {
             currentTurn.winnerCollectCards();
+            log.info("We have a winner");
             startTurn(currentTurn.getWinning());
         }
     }
