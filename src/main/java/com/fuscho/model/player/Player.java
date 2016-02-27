@@ -17,7 +17,7 @@ public abstract class Player {
 
     private String name;
     private List<Card> cards;
-    private List<Card> cardsWin;
+    private List<Card> cardsWin = new ArrayList<>();
     private Player partner;
 
     public void addCards(List<Card> cardsReceive) {

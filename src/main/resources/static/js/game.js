@@ -1,4 +1,10 @@
 
+var Game = {
+    cardsOnTable : [],
+    lastTrick : [],
+    whoStartLastTrick : 4
+};
+
 
 $( document ).ready(function() {
     //INIT GAME
@@ -22,7 +28,6 @@ $( document ).ready(function() {
 });
 
 var playCard = function(suit,value){
-    var card;
     var card = {
         suit : suit,
         value: value
@@ -33,10 +38,26 @@ var playCard = function(suit,value){
         data : JSON.stringify(card),
         contentType : 'application/json'
     }).done(function( data ) {
+        Game.lastTrick = data["lastTrick"];
+        console.log(card);
+        console.log(Game.cardsOnTable);
+        console.log(Game.lastTrick);
         updateCardPlayer(data);
-        updateCardOnTable(data["cardsPlay"])
+        updateCardOnTable(data["lastTrick"], getPlayer(Game.cardsOnTable.length));
+        Game.cardsOnTable = data["cardsPlay"];
     });
 };
+
+var getPlayer = function(nbCard){
+    if(nbCard == 3)
+        return 1;
+    if(nbCard == 2)
+        return 2;
+    if(nbCard == 1)
+        return 3;
+    else
+        return nbCard
+}
 
 var updateCardPlayer= function(cards){
     $('#cardsPlayerContainer .card').remove();
@@ -61,17 +82,22 @@ var updateCardPlayer= function(cards){
 
 
     });
-}
+};
 
-var updateCardOnTable= function(cardsPlay) {
+var updateCardOnTable= function(cardsPlay, player) {
     $('#cardsContainer .card').remove();
-    var player = 4;
     for (var i = cardsPlay.length - 1; i >= 0; i--) {
-
+        if(player == 0){
+            player = 4
+        }
+        console.log(player);
         $('#cardPlayJ' + player).append($('<button>', {
             class: "card " + cardsPlay[i]["suit"] + " " + cardsPlay[i]["value"]
         }));
         player--;
     }
-}
+};
 
+var nextTrick = function(){
+  updateCardOnTable(Game.cardsOnTable, 4)
+};

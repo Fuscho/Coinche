@@ -6,6 +6,7 @@ import com.fuscho.model.player.Player;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ import java.util.List;
 public class RoundGame {
     private ContractRound contractRound;
     private TurnRound currentTurn;
+    private List<Card> lastTrick = new ArrayList<>();
+    public boolean endTour = false;
 
     public RoundGame(){}
 
@@ -35,6 +38,7 @@ public class RoundGame {
 
     public void startTurn(Player player) {
         currentTurn = new TurnRound(player, contractRound.getTrumpSuit());
+        endTour = false;
     }
 
     public void nextPlayer(Game game) {
@@ -43,7 +47,29 @@ public class RoundGame {
         } else {
             log.info("We have a winner : {} {}", currentTurn.getMasterCard(), currentTurn.getWinning() );
             currentTurn.winnerCollectCards();
-            startTurn(currentTurn.getWinning());
+            if(currentTurn.getWinning().getCards().size() != 0){
+                lastTrick = currentTurn.getCardsOnTable();
+                startTurn(currentTurn.getWinning());
+            } else {
+                endRound();
+            }
         }
+    }
+
+    private void endRound() {
+        endTour = true;
+        countScore();
+    }
+
+    public Integer countScore() {
+        List<Card> cardsWin = contractRound.getBidder().getCardsWin();
+        cardsWin.addAll(contractRound.getBidder().getPartner().getCardsWin());
+        Integer totalPoint = cardsWin.stream().mapToInt(card -> card.getPoint(contractRound.getTrumpSuit())).sum();
+        log.info("Nb point : {}", totalPoint);
+        return totalPoint;
+    }
+
+    public List<Card> getLastTrick() {
+        return lastTrick;
     }
 }

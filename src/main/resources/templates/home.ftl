@@ -21,6 +21,7 @@
                     <div id="cardPlayJ2"></div>
                     <div id="cardPlayJ4"></div>
                     <div id="cardPlayJ1"></div>
+                    <button id="play-btn" onclick="nextTrick()">Pli vu</button>
                 </div>
                 <div id="containerJ4">j4</div>
             </div>

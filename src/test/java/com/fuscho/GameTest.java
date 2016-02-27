@@ -24,10 +24,10 @@ public class GameTest {
         // Create a game
         Game game = new Game();
         // Add player to game
-        Player player1 = new HumanPlayer();
-        Player player2 = new HumanPlayer();
-        Player player3 = new HumanPlayer();
-        Player player4 = new HumanPlayer();
+        Player player1 = new HumanPlayer("Player1");
+        Player player2 = new HumanPlayer("Player2");
+        Player player3 = new HumanPlayer("Player3");
+        Player player4 = new HumanPlayer("Player4");
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.addPlayer(player3);

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,16 +57,14 @@ public class CardController {
         RoundGame roundGame = Game.getInstance().getCurrentRound();
         roundGame.playerPlayCard(humanPlayer, cardToPlay);
         roundGame.nextPlayer(Game.getInstance());
-        while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer){
-            roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), roundGame.getCurrentTurn().getPlayerTurn().getRandomCard(roundGame.getCurrentTurn()));
+        while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer && !roundGame.endTour){
+            Card randomCard = roundGame.getCurrentTurn().getPlayerTurn().getRandomCard(roundGame.getCurrentTurn());
+            roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), randomCard);
             roundGame.nextPlayer(Game.getInstance());
         }
         Map<String, List<Card>> result = new HashMap<>();
-        log.info("suit : {}", roundGame.getCurrentTurn().getSuitAsked());
-        log.info("trum : {}", roundGame.getCurrentTurn().getTrumpSuit());
-        log.info("master : {}", roundGame.getCurrentTurn().getMasterCard());
-        log.info("partner : {}", roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer));
         result.put("cards", humanPlayer.getCards());
+        result.put("lastTrick", roundGame.getLastTrick());
         result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer)));
         result.put("cardsPlay", roundGame.getCurrentTurn().getCardsOnTable());
         return result;
