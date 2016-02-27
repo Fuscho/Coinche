@@ -43,9 +43,9 @@ public class CardController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/bid")
-    public void bidRound() {
+    public void bidRound(@RequestBody Map bid) {
         Player player = Game.getInstance().getPlayers().get(0);
-        Game.getInstance().getCurrentRound().playerBid(player, ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
+        Game.getInstance().getCurrentRound().playerBid(player, ContractRound.ContractPoint.valueOf(String.valueOf(bid.get("value"))), SuitCard.valueOf(String.valueOf(bid.get("suit"))));
         Game.getInstance().getCurrentRound().startTurn(player);
     }
 

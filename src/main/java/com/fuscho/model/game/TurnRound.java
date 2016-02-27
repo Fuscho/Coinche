@@ -48,10 +48,7 @@ public class TurnRound {
     }
 
     public Boolean isPartenaireMaster(Player player) {
-        if(winning == null){
-            return false;
-        }
-        return winning.equals(player.getPartner());
+        return winning != null && winning.equals(player.getPartner());
     }
 
     public void winnerCollectCards() {

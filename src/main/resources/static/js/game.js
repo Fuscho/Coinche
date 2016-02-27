@@ -5,10 +5,17 @@ $( document ).ready(function() {
     $.ajax({
         url: "/api/init",
         method: "POST"
-    })
-    .done(function( data ) {
+    }).done(function( data ) {
         updateCardPlayer(data);
-        $.post("/api/bid", "test").done(function( data ) {
+        $.ajax({
+            url : "/api/bid",
+            method: 'POST',
+            data : JSON.stringify({
+                value : "CENT",
+                suit: "Clubs"
+            }),
+            contentType : 'application/json'
+        }).done(function( data ) {
             console.log("contrat fait")
         });
     });
@@ -16,7 +23,6 @@ $( document ).ready(function() {
 
 
 var playBtnClick = function(){
-    var card;
     var conceptName = $('#cardsSelect').find(":selected").text();
     var card = {
         suit : conceptName.split(" ")[0],
