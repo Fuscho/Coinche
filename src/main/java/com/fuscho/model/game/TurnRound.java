@@ -31,15 +31,15 @@ public class TurnRound {
 
     public void play(Player player, Card card){
         if(player.equals(playerTurn)){
-            cardsOnTable.add(card);
             if(cardsOnTable.size() == 0){
+                cardsOnTable.add(card);
                 suitAsked = card.getSuit();
                 masterCard = card;
             } else {
+                cardsOnTable.add(card);
                 masterCard = Rule.getMasterCard(cardsOnTable, trumpSuit);
             }
             if(card.equals(masterCard)){
-                log.info("{} is master", player.getName());
                 winning = player;
             }
         } else {

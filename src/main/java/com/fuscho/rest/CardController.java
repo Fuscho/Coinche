@@ -61,6 +61,10 @@ public class CardController {
             roundGame.nextPlayer(Game.getInstance());
         }
         Map<String, List<Card>> result = new HashMap<>();
+        log.info("suit : {}", roundGame.getCurrentTurn().getSuitAsked());
+        log.info("trum : {}", roundGame.getCurrentTurn().getTrumpSuit());
+        log.info("master : {}", roundGame.getCurrentTurn().getMasterCard());
+        log.info("partner : {}", roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer));
         result.put("cards", humanPlayer.getCards());
         result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer)));
         result.put("cardsPlay", roundGame.getCurrentTurn().getCardsOnTable());
