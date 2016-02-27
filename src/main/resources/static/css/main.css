@@ -12,38 +12,6 @@ html, body{
     width:100%;
     height: 70%;
 }
-#cardsContainer{
-    display: table-cell;
-    width: 80%;
-    background: purple;
-}
-
-#cardsContainer #cardPlayJ3{
-    width: 100%;
-    height: 33%;
-    background: purple;
-}
-
-#playCardJ2J4{
-    height:33%;
-}
-
-#cardsContainer #cardPlayJ2{
-    display: inline-block;
-    width: 49%;
-    background: purple;
-}
-
-#cardsContainer #cardPlayJ4{
-    display: inline-block;
-    width: 50%;
-    background: purple;
-}
-#cardsContainer #cardPlayJ1{
-    width: 100%;
-    height: 33%;
-    background: purple;
-}
 
 #containerJ3{
     display: table-row;

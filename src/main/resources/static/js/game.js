@@ -15,12 +15,11 @@ $( document ).ready(function() {
 });
 
 
-var playBtnClick = function(){
+var playCard = function(suit,value){
     var card;
-    var conceptName = $('#cardsSelect').find(":selected").text();
     var card = {
-        suit : conceptName.split(" ")[0],
-        value: conceptName.split(" ")[1]
+        suit : suit,
+        value: value
     };
     $.ajax({
         method: "POST",
@@ -29,24 +28,44 @@ var playBtnClick = function(){
         contentType : 'application/json'
     }).done(function( data ) {
         updateCardPlayer(data);
-        console.log(data)
+        updateCardOnTable(data["cardsPlay"])
     });
 };
 
 var updateCardPlayer= function(cards){
-    $('#cardsSelect option').remove();
+    $('#cardsPlayerContainer .card').remove();
+
     cards["cards"].forEach(function(card){
-        if($.inArray(card, cards["playableCards"] )){
-            $('#cardsSelect').append($('<option>', {
-                value: card["suit"]+" "+card["value"],
-                text: card["suit"]+" "+card["value"]
+        var playable = false;
+        cards["playableCards"].forEach(function(playableCard) {
+            if (card["suit"] == playableCard["suit"] && card["value"] == playableCard["value"]){
+                playable = true;
+            }
+        });
+        if(playable){
+            $('#cardsPlayerContainer').append($('<button>', {
+                class: "card " + card["suit"]+" "+card["value"],
+                onclick: "playCard('"+card["suit"]+"','"+card["value"]+"')"
             }));
         }else{
-            $('#cardsSelect').append($('<option disabled>', {
-                value: card["suit"]+" "+card["value"],
-                text: card["suit"]+" "+card["value"]
+            $('#cardsPlayerContainer').append($('<button>', {
+                class: "card " + card["suit"]+" "+card["value"]
             }));
-        };
+        }
+
 
     });
+}
+
+var updateCardOnTable= function(cardsPlay){
+    $('#cardsContainer .card').remove();
+    var player = 4;
+    for (var i = cardsPlay.length - 1; i>=0; i--) {
+
+        $('#cardPlayJ'+player).append($('<button>', {
+            class: "card " + cardsPlay[i]["suit"]+" "+ cardsPlay[i]["value"]
+        }));
+        player--;
+    }
+
 }

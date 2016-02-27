@@ -1,0 +1,96 @@
+.card{
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    margin: auto;
+    background-size: 90%;
+}
+#cardsPlayerContainer{
+    display: table;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+}
+
+#cardsPlayerContainer .card{
+    width: 10%;
+    height: 80%;
+}
+
+#cardsContainer{
+    display: table-cell;
+    width: 80%;
+    background: purple;
+    position: relative;
+}
+
+
+#cardsContainer .card{
+    width: 100px;
+    height: 125px;
+}
+
+#cardsContainer #cardPlayJ3{
+    position: absolute;
+    left: 45%;
+    top: 0%;
+}
+
+#cardsContainer #cardPlayJ2{
+    position: absolute;
+    left: 0;
+    top: 30%;
+}
+
+#cardsContainer #cardPlayJ4{
+    position: absolute;
+    right: 0;
+    top: 30%;
+}
+#cardsContainer #cardPlayJ1{
+    position: absolute;
+    left: 45%;
+    bottom: 0;
+}
+
+/*CARTES CARREAU*/
+.card.Diamonds.Seven{ background-image: url("/img/cards/carreau/7.png");  }
+.card.Diamonds.Eight{  background-image: url("/img/cards/carreau/8.png");  }
+.card.Diamonds.Nine{  background-image: url("/img/cards/carreau/9.png");  }
+.card.Diamonds.Ten{  background-image: url("/img/cards/carreau/10.png");  }
+.card.Diamonds.Jack{  background-image: url("/img/cards/carreau/valet.png");  }
+.card.Diamonds.Queen{  background-image: url("/img/cards/carreau/dame.png");  }
+.card.Diamonds.King{  background-image: url("/img/cards/carreau/roi.png");  }
+.card.Diamonds.Ace{  background-image: url("/img/cards/carreau/as.png");  }
+
+/*CARTES COEUR*/
+.card.Hearts.Seven{ background-image: url("/img/cards/coeur/7.png");  }
+.card.Hearts.Eight{  background-image: url("/img/cards/coeur/8.png");  }
+.card.Hearts.Nine{  background-image: url("/img/cards/coeur/9.png");  }
+.card.Hearts.Ten{  background-image: url("/img/cards/coeur/10.png");  }
+.card.Hearts.Jack{  background-image: url("/img/cards/coeur/valet.png");  }
+.card.Hearts.Queen{  background-image: url("/img/cards/coeur/dame.png");  }
+.card.Hearts.King{  background-image: url("/img/cards/coeur/roi.png");  }
+.card.Hearts.Ace{  background-image: url("/img/cards/coeur/as.png");  }
+
+/*CARTES PIQUE*/
+.card.Spades.Seven{ background-image: url("/img/cards/pique/7.png");  }
+.card.Spades.Eight{  background-image: url("/img/cards/pique/8.png");  }
+.card.Spades.Nine{  background-image: url("/img/cards/pique/9.png");  }
+.card.Spades.Ten{  background-image: url("/img/cards/pique/10.png");  }
+.card.Spades.Jack{  background-image: url("/img/cards/pique/valet.png");  }
+.card.Spades.Queen{  background-image: url("/img/cards/pique/dame.png");  }
+.card.Spades.King{  background-image: url("/img/cards/pique/roi.png");  }
+.card.Spades.Ace{  background-image: url("/img/cards/pique/as.png");  }
+
+/*CARTES TREFLE*/
+.card.Clubs.Seven{ background-image: url("/img/cards/trefle/7.png");  }
+.card.Clubs.Eight{  background-image: url("/img/cards/trefle/8.png");  }
+.card.Clubs.Nine{  background-image: url("/img/cards/trefle/9.png");  }
+.card.Clubs.Ten{  background-image: url("/img/cards/trefle/10.png");  }
+.card.Clubs.Jack{  background-image: url("/img/cards/trefle/valet.png");  }
+.card.Clubs.Queen{  background-image: url("/img/cards/trefle/dame.png");  }
+.card.Clubs.King{  background-image: url("/img/cards/trefle/roi.png");  }
+.card.Clubs.Ace{  background-image: url("/img/cards/trefle/as.png");  }
+
+
