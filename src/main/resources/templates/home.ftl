@@ -9,13 +9,28 @@
         <script src="js/game.js"></script>
     </head>
     <body>
-        <div id="containerJ3"></div>
-        <div id="containerJ2"></div>
-        <div id="cardsContainer"> </div>
-        <div id="containerJ4"></div>
-        <div id="containerJ1">
-            <select name="select" id="cardsSelect"></select>
-            <button type="playButton" onclick="playBtnClick()">Play!</button>
+        <div id="gameContainer">
+
+            <div id="containerJ3">j3</div>
+            <div id="centerContainer">
+                <div id="containerJ2">j2</div>
+
+                <div id="cardsContainer">
+                    <div id="cardPlayJ3">card j3</div>
+                    <div id=""playCardJ2J4">
+                        <div id="cardPlayJ2">card j2</div>
+                        <div id="cardPlayJ4">card j4</div>
+                    </div>
+                    <div id="cardPlayJ1">card j1</div>
+                </div>
+                <div id="containerJ4">j4</div>
+            </div>
+
+            <div id="containerJ1">
+                <select name="select" id="cardsSelect"></select>
+                <button type="playButton" onclick="playBtnClick()">Play!</button>
+            </div>
+
         </div>
     </body>
 </html>

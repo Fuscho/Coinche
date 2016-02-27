@@ -1,35 +1,69 @@
 html, body{
     height : 100%;
+    margin: 0;
+}
+#gameContainer{
+    display: table;
+    width:100%;
+    height: 100%;
+}
+#centerContainer{
+    display: table;
+    width:100%;
+    height: 70%;
 }
 #cardsContainer{
+    display: table-cell;
+    width: 80%;
+    background: purple;
+}
+
+#cardsContainer #cardPlayJ3{
+    width: 100%;
+    height: 33%;
+    background: purple;
+}
+
+#playCardJ2J4{
+    height:33%;
+}
+
+#cardsContainer #cardPlayJ2{
     display: inline-block;
-    width: 33%;
+    width: 49%;
+    background: purple;
+}
+
+#cardsContainer #cardPlayJ4{
+    display: inline-block;
+    width: 50%;
+    background: purple;
+}
+#cardsContainer #cardPlayJ1{
+    width: 100%;
     height: 33%;
     background: purple;
 }
 
 #containerJ3{
-    width: 100%;
-    height: 33%;
+    display: table-row;
+    height: 10%;
     background: red;
 }
 
 #containerJ2{
-    display: inline-block;
-    height: 33%;
-    width: 33%;
+    display: table-cell;
+    width: 9%;
     background: green;
 }
 
 #containerJ4{
-    display: inline-block;
-    width: 33%;
-    height: 33%;
+    display: table-cell;
+    width: 9%;
     background: blue;
 }
 
 #containerJ1{
-    width: 100%;
     background: orange;
-    height: 33%;
+    height: 30%;
 }
