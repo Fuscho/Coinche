@@ -1,7 +1,7 @@
 var Game = {
     cardsOnTable: [],
     lastTrick: [],
-    whoStartLastTrick: 4
+    score: null
 };
 
 var Contract = {
@@ -52,6 +52,7 @@ var playCard = function (suit, value) {
         updateCardPlayer(data);
         updateCardOnTable(data["lastTrick"], getPlayer(Game.cardsOnTable.length));
         Game.cardsOnTable = data["cardsPlay"];
+        Game.score = data["score"];
     });
 };
 
@@ -105,7 +106,11 @@ var updateCardOnTable = function (cardsPlay, player) {
 };
 
 var nextTrick = function () {
-    updateCardOnTable(Game.cardsOnTable, 4)
+    if(Game.score){
+        alert(Game.score);
+    } else {
+        updateCardOnTable(Game.cardsOnTable, 4)
+    }
 };
 
 var bit = function () {

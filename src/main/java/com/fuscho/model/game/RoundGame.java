@@ -19,6 +19,7 @@ public class RoundGame {
     private TurnRound currentTurn;
     private List<Card> lastTrick = new ArrayList<>();
     public boolean endTour = false;
+    private Integer score;
 
     public RoundGame(){}
 
@@ -58,18 +59,32 @@ public class RoundGame {
 
     private void endRound() {
         endTour = true;
-        countScore();
+        Integer totalScore = countScore();
+        if(totalScore >= contractRound.getAskedPoint().getNbPoint()){
+            log.info("Gagné");
+        } else {
+            log.info("Perdu");
+        }
     }
 
     public Integer countScore() {
         List<Card> cardsWin = contractRound.getBidder().getCardsWin();
         cardsWin.addAll(contractRound.getBidder().getPartner().getCardsWin());
         Integer totalPoint = cardsWin.stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
+        if(currentTurn.getWinning().equals(contractRound.getBidder()) || currentTurn.getWinning().equals(contractRound.getBidder().getPartner())){
+            log.info("Dix de der");
+            totalPoint += 10;
+        }
         log.info("Nb point : {}", totalPoint);
+        this.score = totalPoint;
         return totalPoint;
     }
 
     public List<Card> getLastTrick() {
         return lastTrick;
+    }
+
+    public Integer getScore() {
+        return score;
     }
 }

@@ -34,5 +34,9 @@ public class ContractRound {
             }
             return null;
         }
+
+        public Integer getNbPoint(){
+            return nbPoint;
+        }
     }
 }

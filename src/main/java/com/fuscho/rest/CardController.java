@@ -14,10 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/")
@@ -62,11 +59,18 @@ public class CardController {
             roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), randomCard);
             roundGame.nextPlayer(Game.getInstance());
         }
-        Map<String, List<Card>> result = new HashMap<>();
-        result.put("cards", humanPlayer.getCards());
-        result.put("lastTrick", roundGame.getLastTrick());
-        result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer)));
-        result.put("cardsPlay", roundGame.getCurrentTurn().getCardsOnTable());
+        Map<String, Object> result = new HashMap<>();
+        if(!roundGame.endTour){
+            result.put("cards", humanPlayer.getCards());
+            result.put("lastTrick", roundGame.getLastTrick());
+            result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer)));
+            result.put("cardsPlay", roundGame.getCurrentTurn().getCardsOnTable());
+        } else {
+            result.put("cards", new ArrayList<>());
+            result.put("playableCards", new ArrayList<>());
+            result.put("lastTrick", roundGame.getLastTrick());
+            result.put("score", roundGame.getScore());
+        }
         return result;
     }
 
