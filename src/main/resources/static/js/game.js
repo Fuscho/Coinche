@@ -13,6 +13,7 @@ var Contract = {
 $(document).ready(function () {
 
     $("#cardsContainer").hide();
+    $("#next-round-btn").hide();
 
     //INIT GAME
     $.ajax({
@@ -108,18 +109,23 @@ var updateCardOnTable = function (cardsPlay, player) {
 var nextTrick = function () {
     if(Game.score){
         alert(Game.score);
+        $("#next-round-btn").show();
     } else {
         updateCardOnTable(Game.cardsOnTable, 4)
     }
 };
 
 var nextRound = function(){
+    $('#cardsContainer').find('.card').remove();
     $.ajax({
         url: "/api/next-round",
         method: "POST"
     }).done(function (data) {
         $("#cardsContainer").hide();
+        $("#next-round-btn").hide();
         $("#bitContainer").show();
+        Game.score = null;
+        Game.cardsOnTable = [];
         updateCardPlayer(data);
     });
 };

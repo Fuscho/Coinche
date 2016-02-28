@@ -46,6 +46,8 @@ public class RoundGameTest {
         roundGame.playerPlayCard(player4, new Card(SuitCard.Hearts, ValueCard.Queen));
         roundGame.nextPlayer(game);
 
+        game.endRound();
+
         Assert.assertEquals(new Integer(54), roundGame.getScore());
     }
 }
