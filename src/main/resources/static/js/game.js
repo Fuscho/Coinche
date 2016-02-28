@@ -126,7 +126,9 @@ var bit = function () {
             }),
             contentType: 'application/json'
         }).done(function (data) {
-            console.log("contrat fait")
+            $("#currentBid").find(".bidder").text(data.contractBidder);
+            $("#currentBid").find(".suit").text(data.contractSuit);
+            $("#currentBid").find(".point").text(data.contractPoint);
         });
     } else {
         alert("Erreur : Séléctionner un atout et une mise")

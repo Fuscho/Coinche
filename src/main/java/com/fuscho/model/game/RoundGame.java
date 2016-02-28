@@ -29,7 +29,7 @@ public class RoundGame {
         player.playThisCard(card);
     }
 
-    public void playerBid(Player player, ContractRound.ContractPoint bidPoint, SuitCard suit) {
+    public void playerBid(Player player, ContractPoint bidPoint, SuitCard suit) {
         this.contractRound = ContractRound.builder()
                 .bidder(player)
                 .askedPoint(bidPoint)
@@ -48,8 +48,8 @@ public class RoundGame {
         } else {
             log.info("We have a winner : {} {}", currentTurn.getMasterCard(), currentTurn.getWinning() );
             currentTurn.winnerCollectCards();
+            lastTrick = currentTurn.getCardsOnTable();
             if(currentTurn.getWinning().getCards().size() != 0){
-                lastTrick = currentTurn.getCardsOnTable();
                 startTurn(currentTurn.getWinning());
             } else {
                 endRound();

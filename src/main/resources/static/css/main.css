@@ -35,3 +35,9 @@ html, body{
     background: orange;
     height: 30%;
 }
+#currentBid {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    width: 170px;
+}

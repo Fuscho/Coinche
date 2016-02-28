@@ -51,6 +51,11 @@
 
             <div id="containerJ1">
                 <div id="cardsPlayerContainer"></div>
+                <div id="currentBid">
+                    <p>Annonceur : <span class="bidder"></span></p>
+                    <p>Couleur : <span class="suit"></span></p>
+                    <p>Annonce : <span class="point"></span></p>
+                </div>
             </div>
 
         </div>
