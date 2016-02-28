@@ -4,6 +4,7 @@ import com.fuscho.model.card.CardPack;
 import com.fuscho.model.player.Player;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -74,6 +75,7 @@ public class Game {
             log.info("Perdu");
         }
         players.stream().forEach(player -> cardPack.addCards(player.getCardsWin()));
+        players.stream().forEach(player -> player.setCardsWin(new ArrayList<>()));
     }
 
     public RoundGame getCurrentRound() {
