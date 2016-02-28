@@ -17,13 +17,31 @@
     height: 80%;
 }
 
-#cardsContainer{
+#cardsContainer, #bitContainer{
     display: table-cell;
     width: 80%;
     background: purple;
     position: relative;
 }
 
+#bitContainer .suitWanted, #bitContainer .contract, #bitContainer .action {
+    display: table;
+    margin: 50px auto;
+}
+
+#bitContainer .suitWanted button, #bitContainer .contract button{
+    display: inline;
+    padding: 0 10px;
+}
+
+#bitContainer .suitWanted button.selected, #bitContainer .contract button.selected{
+    border: solid 2px blue;
+}
+
+#bitContainer .action button {
+    display: inline;
+    padding: 10px 20px;
+}
 
 #cardsContainer .card{
     width: 100px;

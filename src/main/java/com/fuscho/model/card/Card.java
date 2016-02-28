@@ -31,12 +31,8 @@ public class Card {
         }
     }
 
-    public Integer getPoint(SuitCard trumpSuit) {
-        if(trumpSuit.equals(this.getSuit())){
-            return value.trumpValue;
-        } else {
-            return value.withoutTrumpValue;
-        }
+    public String getCardName(){
+        return this.getSuit().toString()+this.getValue().withoutTrumpValue;
     }
 }
 

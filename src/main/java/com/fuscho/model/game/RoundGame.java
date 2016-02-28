@@ -64,7 +64,7 @@ public class RoundGame {
     public Integer countScore() {
         List<Card> cardsWin = contractRound.getBidder().getCardsWin();
         cardsWin.addAll(contractRound.getBidder().getPartner().getCardsWin());
-        Integer totalPoint = cardsWin.stream().mapToInt(card -> card.getPoint(contractRound.getTrumpSuit())).sum();
+        Integer totalPoint = cardsWin.stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
         log.info("Nb point : {}", totalPoint);
         return totalPoint;
     }

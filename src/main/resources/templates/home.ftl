@@ -16,6 +16,29 @@
             <div id="centerContainer">
                 <div id="containerJ2">j2</div>
 
+                <div id="bitContainer">
+                    <div class="suitWanted">
+                        <button>Hearts</button>
+                        <button>Diamonds</button>
+                        <button>Clubs</button>
+                        <button>Spades</button>
+                    </div>
+                    <div class="contract">
+                        <button>80</button>
+                        <button>90</button>
+                        <button>100</button>
+                        <button>110</button>
+                        <button>120</button>
+                        <button>130</button>
+                        <button>140</button>
+                        <button>150</button>
+                        <button>Capot</button>
+                    </div>
+                    <div class="action">
+                        <button onclick="pass()">Passer</button>
+                        <button onclick="bit()">Miser</button>
+                    </div>
+                </div>
                 <div id="cardsContainer">
                     <div id="cardPlayJ3"></div>
                     <div id="cardPlayJ2"></div>

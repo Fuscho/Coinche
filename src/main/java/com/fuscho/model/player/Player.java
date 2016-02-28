@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -36,6 +38,11 @@ public abstract class Player {
             this.cardsWin = new ArrayList<>();
         }
         this.cardsWin.addAll(cardsReceive);
+    }
+
+    public List<Card> getCards(){
+        Collections.sort(cards, (card1, card2) -> card1.getCardName().compareTo(card2.getCardName()));
+        return cards;
     }
 
     public abstract Card getRandomCard(TurnRound currentTurn);
