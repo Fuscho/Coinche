@@ -4,6 +4,7 @@ import com.fuscho.model.card.Card;
 import com.fuscho.model.game.TurnRound;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +42,7 @@ public abstract class Player {
     }
 
     public List<Card> getCards(){
-        Collections.sort(cards, (card1, card2) -> card1.getCardName().compareTo(card2.getCardName()));
+        Collections.sort(cards, (card1, card2) -> new CompareToBuilder().append(card1.getSuit(), card2.getSuit()).append(card1.getValue().withoutTrumpOrder, card2.getValue().withoutTrumpOrder).toComparison());
         return cards;
     }
 

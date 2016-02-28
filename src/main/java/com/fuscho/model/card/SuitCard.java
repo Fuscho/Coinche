@@ -7,5 +7,5 @@ package com.fuscho.model.card;
  * Spades : Pique
  */
 public enum SuitCard {
-    Clubs, Diamonds, Hearts, Spades
+    Diamonds, Clubs, Hearts, Spades
 }
