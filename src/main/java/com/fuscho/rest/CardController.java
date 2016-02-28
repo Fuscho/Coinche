@@ -24,18 +24,19 @@ public class CardController {
         RoundGame roundGame = Game.getInstance().getCurrentRound();
         roundGame.playerPlayCard(humanPlayer, cardToPlay);
         roundGame.nextPlayer(Game.getInstance());
-        while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer && !roundGame.endTour){
+        while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer && !roundGame.endRound){
             Card randomCard = roundGame.getCurrentTurn().getPlayerTurn().getRandomCard(roundGame.getCurrentTurn());
             roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), randomCard);
             roundGame.nextPlayer(Game.getInstance());
         }
         Map<String, Object> result = new HashMap<>();
-        if(!roundGame.endTour){
+        if(!roundGame.endRound){
             result.put("cards", humanPlayer.getCards());
             result.put("lastTrick", roundGame.getLastTrick());
             result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer)));
             result.put("cardsPlay", roundGame.getCurrentTurn().getCardsOnTable());
         } else {
+            Game.getInstance().endRound();
             result.put("cards", new ArrayList<>());
             result.put("playableCards", new ArrayList<>());
             result.put("lastTrick", roundGame.getLastTrick());

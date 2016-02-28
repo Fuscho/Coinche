@@ -2,10 +2,7 @@ package com.fuscho;
 
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
-import com.fuscho.model.game.ContractRound;
-import com.fuscho.model.game.Game;
-import com.fuscho.model.game.RoundGame;
-import com.fuscho.model.game.TurnRound;
+import com.fuscho.model.game.*;
 import com.fuscho.model.player.HumanPlayer;
 import com.fuscho.model.player.Player;
 import com.fuscho.operation.Rule;
@@ -36,7 +33,7 @@ public class GameTest {
         game.launchGame();
         RoundGame roundGame = game.startRound();
         // Start bidding
-        roundGame.playerBid(player1, ContractRound.ContractPoint.CENT, SuitCard.Diamonds);
+        roundGame.playerBid(player1, ContractPoint.CENT, SuitCard.Diamonds);
         // Start turn
         roundGame.startTurn(player1);
         TurnRound currentTurn = roundGame.getCurrentTurn();
@@ -64,6 +61,12 @@ public class GameTest {
             roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), getRandomCard(roundGame.getCurrentTurn().getPlayerTurn().getCards(), currentTurn.getSuitAsked(), contractRound.getTrumpSuit(), Rule.getMasterCard(currentTurn.getCardsOnTable(), contractRound.getTrumpSuit()), currentTurn.isPartenaireMaster(roundGame.getCurrentTurn().getPlayerTurn())));
             roundGame.nextPlayer(game);
         }
+
+        Assert.assertEquals(roundGame.isEndRound(), true);
+        Assert.assertEquals(player1.getCards().size(), 0);
+        game.endRound();
+        game.startRound();
+        Assert.assertEquals(player1.getCards().size(), 8);
     }
 
 
