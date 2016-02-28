@@ -21,6 +21,12 @@ public class CardPack {
 
     }
 
+    public void addCards(List<Card> playerCards){
+        if(cards.size() < 32){
+            cards.addAll(playerCards);
+        }
+    }
+
     public List<Card> dealThreeCards() {
         List<Card> cardsToGive = this.cards.subList(0, 3);
         this.cards = this.cards.subList(3, this.cards.size());

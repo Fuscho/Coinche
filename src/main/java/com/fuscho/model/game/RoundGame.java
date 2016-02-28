@@ -18,7 +18,7 @@ public class RoundGame {
     private ContractRound contractRound;
     private TurnRound currentTurn;
     private List<Card> lastTrick = new ArrayList<>();
-    public boolean endTour = false;
+    public boolean endRound = false;
     private Integer score;
 
     public RoundGame(){}
@@ -39,7 +39,7 @@ public class RoundGame {
 
     public void startTurn(Player player) {
         currentTurn = new TurnRound(player, contractRound.getTrumpSuit());
-        endTour = false;
+        endRound = false;
     }
 
     public void nextPlayer(Game game) {
@@ -52,18 +52,8 @@ public class RoundGame {
             if(currentTurn.getWinning().getCards().size() != 0){
                 startTurn(currentTurn.getWinning());
             } else {
-                endRound();
+                endRound = true;
             }
-        }
-    }
-
-    private void endRound() {
-        endTour = true;
-        Integer totalScore = countScore();
-        if(totalScore >= contractRound.getAskedPoint().getNbPoint()){
-            log.info("Gagné");
-        } else {
-            log.info("Perdu");
         }
     }
 

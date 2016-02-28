@@ -45,6 +45,7 @@
                     <div id="cardPlayJ4"></div>
                     <div id="cardPlayJ1"></div>
                     <button id="play-btn" onclick="nextTrick()">Pli vu</button>
+                    <button id="next-round-btn" onclick="nextRound()">Manche suivante</button>
                 </div>
                 <div id="containerJ4">j4</div>
             </div>

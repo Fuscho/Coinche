@@ -4,7 +4,6 @@ import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
 import com.fuscho.model.card.ValueCard;
 import com.fuscho.model.game.ContractPoint;
-import com.fuscho.model.game.ContractRound;
 import com.fuscho.model.game.Game;
 import com.fuscho.model.game.RoundGame;
 import com.fuscho.model.player.HumanPlayer;
@@ -14,7 +13,6 @@ import com.fuscho.operation.Rule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -41,6 +39,22 @@ public class CardController {
         return result;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/next-round")
+    public Map nexRound(){
+        Game game = Game.getInstance();
+        RoundGame currentRound = game.getCurrentRound();
+        Player humanPlayer = Game.getInstance().getPlayers().get(0);
+        Map<String, List<Card>> result = new HashMap<>();
+        if(currentRound.endRound){
+            game.startRound();
+            result.put("cards", humanPlayer.getCards());
+            result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), null, null, null, null));
+        } else {
+            log.error("Not the end");
+        }
+        return result;
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/bid")
     public Map bidRound(@RequestBody Map bid) {
         Player player = Game.getInstance().getPlayers().get(0);
@@ -62,18 +76,19 @@ public class CardController {
         RoundGame roundGame = Game.getInstance().getCurrentRound();
         roundGame.playerPlayCard(humanPlayer, cardToPlay);
         roundGame.nextPlayer(Game.getInstance());
-        while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer && !roundGame.endTour){
+        while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer && !roundGame.endRound){
             Card randomCard = roundGame.getCurrentTurn().getPlayerTurn().getRandomCard(roundGame.getCurrentTurn());
             roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), randomCard);
             roundGame.nextPlayer(Game.getInstance());
         }
         Map<String, Object> result = new HashMap<>();
-        if(!roundGame.endTour){
+        if(!roundGame.endRound){
             result.put("cards", humanPlayer.getCards());
             result.put("lastTrick", roundGame.getLastTrick());
             result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(humanPlayer)));
             result.put("cardsPlay", roundGame.getCurrentTurn().getCardsOnTable());
         } else {
+            Game.getInstance().endRound();
             result.put("cards", new ArrayList<>());
             result.put("playableCards", new ArrayList<>());
             result.put("lastTrick", roundGame.getLastTrick());

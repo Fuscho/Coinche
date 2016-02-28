@@ -35,7 +35,7 @@ public class RoundGameTest {
         game.launchGame();
         RoundGame roundGame = game.startRound();
         game.getPlayers().stream().forEach(player -> player.setCards(new ArrayList<>()));
-        roundGame.playerBid(player2, ContractRound.ContractPoint.CENT, SuitCard.Hearts);
+        roundGame.playerBid(player2, ContractPoint.CENT, SuitCard.Hearts);
         roundGame.startTurn(player1);
         roundGame.playerPlayCard(player1, new Card(SuitCard.Hearts, ValueCard.Ace));
         roundGame.nextPlayer(game);

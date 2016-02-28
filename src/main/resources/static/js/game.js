@@ -113,6 +113,17 @@ var nextTrick = function () {
     }
 };
 
+var nextRound = function(){
+    $.ajax({
+        url: "/api/next-round",
+        method: "POST"
+    }).done(function (data) {
+        $("#cardsContainer").hide();
+        $("#bitContainer").show();
+        updateCardPlayer(data);
+    });
+};
+
 var bit = function () {
     if(Contract.point != null && Contract.suitTrump != null) {
         $("#cardsContainer").show();

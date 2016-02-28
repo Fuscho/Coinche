@@ -66,7 +66,18 @@ public class Game {
         return currentRound;
     }
 
+    public void endRound() {
+        Integer totalScore = currentRound.countScore();
+        if(totalScore >= currentRound.getContractRound().getAskedPoint().getNbPoint()){
+            log.info("Gagné");
+        } else {
+            log.info("Perdu");
+        }
+        players.stream().forEach(player -> cardPack.addCards(player.getCardsWin()));
+    }
+
     public RoundGame getCurrentRound() {
         return currentRound;
     }
+
 }
