@@ -11,7 +11,7 @@ import java.util.HashMap;
 @Data
 public class OtherPlayer{
 
-    public HashMap<Integer,Card> possibleMoves = new HashMap<Integer, Card>();
+    public HashMap<Card,Double> possibleMoves;
 
 
 
