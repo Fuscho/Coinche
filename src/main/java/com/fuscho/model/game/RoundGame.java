@@ -58,9 +58,9 @@ public class RoundGame {
     }
 
     public Integer countScore() {
-        List<Card> cardsWin = contractRound.getBidder().getCardsWin();
-        cardsWin.addAll(contractRound.getBidder().getPartner().getCardsWin());
-        Integer totalPoint = cardsWin.stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
+        Integer bidderPoint = contractRound.getBidder().getCardsWin().stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
+        Integer partnerBidderPoint = contractRound.getBidder().getPartner().getCardsWin().stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
+        Integer totalPoint = bidderPoint + partnerBidderPoint;
         if(currentTurn.getWinning().equals(contractRound.getBidder()) || currentTurn.getWinning().equals(contractRound.getBidder().getPartner())){
             log.info("Dix de der");
             totalPoint += 10;
