@@ -38,13 +38,9 @@ public class RoundGameTest {
         roundGame.playerBid(player2, ContractPoint.CENT, SuitCard.Hearts);
         roundGame.startTurn(player1);
         roundGame.playerPlayCard(player1, new Card(SuitCard.Hearts, ValueCard.Ace));
-        roundGame.nextPlayer(game);
         roundGame.playerPlayCard(player2, new Card(SuitCard.Hearts, ValueCard.Jack));
-        roundGame.nextPlayer(game);
         roundGame.playerPlayCard(player3, new Card(SuitCard.Clubs, ValueCard.Ten));
-        roundGame.nextPlayer(game);
         roundGame.playerPlayCard(player4, new Card(SuitCard.Hearts, ValueCard.Queen));
-        roundGame.nextPlayer(game);
 
         game.endRound();
 

@@ -27,6 +27,7 @@ public class RoundGame {
         log.info("{} play : {}", player, card);
         currentTurn.play(player, card);
         player.playThisCard(card);
+        nextPlayer();
     }
 
     public void playerBid(Player player, ContractPoint bidPoint, SuitCard suit) {
@@ -42,9 +43,9 @@ public class RoundGame {
         endRound = false;
     }
 
-    public void nextPlayer(Game game) {
+    public void nextPlayer() {
         if(currentTurn.getCardsOnTable().size() < 4){
-            currentTurn.setPlayerTurn(game.getNextPlayer(currentTurn.getPlayerTurn()));
+            currentTurn.setPlayerTurn(Game.getInstance().getNextPlayer(currentTurn.getPlayerTurn()));
         } else {
             log.info("We have a winner : {} {}", currentTurn.getMasterCard(), currentTurn.getWinning() );
             currentTurn.winnerCollectCards();
@@ -59,9 +60,10 @@ public class RoundGame {
 
     public Integer countScore() {
         Integer bidderPoint = contractRound.getBidder().getCardsWin().stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
-        Integer partnerBidderPoint = contractRound.getBidder().getPartner().getCardsWin().stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
+        Player playerPartner = Game.getInstance().getPlayerPartner(contractRound.getBidder());
+        Integer partnerBidderPoint = playerPartner.getCardsWin().stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
         Integer totalPoint = bidderPoint + partnerBidderPoint;
-        if(currentTurn.getWinning().equals(contractRound.getBidder()) || currentTurn.getWinning().equals(contractRound.getBidder().getPartner())){
+        if(currentTurn.getWinning().equals(contractRound.getBidder()) || currentTurn.getWinning().equals(playerPartner)){
             log.info("Dix de der");
             totalPoint += 10;
         }

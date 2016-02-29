@@ -34,8 +34,6 @@ public class Game {
      * Create teams and shuffle cards
      */
     public void launchGame() {
-        //TODO refactoring teams
-        players.stream().forEach(player -> player.setPartner(players.get((players.indexOf(player) + 2 ) % 4)));
         Team team1 = new Team(players.get(0), players.get(2));
         Team team2 = new Team(players.get(1), players.get(3));
         this.score.addTeam(team1);
@@ -66,6 +64,7 @@ public class Game {
             score.roundWin(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
         } else {
             log.info("Perdu");
+            score.roundLose(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
         }
         players.stream().forEach(player -> cardPack.addCards(player.getCardsWin()));
         players.stream().forEach(player -> player.setCardsWin(new ArrayList<>()));
@@ -89,6 +88,15 @@ public class Game {
      */
     public List<Player> getPlayers(){
         return players;
+    }
+
+    /**
+     * Get the player partner
+     * @param player player who need to know his partner
+     * @return the partner
+     */
+    public Player getPlayerPartner(Player player){
+        return score.getPlayerTeam(player).getPlayers().stream().filter(p -> !p.equals(player)).findFirst().get();
     }
 
     /**
@@ -121,6 +129,14 @@ public class Game {
      */
     public RoundGame getCurrentRound() {
         return currentRound;
+    }
+
+    /**
+     * Get the score
+     * @return score
+     */
+    public Score getScore(){
+        return score;
     }
 
 }

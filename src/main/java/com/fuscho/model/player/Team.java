@@ -23,6 +23,6 @@ public class Team {
     }
 
     public void addToScore(int point) {
-        totalScore += point;
+        totalScore = totalScore + point;
     }
 }

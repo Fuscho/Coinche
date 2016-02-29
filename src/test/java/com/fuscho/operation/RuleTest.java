@@ -357,6 +357,30 @@ public class RuleTest {
     }
 
     @Test
+    public void AceSpadesShouldWinWithClubsTrump(){
+        List<Card> cardsPlay = new ArrayList<>();
+        cardsPlay.add(new Card(SuitCard.Spades, ValueCard.King));
+        cardsPlay.add(new Card(SuitCard.Spades, ValueCard.Ace));
+        cardsPlay.add(new Card(SuitCard.Spades, ValueCard.Ten));
+        cardsPlay.add(new Card(SuitCard.Spades, ValueCard.Jack));
+
+        Card masterCard = Rule.getMasterCard(cardsPlay, SuitCard.Clubs);
+        Assert.assertTrue(masterCard.equals(new Card(SuitCard.Spades, ValueCard.Ace)));
+    }
+
+    @Test
+    public void QueenHeartShouldWinWithClubsTrump(){
+        List<Card> cardsPlay = new ArrayList<>();
+        cardsPlay.add(new Card(SuitCard.Hearts, ValueCard.Queen));
+        cardsPlay.add(new Card(SuitCard.Diamonds, ValueCard.Ace));
+        cardsPlay.add(new Card(SuitCard.Spades, ValueCard.King));
+        cardsPlay.add(new Card(SuitCard.Diamonds, ValueCard.Jack));
+
+        Card masterCard = Rule.getMasterCard(cardsPlay, SuitCard.Clubs);
+        Assert.assertTrue(masterCard.equals(new Card(SuitCard.Hearts, ValueCard.Queen)));
+    }
+
+    @Test
     public void KingTrumpShouldWinWithClubsTrump(){
         List<Card> cardsPlay = new ArrayList<>();
         cardsPlay.add(new Card(SuitCard.Hearts, ValueCard.Seven));

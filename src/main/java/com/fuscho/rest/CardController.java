@@ -23,11 +23,9 @@ public class CardController {
         Player humanPlayer = Game.getInstance().getPlayers().get(0);
         RoundGame roundGame = Game.getInstance().getCurrentRound();
         roundGame.playerPlayCard(humanPlayer, cardToPlay);
-        roundGame.nextPlayer(Game.getInstance());
         while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer && !roundGame.endRound){
             Card randomCard = roundGame.getCurrentTurn().getPlayerTurn().getRandomCard(roundGame.getCurrentTurn());
             roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), randomCard);
-            roundGame.nextPlayer(Game.getInstance());
         }
         Map<String, Object> result = new HashMap<>();
         if(!roundGame.endRound){
@@ -40,6 +38,7 @@ public class CardController {
             result.put("cards", new ArrayList<>());
             result.put("playableCards", new ArrayList<>());
             result.put("lastTrick", roundGame.getLastTrick());
+            result.put("scoreTotal", Game.getInstance().getScore());
             result.put("score", roundGame.getScore());
         }
         return result;

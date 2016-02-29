@@ -39,9 +39,9 @@ public class GameController {
         result.put("cards", humanPlayer.getCards());
         result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), null, null, null, null));
 
-        player2.initPossibleMovesOtherPlayers();
-        player3.initPossibleMovesOtherPlayers();
-        player4.initPossibleMovesOtherPlayers();
+//        player2.initPossibleMovesOtherPlayers();
+//        player3.initPossibleMovesOtherPlayers();
+//        player4.initPossibleMovesOtherPlayers();
         return result;
     }
 
