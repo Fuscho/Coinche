@@ -45,4 +45,9 @@ public class TeamManager {
         Team teamPlayer = this.getPlayerTeam(player);
         return teamPlayer.getPlayers().stream().filter(player1 -> player1!=player).findFirst().get();
     }
+
+    public Boolean getIfAdversary(Player player, Player otherPlayer){
+        Team teamAdversary = this.getAdversaryTeam(player);
+        return teamAdversary.getPlayers().contains(otherPlayer);
+    }
 }

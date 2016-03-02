@@ -1,5 +1,6 @@
 package com.fuscho.model.player;
 
+import com.fuscho.ia.PossibleMoves;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.factory.CardFactory;
 import com.fuscho.model.game.TurnRound;
@@ -25,33 +26,16 @@ public class IAPlayer extends Player{
         return possibleMoves.get(0);
     }
 
-    public void initPossibleMovesOtherPlayers(){
-        List<Card> cards = CardFactory.createCardPack();
-        HashMap<Card,Double> possibleMoves = new HashMap<>();
-        for(Card cardOtherPlayer: cards){
-            Double ponderation = 0.5;
-            List<Card> playerCard = this.getCards().stream().filter(
-                    cardPlayer -> cardPlayer.getSuit() == cardOtherPlayer.getSuit()
-                            && cardPlayer.getValue() == cardOtherPlayer.getValue()
-            ).collect(Collectors.toList());
-            if(playerCard.size()>0){
-                ponderation = 0.0;
-            }
-            possibleMoves.put(cardOtherPlayer,ponderation);
+    public void initPossibleMoves(List<Player> otherPlayers){
+
+        HashMap<Card,Double> possibleMoves = PossibleMoves.initOtherPlayerPossibleMoves(this.getCards());
+        for(Player otherPlayerTMP: otherPlayers){
+            OtherPlayer otherPlayer = new OtherPlayer();
+            otherPlayer.setPlayer(otherPlayerTMP);
+            otherPlayer.setPossibleMoves(possibleMoves);
+            this.otherPlayers.add(otherPlayer);
         }
-
-        OtherPlayer adversaire1 = new OtherPlayer();
-        adversaire1.setPossibleMoves(possibleMoves);
-
-        OtherPlayer partner = new OtherPlayer();
-        partner.setPossibleMoves(possibleMoves);
-
-        OtherPlayer adversaire2 = new OtherPlayer();
-        adversaire1.setPossibleMoves(possibleMoves);
-
-        this.otherPlayers.add(adversaire1);
-        this.otherPlayers.add(partner);
-        this.otherPlayers.add(adversaire2);
-
     }
+
+
 }

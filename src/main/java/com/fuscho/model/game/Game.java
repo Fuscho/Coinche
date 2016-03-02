@@ -1,6 +1,7 @@
 package com.fuscho.model.game;
 
 import com.fuscho.model.card.CardPack;
+import com.fuscho.model.player.IAPlayer;
 import com.fuscho.model.player.Player;
 import com.fuscho.model.player.Team;
 import com.fuscho.model.player.TeamManager;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class Game {
@@ -106,7 +108,17 @@ public class Game {
         players.stream().forEach(player -> player.addCards(cardPack.dealThreeCards()));
         players.stream().forEach(player -> player.addCards(cardPack.dealTwoCards()));
         players.stream().forEach(player -> player.addCards(cardPack.dealThreeCards()));
+
+        //Init possible other player possibleMoves
+        for(Player player: players){
+            if(player instanceof IAPlayer){
+                List<Player> otherPlayers = players.stream().filter(otherPlayer-> otherPlayer!=player).collect(Collectors.toList());
+                ((IAPlayer) player).initPossibleMoves(otherPlayers);
+            }
+        }
     }
+
+
 
     /**
      * Get the next player who have to play
