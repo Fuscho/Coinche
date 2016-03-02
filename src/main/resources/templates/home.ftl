@@ -8,8 +8,10 @@
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/card.css">
         <script src="js/game.js"></script>
+        <script src="js/bundle.js"></script>
     </head>
     <body>
+    <div id="test"></div>
         <div id="gameContainer">
 
             <div id="containerJ3">j3</div>
@@ -61,4 +63,15 @@
 
         </div>
     </body>
+
+    <script type="text/javascript" th:inline="javascript" async="async">
+        /*<![CDATA[*/
+        var containerId = 'test';
+        document.getElementById(containerId).innerHTML='';
+//        Coinche.ReactDOM.render(
+//                Coinche.React.createElement(Coinche.App, null),
+//                document.getElementById(containerId));
+
+        /*]]>*/
+    </script>
 </html>

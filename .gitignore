@@ -86,3 +86,5 @@ crashlytics-build.properties
 hs_err_pid*
 
 target/
+src/main/resources/static/bower_components
+node_modules/
