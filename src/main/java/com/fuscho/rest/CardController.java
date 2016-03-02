@@ -38,7 +38,7 @@ public class CardController {
             result.put("cards", new ArrayList<>());
             result.put("playableCards", new ArrayList<>());
             result.put("lastTrick", roundGame.getLastTrick());
-            result.put("scoreTotal", Game.getInstance().getScore());
+            result.put("scoreTotal", Game.getInstance().getTeamManager());
             result.put("score", roundGame.getScore());
         }
         return result;

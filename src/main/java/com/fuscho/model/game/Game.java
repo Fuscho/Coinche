@@ -3,11 +3,11 @@ package com.fuscho.model.game;
 import com.fuscho.model.card.CardPack;
 import com.fuscho.model.player.Player;
 import com.fuscho.model.player.Team;
+import com.fuscho.model.player.TeamManager;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -15,7 +15,7 @@ public class Game {
 
     private List<Player> players;
     private CardPack cardPack;
-    private Score score;
+    private TeamManager teamManager;
     private RoundGame currentRound;
     private static Game INSTANCE;
 
@@ -25,7 +25,7 @@ public class Game {
 
     public Game(){
         this.cardPack = new CardPack();
-        this.score = new Score();
+        this.teamManager = new TeamManager();
         INSTANCE = this;
     }
 
@@ -36,8 +36,8 @@ public class Game {
     public void launchGame() {
         Team team1 = new Team(players.get(0), players.get(2));
         Team team2 = new Team(players.get(1), players.get(3));
-        this.score.addTeam(team1);
-        this.score.addTeam(team2);
+        this.teamManager.addTeam(team1);
+        this.teamManager.addTeam(team2);
         this.cardPack.shuffleCards();
     }
 
@@ -61,10 +61,10 @@ public class Game {
         Integer totalScore = currentRound.countScore();
         if(totalScore >= currentRound.getContractRound().getAskedPoint().getNbPoint()){
             log.info("Gagné");
-            score.roundWin(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
+            teamManager.roundWin(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
         } else {
             log.info("Perdu");
-            score.roundLose(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
+            teamManager.roundLose(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
         }
         players.stream().forEach(player -> cardPack.addCards(player.getCardsWin()));
         players.stream().forEach(player -> player.setCardsWin(new ArrayList<>()));
@@ -96,7 +96,7 @@ public class Game {
      * @return the partner
      */
     public Player getPlayerPartner(Player player){
-        return score.getPlayerTeam(player).getPlayers().stream().filter(p -> !p.equals(player)).findFirst().get();
+        return teamManager.getPlayerTeam(player).getPlayers().stream().filter(p -> !p.equals(player)).findFirst().get();
     }
 
     /**
@@ -132,11 +132,11 @@ public class Game {
     }
 
     /**
-     * Get the score
-     * @return score
+     * Get the teamManager
+     * @return teamManager
      */
-    public Score getScore(){
-        return score;
+    public TeamManager getTeamManager(){
+        return teamManager;
     }
 
 }
