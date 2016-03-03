@@ -132,5 +132,5 @@ public class PossibleMoves {
         possibleMoves.put(card, ponderation);
     }
 
-
+//TODO update PONDERATION when all player except one have 0 on ponderation => for this player ponderation == 1
 }

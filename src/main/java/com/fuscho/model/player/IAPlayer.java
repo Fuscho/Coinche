@@ -5,7 +5,9 @@ import com.fuscho.model.card.Card;
 import com.fuscho.model.card.factory.CardFactory;
 import com.fuscho.model.game.TurnRound;
 import com.fuscho.operation.Rule;
+import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,11 +15,13 @@ import java.util.stream.Collectors;
 /**
  * Créer par mchoraine le 26/02/2016.
  */
+@Data
 public class IAPlayer extends Player{
-    public List<OtherPlayer> otherPlayers;
+    private List<OtherPlayer> otherPlayers;
 
     public IAPlayer(String name) {
         this.setName(name);
+        this.otherPlayers = new ArrayList<>();
     }
 
     @Override
