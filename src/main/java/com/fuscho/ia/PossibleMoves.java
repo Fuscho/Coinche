@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
  * Class to calculate possibleMoves
  */
 public class PossibleMoves {
+
     /**
      * init possible moves
      * Init other players possible moves in relation with the player hand

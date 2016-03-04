@@ -7,7 +7,10 @@ import com.fuscho.model.game.Game;
 import com.fuscho.model.game.RoundGame;
 import com.fuscho.model.player.Player;
 import com.fuscho.operation.Rule;
+import com.fuscho.websocket.Message;
+import com.fuscho.websocket.StompMessagingService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
@@ -16,6 +19,8 @@ import java.util.*;
 @Slf4j
 public class CardController {
 
+    @Autowired
+    private StompMessagingService messagingService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/play", produces = "application/json")
     public Map playCard(@RequestBody Map card) {
@@ -23,6 +28,7 @@ public class CardController {
         Player humanPlayer = Game.getInstance().getPlayers().get(0);
         RoundGame roundGame = Game.getInstance().getCurrentRound();
         roundGame.playerPlayCard(humanPlayer, cardToPlay);
+        messagingService.send(Message.builder().content("Salut pd").build());
         while(roundGame.getCurrentTurn().getPlayerTurn() != humanPlayer && !roundGame.endRound){
             Card randomCard = roundGame.getCurrentTurn().getPlayerTurn().getRandomCard(roundGame.getCurrentTurn());
             roundGame.playerPlayCard(roundGame.getCurrentTurn().getPlayerTurn(), randomCard);
