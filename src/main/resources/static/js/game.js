@@ -15,6 +15,8 @@ $(document).ready(function () {
     $("#cardsContainer").hide();
     $("#next-round-btn").hide();
 
+    connect();
+
     //INIT GAME
     $.ajax({
         url: "/api/init",
@@ -37,6 +39,18 @@ $(document).ready(function () {
         $(this).addClass("selected");
     });
 });
+
+var connect = function() {
+    var socket = new SockJS('/notif');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/notifications', function (calResult) {
+           console.log(calResult.body);
+        });
+    });
+};
 
 var playCard = function (suit, value) {
     var card = {
