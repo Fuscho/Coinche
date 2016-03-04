@@ -1,8 +1,6 @@
 package com.fuscho.model.player;
 
 import com.fuscho.model.game.ContractPoint;
-import com.fuscho.model.player.Player;
-import com.fuscho.model.player.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,15 +20,17 @@ public class TeamManager {
     public void addTeam(Team team) {
         teams.add(team);
     }
-
+    public List<Team> getTeams(){
+        return this.teams;
+    }
     public void roundWin(Player bidder, ContractPoint askedPoint, Integer totalScore) {
         Team playerTeam = getPlayerTeam(bidder);
-        playerTeam.addToScore(askedPoint.getNbPoint() + totalScore);
+        playerTeam.addToTotalScore(askedPoint.getNbPoint() + totalScore);
     }
 
     public void roundLose(Player bidder, ContractPoint askedPoint, Integer totalScore) {
         Team playerTeam = getAdversaryTeam(bidder);
-        playerTeam.addToScore(askedPoint.getNbPoint() + totalScore);
+        playerTeam.addToTotalScore(askedPoint.getNbPoint() + totalScore);
     }
 
     public Team getPlayerTeam(Player player) {
