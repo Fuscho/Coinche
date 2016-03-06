@@ -1,14 +1,13 @@
-var Game = {
-    cardsOnTable: [],
-    lastTrick: [],
-    score: null
-};
-
 var Contract = {
     suitTrump: null,
     point: null
 };
 
+var playerTurn = 0;
+var endTour = false;
+var cardsOnTable = [];
+var playerCards = [];
+var score = null;
 
 $(document).ready(function () {
 
@@ -22,7 +21,8 @@ $(document).ready(function () {
         url: "/api/init",
         method: "POST"
     }).done(function (data) {
-        updateCardPlayer(data);
+        playerCards = data;
+        updateCardPlayer(data, []);
     });
 
     $("#bitContainer").find(".suitWanted button").click(function () {
@@ -40,19 +40,46 @@ $(document).ready(function () {
     });
 });
 
-var connect = function() {
+var connect = function () {
     var socket = new SockJS('/notif');
     stompClient = Stomp.over(socket);
+    stompClient.debug = null;
     stompClient.connect({}, function (frame) {
-        setConnected(true);
-        console.log('Connected: ' + frame);
+        //console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/notifications', function (calResult) {
-           console.log(calResult.body);
+            var event = JSON.parse(calResult.body);
+            var eventContent = JSON.parse(event.content);
+            //console.log(eventContent);
+            switch (event.headers.eventType) {
+                case "com.fuscho.model.notification.CardPlayEvent" :
+                    if (!endTour) {
+                        updateCardOnTable(eventContent.cardPlay, eventContent.playerPosition);
+                    }
+                    cardsOnTable.push(eventContent);
+                    if (cardsOnTable.length == 4) {
+                        cardsOnTable = [];
+                        endTour = true;
+                    }
+                    break;
+                case "com.fuscho.model.notification.PlayerTurnEvent" :
+                    updateCardPlayer(playerCards, eventContent.possibleMoves);
+                    break;
+                case "com.fuscho.model.notification.EndRoundEvent" :
+                    score = eventContent.score;
+                    break;
+            }
         });
     });
 };
 
 var playCard = function (suit, value) {
+    console.log(suit, value);
+    console.log(playerCards);
+    playerCards = playerCards.filter(function (playerCard) {
+        return !(playerCard.suit == suit && playerCard.value == value);
+    });
+    console.log(playerCards);
+    updateCardPlayer(playerCards, []);
     var card = {
         suit: suit,
         value: value
@@ -63,31 +90,15 @@ var playCard = function (suit, value) {
         data: JSON.stringify(card),
         contentType: 'application/json'
     }).done(function (data) {
-        Game.lastTrick = data["lastTrick"];
-        updateCardPlayer(data);
-        updateCardOnTable(data["lastTrick"], getPlayer(Game.cardsOnTable.length));
-        Game.cardsOnTable = data["cardsPlay"];
-        Game.score = data["score"];
+        playerCards = data;
     });
 };
 
-var getPlayer = function (nbCard) {
-    if (nbCard == 3)
-        return 1;
-    if (nbCard == 2)
-        return 2;
-    if (nbCard == 1)
-        return 3;
-    else
-        return nbCard
-};
-
-var updateCardPlayer = function (cards) {
+var updateCardPlayer = function (cards, playableCards) {
     $('#cardsPlayerContainer').find('.card').remove();
-
-    cards["cards"].forEach(function (card) {
+    cards.forEach(function (card) {
         var playable = false;
-        cards["playableCards"].forEach(function (playableCard) {
+        playableCards.forEach(function (playableCard) {
             if (card["suit"] == playableCard["suit"] && card["value"] == playableCard["value"]) {
                 playable = true;
             }
@@ -102,34 +113,30 @@ var updateCardPlayer = function (cards) {
                 class: "card " + card["suit"] + " " + card["value"]
             }));
         }
-
-
     });
 };
 
-var updateCardOnTable = function (cardsPlay, player) {
-    $('#cardsContainer').find('.card').remove();
-    for (var i = cardsPlay.length - 1; i >= 0; i--) {
-        if (player == 0) {
-            player = 4
-        }
-        $('#cardPlayJ' + player).append($('<button>', {
-            class: "card " + cardsPlay[i]["suit"] + " " + cardsPlay[i]["value"]
-        }));
-        player--;
-    }
+var updateCardOnTable = function (cardPlay, player) {
+    $('#cardPlayJ' + parseInt(player + 1)).append($('<button>', {
+        class: "card " + cardPlay["suit"] + " " + cardPlay["value"]
+    }));
 };
 
 var nextTrick = function () {
-    if(Game.score){
-        alert(Game.score);
+    endTour = false;
+    $('#cardsContainer').find('.card').remove();
+    if (score) {
+        alert(score);
         $("#next-round-btn").show();
     } else {
-        updateCardOnTable(Game.cardsOnTable, 4)
+        cardsOnTable.forEach(function (cardPlayed) {
+            updateCardOnTable(cardPlayed.cardPlay, cardPlayed.playerPosition)
+        });
     }
 };
 
-var nextRound = function(){
+var nextRound = function () {
+    cardsOnTable = [];
     $('#cardsContainer').find('.card').remove();
     $.ajax({
         url: "/api/next-round",
@@ -138,14 +145,14 @@ var nextRound = function(){
         $("#cardsContainer").hide();
         $("#next-round-btn").hide();
         $("#bitContainer").show();
-        Game.score = null;
-        Game.cardsOnTable = [];
-        updateCardPlayer(data);
+        score = null;
+        playerCards = data;
+        updateCardPlayer(data, []);
     });
 };
 
 var bit = function () {
-    if(Contract.point != null && Contract.suitTrump != null) {
+    if (Contract.point != null && Contract.suitTrump != null) {
         $("#cardsContainer").show();
         $("#bitContainer").hide();
         $.ajax({

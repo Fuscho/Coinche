@@ -25,7 +25,6 @@ public class StompMessagingService implements ApplicationListener<ContextStarted
     @Async
     public Void send(Message msg) {
         this.messagingTemplate.convertAndSend("/topic/notifications", msg);
-        log.info("mon message {}", msg);
         return null;
     }
 

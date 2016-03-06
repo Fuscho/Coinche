@@ -14,4 +14,7 @@ public class OtherPlayer{
     public Player player;
     public HashMap<Card,Double> possibleMoves;
 
+    public String toString(){
+        return possibleMoves.toString();
+    }
 }

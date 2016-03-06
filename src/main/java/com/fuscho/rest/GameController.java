@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class GameController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/init")
-    public Map initGame() {
+    public List<Card> initGame() {
         // Create a game and add players
         Game game = new Game();
         IAPlayer player2 = new IAPlayer("IA1");
@@ -40,24 +40,23 @@ public class GameController {
         Player humanPlayer = game.getPlayers().get(0);
         Map<String, List<Card>> result = new HashMap<>();
         result.put("cards", humanPlayer.getCards());
-        result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), null, null, null, null));
+//        result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), null, null, null, null));
 
 //        player2.initPossibleMovesOtherPlayers();
 //        player3.initPossibleMovesOtherPlayers();
 //        player4.initPossibleMovesOtherPlayers();
-        return result;
+        return humanPlayer.getCards();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/next-round")
-    public Map nexRound(){
+    public List<Card> nexRound(){
         Game game = Game.getInstance();
         RoundGame currentRound = game.getCurrentRound();
         Player humanPlayer = Game.getInstance().getPlayers().get(0);
-        Map<String, List<Card>> result = new HashMap<>();
+        List<Card> result = new ArrayList<>();
         if(currentRound.endRound){
             game.startRound();
-            result.put("cards", humanPlayer.getCards());
-            result.put("playableCards", Rule.getPossibleMoves(humanPlayer.getCards(), null, null, null, null));
+            result = humanPlayer.getCards();
         } else {
             log.error("Not the end");
         }
