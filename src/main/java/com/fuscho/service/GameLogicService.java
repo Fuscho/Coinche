@@ -41,7 +41,7 @@ public class GameLogicService {
             }
         } else {
             Game.getInstance().endRound();
-            Integer score = roundGame.getScore();
+            Integer score = game.getTeamManager().getPlayerTeam(roundGame.getContractRound().getBidder()).getRoundScore();
             messagingService.send(MessageBuilder.message(new EndRoundEvent(score)));
         }
     }
