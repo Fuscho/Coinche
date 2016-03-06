@@ -12,6 +12,7 @@ import java.util.List;
 public class Team {
     private List<Player> players = new ArrayList<>();
     private Integer totalScore = 0;
+    private Integer roundScore = 0;
 
     public Team(Player player, Player player1) {
         players.add(player);
@@ -22,7 +23,11 @@ public class Team {
         return players.contains(player);
     }
 
-    public void addToScore(int point) {
-        totalScore = totalScore + point;
+    public void addToTotalScore(int point) {
+        totalScore += point;
+    }
+
+    public void addToRoundScore(int point) {
+        roundScore += point;
     }
 }

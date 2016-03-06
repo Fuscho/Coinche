@@ -50,6 +50,11 @@ public class Game {
      */
     public RoundGame startRound(){
         this.dealCards();
+        //When started round all team has a roundScore equals to 0
+        for (Team team: teamManager.getTeams()){
+            team.setRoundScore(0);
+        }
+
         currentRound = new RoundGame();
         return currentRound;
     }
@@ -60,14 +65,14 @@ public class Game {
      * Put the cards together
      */
     public void endRound() {
-        Integer totalScore = currentRound.countScore();
+        /*Integer totalScore = currentRound.countScore();
         if(totalScore >= currentRound.getContractRound().getAskedPoint().getNbPoint()){
             log.info("Gagné");
             teamManager.roundWin(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
         } else {
             log.info("Perdu");
             teamManager.roundLose(currentRound.getContractRound().getBidder(), currentRound.getContractRound().getAskedPoint(), totalScore);
-        }
+        }*/
         players.stream().forEach(player -> cardPack.addCards(player.getCardsWin()));
         players.stream().forEach(player -> player.setCardsWin(new ArrayList<>()));
     }

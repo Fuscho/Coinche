@@ -3,6 +3,9 @@ package com.fuscho.model.game;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
 import com.fuscho.model.player.Player;
+import com.fuscho.model.player.Team;
+import com.fuscho.model.player.TeamManager;
+import com.fuscho.operation.Score;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +22,6 @@ public class RoundGame {
     private TurnRound currentTurn;
     private List<Card> lastTrick = new ArrayList<>();
     public boolean endRound = false;
-    private Integer score;
 
     public RoundGame(){}
 
@@ -50,15 +52,26 @@ public class RoundGame {
             log.info("We have a winner : {} {}", currentTurn.getMasterCard(), currentTurn.getWinning() );
             currentTurn.winnerCollectCards();
             lastTrick = currentTurn.getCardsOnTable();
+            //Calculate TurnScore
+            Team winnerTeam = Game.getInstance().getTeamManager().getPlayerTeam(currentTurn.getWinning());
+            winnerTeam.addToRoundScore(Score.valueOfTurn(currentTurn.getCardsOnTable(),currentTurn.getTrumpSuit()));
+
             if(currentTurn.getWinning().getCards().size() != 0){
+                //END OF TURN
                 startTurn(currentTurn.getWinning());
+
             } else {
+                //END OF ROUND
+
                 endRound = true;
+                //Calculate total score for each team
+                Score.valueOfRound(Game.getInstance().getTeamManager().getTeams(),contractRound,currentTurn.getWinning());
+
             }
         }
     }
 
-    public Integer countScore() {
+   /* public Integer countScore() {
         Integer bidderPoint = contractRound.getBidder().getCardsWin().stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
         Player playerPartner = Game.getInstance().getPlayerPartner(contractRound.getBidder());
         Integer partnerBidderPoint = playerPartner.getCardsWin().stream().mapToInt(card -> card.getCardValueScore(contractRound.getTrumpSuit())).sum();
@@ -70,13 +83,9 @@ public class RoundGame {
         log.info("Nb point : {}", totalPoint);
         this.score = totalPoint;
         return totalPoint;
-    }
+    }*/
 
     public List<Card> getLastTrick() {
         return lastTrick;
-    }
-
-    public Integer getScore() {
-        return score;
     }
 }
