@@ -34,6 +34,9 @@ public class GameTest {
         RoundGame roundGame = game.startRound();
         // Start bidding
         roundGame.playerBid(player1, ContractPoint.CENT, SuitCard.Diamonds);
+        roundGame.playerBid(player2, null, null);
+        roundGame.playerBid(player3, null, null);
+        roundGame.playerBid(player4, null, null);
         // Start turn
         roundGame.startTurn(player1);
         TurnRound currentTurn = roundGame.getCurrentTurn();

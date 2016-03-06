@@ -49,7 +49,6 @@ var connect = function () {
         stompClient.subscribe('/topic/notifications', function (calResult) {
             var event = JSON.parse(calResult.body);
             var eventContent = JSON.parse(event.content);
-            //console.log(eventContent);
             switch (event.headers.eventType) {
                 case "com.fuscho.model.notification.CardPlayEvent" :
                     if (!endTour) {
@@ -62,6 +61,7 @@ var connect = function () {
                     }
                     break;
                 case "com.fuscho.model.notification.PlayerTurnEvent" :
+                    console.log(eventContent, playerCards);
                     updateCardPlayer(playerCards, eventContent.possibleMoves);
                     break;
                 case "com.fuscho.model.notification.EndRoundEvent" :

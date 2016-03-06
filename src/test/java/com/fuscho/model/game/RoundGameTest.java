@@ -3,7 +3,9 @@ package com.fuscho.model.game;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
 import com.fuscho.model.card.ValueCard;
+import com.fuscho.model.player.HumanPlayer;
 import com.fuscho.model.player.IAPlayer;
+import com.fuscho.model.player.Player;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,10 +18,10 @@ public class RoundGameTest {
 
     @Test
     public void shouldCountScore(){
-        IAPlayer player1 = new IAPlayer("IA1");
-        IAPlayer player2 = new IAPlayer("IA2");
-        IAPlayer player3 = new IAPlayer("IA3");
-        IAPlayer player4 = new IAPlayer("IA4");
+        Player player1 = new HumanPlayer("IA1");
+        Player player2 = new HumanPlayer("IA2");
+        Player player3 = new HumanPlayer("IA3");
+        Player player4 = new HumanPlayer("IA4");
 
         player1.addCards(new ArrayList<Card>(){{add(new Card(SuitCard.Hearts, ValueCard.Ace));}});
         player2.addCards(new ArrayList<Card>(){{add(new Card(SuitCard.Hearts, ValueCard.Jack));}});
@@ -35,7 +37,11 @@ public class RoundGameTest {
         game.launchGame();
         RoundGame roundGame = game.startRound();
         game.getPlayers().stream().forEach(player -> player.setCards(new ArrayList<>()));
+        roundGame.playerBid(player1, null, null);
         roundGame.playerBid(player2, ContractPoint.CENT, SuitCard.Hearts);
+        roundGame.playerBid(player3, null, null);
+        roundGame.playerBid(player4, null, null);
+        roundGame.playerBid(player1, null, null);
         roundGame.startTurn(player1);
         roundGame.playerPlayCard(player1, new Card(SuitCard.Hearts, ValueCard.Ace));
         roundGame.playerPlayCard(player2, new Card(SuitCard.Hearts, ValueCard.Jack));
@@ -44,6 +50,6 @@ public class RoundGameTest {
 
         game.endRound();
 
-        Assert.assertEquals(new Integer(54), roundGame.getScore());
+        Assert.assertEquals(new Integer(54), game.getTeamManager().getPlayerTeam(roundGame.getContractRound().getBidder()).getRoundScore());
     }
 }

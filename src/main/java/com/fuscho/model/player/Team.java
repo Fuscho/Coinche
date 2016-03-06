@@ -20,7 +20,8 @@ public class Team {
     }
 
     public boolean isPlayerInTeam(Player player) {
-        return players.contains(player);
+        boolean contains = players.contains(player);
+        return contains;
     }
 
     public void addToTotalScore(int point) {

@@ -33,17 +33,16 @@ public class TeamManagerTest {
 
     @Test
     public void getAdversaryTeam(){
-        IAPlayer player1 = new IAPlayer("IA1");
-        IAPlayer player2 = new IAPlayer("IA2");
-        IAPlayer player3 = new IAPlayer("IA3");
-        IAPlayer player4 = new IAPlayer("IA4");
+        Player player1 = new HumanPlayer("IA1");
+        Player player2 = new HumanPlayer("IA2");
+        Player player3 = new HumanPlayer("IA3");
+        Player player4 = new HumanPlayer("IA4");
 
         Team team1 = new Team(player1,player3);
         Team team2 = new Team(player2,player4);
-        List<Team> teams = new ArrayList<>();
-        teams.add(team1);
-        teams.add(team2);
-        TeamManager teamManager = new TeamManager(teams);
+        TeamManager teamManager = new TeamManager();
+        teamManager.addTeam(team1);
+        teamManager.addTeam(team2);
 
         Assert.assertEquals(team2, teamManager.getAdversaryTeam(player1));
         Assert.assertEquals(team1, teamManager.getAdversaryTeam(player2));
@@ -53,10 +52,10 @@ public class TeamManagerTest {
 
     @Test
     public void getPartnerPlayer(){
-        IAPlayer player1 = new IAPlayer("IA1");
-        IAPlayer player2 = new IAPlayer("IA2");
-        IAPlayer player3 = new IAPlayer("IA3");
-        IAPlayer player4 = new IAPlayer("IA4");
+        Player player1 = new IAPlayer("IA1");
+        Player player2 = new IAPlayer("IA2");
+        Player player3 = new IAPlayer("IA3");
+        Player player4 = new IAPlayer("IA4");
 
         Team team1 = new Team(player1,player3);
         Team team2 = new Team(player2,player4);
@@ -73,10 +72,10 @@ public class TeamManagerTest {
 
     @Test
     public void getIfAdversary(){
-        Player player1 = new IAPlayer("IA1");
-        Player player2 = new IAPlayer("IA2");
-        Player player3 = new IAPlayer("IA3");
-        Player player4 = new IAPlayer("IA4");
+        Player player1 = new HumanPlayer("IA1");
+        Player player2 = new HumanPlayer("IA2");
+        Player player3 = new HumanPlayer("IA3");
+        Player player4 = new HumanPlayer("IA4");
 
         Team team1 = new Team(player1,player3);
         Team team2 = new Team(player2,player4);

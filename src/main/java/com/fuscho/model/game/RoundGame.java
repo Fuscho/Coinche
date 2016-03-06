@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @Slf4j
 public class RoundGame {
-    private ContractRound contractRound;
+    private ContractRound contractRound = new ContractRound();
     private TurnRound currentTurn;
     private List<Card> lastTrick = new ArrayList<>();
     public boolean endRound = false;
@@ -33,11 +33,15 @@ public class RoundGame {
     }
 
     public void playerBid(Player player, ContractPoint bidPoint, SuitCard suit) {
-        this.contractRound = ContractRound.builder()
-                .bidder(player)
-                .askedPoint(bidPoint)
-                .trumpSuit(suit)
-                .build();
+        Contract contract = null;
+        if(bidPoint != null && suit != null){
+            contract= Contract.builder()
+                    .bidder(player)
+                    .askedPoint(bidPoint)
+                    .trumpSuit(suit)
+                    .build();
+        }
+        this.contractRound.addContactToHistory(contract);
     }
 
     public void startTurn(Player player) {

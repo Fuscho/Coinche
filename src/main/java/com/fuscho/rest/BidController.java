@@ -2,6 +2,7 @@ package com.fuscho.rest;
 
 
 import com.fuscho.model.card.SuitCard;
+import com.fuscho.model.game.Bidding;
 import com.fuscho.model.game.ContractPoint;
 import com.fuscho.model.game.Game;
 import com.fuscho.model.game.RoundGame;
@@ -28,12 +29,10 @@ public class BidController {
     private GameLogicService gameLogicService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/bid")
-    public Map bidRound(@RequestBody Map bid) {
+    public Map bidRound(@RequestBody Bidding bid) {
         Player player = Game.getInstance().getPlayers().get(0);
         RoundGame currentRound = Game.getInstance().getCurrentRound();
-        currentRound.playerBid(player, ContractPoint.fromValue(Integer.parseInt(String.valueOf(bid.get("value")))), SuitCard.valueOf(String.valueOf(bid.get("suit"))));
-        currentRound.startTurn(player);
-        gameLogicService.bettingRound(Game.getInstance(), player);
+        gameLogicService.bettingRound(Game.getInstance(), player, bid);
         Map<String, Object> result = new HashMap<>();
         result.put("finishBidding", true);
         result.put("contractPoint", currentRound.getContractRound().getAskedPoint());
