@@ -1,13 +1,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var App = require('./component/GameContainer.js');
+var GameLogic = require('./logic/GameLogic.js');
 
-var App = React.createClass({
-    render : function(){
-        return (
-            <h1>Hello, world!</h1>
-        )
-    }
-});
+GameLogic.initGame();
 
 module.exports = {
     React: React,

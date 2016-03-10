@@ -1,5 +1,9 @@
 {
   "name": "Coinche",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "sockjs": "^0.3.4",
+    "stomp-websocket": "^2.3.4"
+  }
 }

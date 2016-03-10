@@ -63,7 +63,8 @@ public class GameLogicService {
             suit = SuitCard.valueOf(bid.getSuit());
         }
         roundGame.playerBid(player, bidPoint, suit);
-        messagingService.send(MessageBuilder.message(new BidEvent(player, bid)));
+        Integer playerPosition = game.getPlayers().indexOf(player);
+        messagingService.send(MessageBuilder.message(new BidEvent(playerPosition, bid)));
         if(roundGame.getContractRound().getFinalContract() != null){
             Player playerTurn = game.getPlayers().get(0);
             roundGame.startTurn(playerTurn);
