@@ -1,5 +1,6 @@
 var eventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var Immutable = require('immutable');
 
 var STATE_CHANGE_EVENT = 'state.changed';
 
@@ -9,7 +10,9 @@ var _cardsOnTable = [];
 var _cardsOnTableQueue = [];
 var _cardsHistory = [];
 var _endTurn = false;
-var _isBiddingMode = false;
+var _currentMode = false;
+var _currentBid = null;
+var _score = Immutable.fromJS([]);
 
 var store = assign({}, eventEmitter.prototype, {
 
@@ -43,13 +46,21 @@ var store = assign({}, eventEmitter.prototype, {
         return _currentPlayerSelectableCards;
     },
 
-    setBiddingMode : function(isBiddingMode){
-        _isBiddingMode = isBiddingMode;
+    setBid : function(bid){
+        _currentBid = bid;
+    },
+
+    getBid : function(){
+      return _currentBid;
+    },
+
+    setMode : function(isBiddingMode){
+        _currentMode = isBiddingMode;
         store.emitStateChange();
     },
 
-    isBiddingMode : function(){
-        return _isBiddingMode;
+    getMode : function(){
+        return _currentMode;
     },
 
     setEndTurn : function(endTurn){
@@ -92,6 +103,14 @@ var store = assign({}, eventEmitter.prototype, {
     removeCardsOnTableQueue : function(){
         _cardsOnTableQueue = [];
         store.emitStateChange();
+    },
+
+    addToScore : function(currentScore){
+        _score = _score.push(currentScore);
+    },
+
+    getScore : function(){
+        return _score;
     }
 
 });

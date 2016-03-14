@@ -1,193 +1,165 @@
 html, body {
-    height: 100%;
-    margin: 0;
-}
+  height: 100%;
+  margin: 0;
+  font-family: 'Dosis', sans-serif; }
 
-#gameContainer {
-    display: table;
-    width: 100%;
-    height: 100%;
-}
-
-#centerContainer {
-    display: table;
-    width: 100%;
-    height: 70%;
-}
-
-#containerJ3 {
-    display: table-row;
-    height: 10%;
-    background: red;
-}
-
-#containerJ2 {
-    display: table-cell;
-    width: 9%;
-    background: green;
-}
-
-#containerJ4 {
-    display: table-cell;
-    width: 9%;
-    background: blue;
-}
-
-#containerJ1 {
-    background: orange;
-    height: 30%;
-}
-
-#currentBid {
-    position: absolute;
-    right: 0;
-    bottom: 20px;
-    width: 170px;
-}
-
-/*  New style  */
 .game-container {
-    background: url("/img/boardgame.png");
-    background-size: cover;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    display: block;
-    margin: 0 auto;
-}
+  background: url("/img/boardgame.png");
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: block;
+  margin: 0 auto; }
 
 #game-board {
+  position: absolute;
+  height: 60%;
+  width: 50%;
+  top: 20%;
+  left: 25%;
+  right: 25%; }
+  #game-board #bid-container {
     position: absolute;
-    height: 60%;
-    width: 50%;
-    top: 20%;
-    left: 25%;
-    right: 25%;
-}
-
-#game-board #bid-container {
-    width: 90%;
-    height: 90%;
-    margin: 3% 5%;
+    opacity: 0;
+    width: 0;
+    padding-top: 1px;
+    height: 0%;
+    margin: 50% 50%;
     background-color: darkslategrey;
     border-radius: 5%;
-    border: 1px solid #0d3349;
-}
-
-#game-board #bid-container #suit-wanted {
-    display: table;
-    margin: 25px auto;
-}
-
-#game-board #bid-container #suit-wanted > div {
-    width: 50px;
-    height: 50px;
-    background-color: white;
-    border-radius: 20px;
-    border: 1px solid gainsboro;
-    padding: 5px;
-    margin: 0 10px;
-    display: inline-block;
-    cursor: pointer;
-}
-
-#game-board #bid-container #suit-wanted > div.selected {
     -moz-box-shadow: 0px 0px 15px 2px #036400;
     -webkit-box-shadow: 0px 0px 15px 2px #036400;
     -o-box-shadow: 0px 0px 15px 2px #036400;
     box-shadow: 0px 0px 15px 2px #036400;
-    filter: progid:DXImageTransform.Microsoft.Shadow(color=#036400, Direction=NaN, Strength=15);
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-}
-
-#game-board #bid-container #suit-wanted > div > img {
-    width: 50px;
-    height: 50px;
-}
-
-#game-board #bid-container #point-wanted {
-    display: block;
-    width: 175px;
-    margin: 50px auto 25px;
-}
-
-#game-board #bid-container #point-wanted .spinner-value {
-    background-color: white;
-    height: 40px;
-    width: 125px;
+    overflow: hidden;
+    transition: height 0.3s ease-out,width 0.3s ease-out, margin 0.3s ease-out; }
+    #game-board #bid-container.appear {
+      height: 80%;
+      width: 80%;
+      opacity: 1;
+      margin: 6% 10%; }
+    #game-board #bid-container #bid-btn {
+      height: 40px;
+      width: 125px;
+      display: block;
+      margin: 10px auto;
+      color: white;
+      background-color: #942a25;
+      border-radius: 20px;
+      border: 1px solid #c94a4a;
+      cursor: pointer; }
+    #game-board #bid-container #suit-wanted {
+      display: table;
+      margin: 25px auto; }
+      #game-board #bid-container #suit-wanted > div {
+        width: 50px;
+        height: 50px;
+        background-color: white;
+        border-radius: 20px;
+        border: 1px solid gainsboro;
+        padding: 5px;
+        margin: 0 10px;
+        display: inline-block;
+        cursor: pointer; }
+        #game-board #bid-container #suit-wanted > div.selected {
+          -moz-box-shadow: 0px 0px 15px 2px #036400;
+          -webkit-box-shadow: 0px 0px 15px 2px #036400;
+          -o-box-shadow: 0px 0px 15px 2px #036400;
+          box-shadow: 0px 0px 15px 2px #036400;
+          filter: progid:DXImageTransform.Microsoft.Shadow(color=#036400, Direction=NaN, Strength=15);
+          -moz-border-radius: 10px;
+          -webkit-border-radius: 10px;
+          border-radius: 10px; }
+        #game-board #bid-container #suit-wanted > div > img {
+          width: 50px;
+          height: 50px; }
+    #game-board #bid-container #point-wanted {
+      display: block;
+      width: 175px;
+      margin: 50px auto 25px; }
+      #game-board #bid-container #point-wanted .spinner-value {
+        background-color: white;
+        height: 40px;
+        width: 125px;
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: bold;
+        line-height: 40px;
+        display: inline-block; }
+      #game-board #bid-container #point-wanted .left-spinner, #game-board #bid-container #point-wanted .right-spinner {
+        height: 40px;
+        width: 25px;
+        background-color: #942a25;
+        color: white;
+        font-weight: bold;
+        font-size: 1.2em;
+        text-align: center;
+        line-height: 40px;
+        display: inline-block;
+        cursor: pointer; }
+      #game-board #bid-container #point-wanted .right-spinner {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px; }
+      #game-board #bid-container #point-wanted .left-spinner {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px; }
+  #game-board #resultat-container {
     text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    line-height: 40px;
-    display: inline-block;
-}
-
-#game-board #bid-container #point-wanted .left-spinner, #game-board #bid-container #point-wanted .right-spinner {
-    height: 40px;
-    width: 25px;
-    background-color: #942a25;
-    color: white;
-    font-weight: bold;
-    font-size: 1.2em;
-    text-align: center;
-    line-height: 40px;
-    display: inline-block;
-    cursor: pointer;
-}
-
-#game-board #bid-container #bid-btn {
-    height: 40px;
-    width: 125px;
-    display: block;
-    margin: 10px auto;
-    color: white;
-    background-color: #942a25;
-    border-radius: 20px;
-    border: 1px solid #c94a4a;
-    cursor: pointer;
-}
+    font-size: 1.8em;
+    padding-top: 1px;
+    line-height: 250%;
+    width: 80%;
+    height: 0;
+    margin: 5% 10%;
+    background-color: darkslategrey;
+    border-radius: 5%;
+    color: whitesmoke;
+    -moz-box-shadow: 0px 0px 15px 2px #036400;
+    -webkit-box-shadow: 0px 0px 15px 2px #036400;
+    -o-box-shadow: 0px 0px 15px 2px #036400;
+    box-shadow: 0px 0px 15px 2px #036400;
+    transition: height 0.3s ease-out, margin 0.3s ease-out; }
+    #game-board #resultat-container.appear {
+      height: 85%;
+      opacity: 1;
+      margin: 6% 10%; }
+    #game-board #resultat-container .points {
+      color: #942a25;
+      font-weight: bold; }
 
 #current-player {
-    position: absolute;
-    height: 20%;
-    width: 50%;
-    left: 25%;
-    right: 25%;
-    bottom: 0;
-}
-
-#current-player .card {
+  position: absolute;
+  height: 20%;
+  width: 50%;
+  left: 25%;
+  right: 25%;
+  bottom: 0; }
+  #current-player .card {
     width: 75px;
     height: 100px;
     display: inline-block;
     margin: 0 2px;
     background-size: cover;
-}
-
-#current-player .card.selectable {
-    cursor: pointer;
-}
-
-#current-player .card.selectable:hover {
-    -moz-box-shadow: 0px 0px 15px 2px #036400;
-    -webkit-box-shadow: 0px 0px 15px 2px #036400;
-    -o-box-shadow: 0px 0px 15px 2px #036400;
-    box-shadow: 0px 0px 15px 2px #036400;
-    filter: progid:DXImageTransform.Microsoft.Shadow(color=#036400, Direction=NaN, Strength=15);
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-}
-
-#current-player #current-player-cards {
+    position: absolute;
+    transition: margin 0.5s; }
+    #current-player .card.selectable {
+      cursor: pointer;
+      margin-top: -10px; }
+      #current-player .card.selectable:hover {
+        -moz-box-shadow: 0px 0px 15px 2px #036400;
+        -webkit-box-shadow: 0px 0px 15px 2px #036400;
+        -o-box-shadow: 0px 0px 15px 2px #036400;
+        box-shadow: 0px 0px 15px 2px #036400;
+        filter: progid:DXImageTransform.Microsoft.Shadow(color=#036400, Direction=NaN, Strength=15);
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px; }
+  #current-player #current-player-cards {
     display: table;
     position: relative;
-    margin: 0 auto;
-}
-
-#current-player .player-board {
+    margin: 0 auto; }
+  #current-player .player-board {
     background: #710e03;
     width: 90%;
     height: 45px;
@@ -196,139 +168,155 @@ html, body {
     border-top-left-radius: 100%;
     position: absolute;
     bottom: 0;
-    border: 3px solid whitesmoke;
-}
+    border: 3px solid whitesmoke; }
+  #current-player .profil {
+    bottom: 0;
+    left: 0; }
+    #current-player .profil .avatar {
+      left: 0;
+      bottom: 15px;
+      position: absolute; }
+  #current-player .player-bid {
+    position: absolute;
+    height: 140px;
+    bottom: 0; }
 
 .avatar {
-    width: 75px;
-    height: 75px;
-    margin: 5px auto -5px;
-    border-radius: 50%;
-    background-color: white;
-}
+  width: 75px;
+  height: 75px;
+  margin: 5px auto -5px;
+  border-radius: 50%;
+  background-color: white;
+  border: 5px solid #710e03; }
 
 .player-name {
-    width: 100%;
-    height: 35px;
-    background-color: #710e03;
-    text-align: center;
-    color: white;
-    border-radius: 25px;
-    line-height: 35px;
-    border: 3px solid whitesmoke;
-}
+  width: 100%;
+  height: 35px;
+  background-color: #710e03;
+  text-align: center;
+  color: white;
+  border-radius: 25px;
+  line-height: 35px;
+  border: 3px solid whitesmoke; }
 
 .profil {
-    position: absolute;
-    width: 150px;
-    height: 120px;
-}
-
+  position: absolute;
+  width: 150px;
+  height: 120px; }
 
 #player-left {
-    position: absolute;
-    height: 60%;
-    width: 25%;
-    left: 0%;
-    top: 20%;
-}
-
-#player-left .profil {
+  position: absolute;
+  height: 60%;
+  width: 25%;
+  left: 0%;
+  top: 20%; }
+  #player-left .profil {
     top: 50%;
     margin-top: -60px;
-    left: 20px;
-}
+    left: 20px; }
 
 #player-right {
-    position: absolute;
-    height: 60%;
-    width: 25%;
-    right: 0%;
-    top: 20%;
-}
-
-#player-right .profil {
+  position: absolute;
+  height: 60%;
+  width: 25%;
+  right: 0%;
+  top: 20%; }
+  #player-right .profil {
     top: 50%;
     margin-top: -60px;
-    right: 20px;
-}
+    right: 20px; }
 
 #player-top {
-    position: absolute;
-    height: 20%;
-    width: 50%;
-    right: 25%;
-    top: 0%;
-}
-
-#player-top .profil {
+  position: absolute;
+  height: 20%;
+  width: 50%;
+  right: 25%;
+  top: 0%; }
+  #player-top .profil {
     top: 20px;
     margin-left: -75px;
-    left: 50%;
-}
+    left: 50%; }
 
 #card-player-right {
-    position: absolute;
-    right: 0;
-    width: 100px;
-    height: 140px;
-    top: 50%;
-    margin-top: -70px;
-}
+  position: absolute;
+  right: 10%;
+  width: 100px;
+  height: 140px;
+  top: 50%;
+  margin-top: -70px;
+  transform: rotate(-90deg); }
 
 #card-player-left {
-    position: absolute;
-    left: 0;
-    width: 100px;
-    height: 140px;
-    top: 50%;
-    margin-top: -70px;
-}
+  position: absolute;
+  left: 10%;
+  width: 100px;
+  height: 140px;
+  top: 50%;
+  margin-top: -70px;
+  transform: rotate(90deg); }
 
 #card-player-top {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: -50px;
-    width: 100px;
-    height: 140px;
-}
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  margin-left: -50px;
+  width: 100px;
+  height: 140px; }
 
 #card-player-bottom {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    margin-left: -50px;
-    width: 100px;
-    height: 140px;
-}
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  margin-left: -50px;
+  width: 100px;
+  height: 140px; }
 
 #score-board {
-    position: absolute;
-    top: 5px;
-    right: 20px;
-    width: 175px;
-    height: 125px;
-    background-color: whitesmoke;
-    border-radius: 5px;
-}
-
-#score-board .team-name {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  width: 175px;
+  height: 125px;
+  background-color: whitesmoke;
+  border-radius: 5px; }
+  #score-board .team-name {
     width: 100%;
     height: 25px;
     line-height: 25px;
     color: white;
-    background: #710e03;
-}
-
-#score-board .result {
+    background: #710e03; }
+  #score-board .result {
     width: 100%;
     height: 25px;
-    line-height: 25px;
-}
-
-#score-board span {
+    line-height: 25px; }
+  #score-board span {
     width: 50%;
     text-align: center;
-    display: inline-block;
-}
+    display: inline-block; }
+
+.bid-suit {
+  width: 45px;
+  height: 45px;
+  background-color: white;
+  border-radius: 50%;
+  left: -55px;
+  position: absolute;
+  bottom: 25px;
+  border: 4px solid #710e03; }
+  .bid-suit img {
+    width: 30px;
+    height: 30px;
+    margin: 7px; }
+
+.bid-value {
+  width: 35px;
+  height: 35px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  left: -35px;
+  bottom: 75px;
+  text-align: center;
+  line-height: 35px;
+  font-weight: bold;
+  border: 3px solid #710e03; }

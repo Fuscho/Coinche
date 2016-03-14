@@ -9,21 +9,21 @@ function getStateFromStore() {
     return {
         playerCards: Store.getCurrentPlayerCards(),
         playerSelectableCards : Store.getCurrentPlayerSelectableCard(),
-        biddingMode : Store.isBiddingMode(),
-        cardsOnTable : Store.getCardsOnTable()
+        bid : Store.getBid(),
+        mode : Store.getMode(),
+        cardsOnTable : Store.getCardsOnTable(),
+        score : Store.getScore()
     }
 }
 
 var GameContainer = React.createClass({
 
     getInitialState: function() {
-        var state = getStateFromStore();
-        return state;
+        return getStateFromStore();
     },
 
     _onStateChange: function() {
-        var state = getStateFromStore();
-        this.setState(state);
+        this.setState(getStateFromStore());
     },
 
     componentDidMount: function() {
@@ -37,12 +37,12 @@ var GameContainer = React.createClass({
     render : function(){
         return (
             <div className="game-container">
-                <Player position="top"/>
-                <Player position="left"/>
-                <Player position="right"/>
-                <CurrentPlayer cards={this.state.playerCards} selectableCards={this.state.playerSelectableCards}/>
-                <GameBoard biddingMode={this.state.biddingMode} cardsOnTable={this.state.cardsOnTable}/>
-                <Score/>
+                <Player position="top" bid={this.state.bid} player="2"/>
+                <Player position="left" bid={this.state.bid} player="1"/>
+                <Player position="right" bid={this.state.bid} player="3"/>
+                <CurrentPlayer cards={this.state.playerCards} selectableCards={this.state.playerSelectableCards} bid={this.state.bid} bid={this.state.bid} player="0"/>
+                <GameBoard mode={this.state.mode} cardsOnTable={this.state.cardsOnTable} score={this.state.score}/>
+                <Score score={this.state.score}/>
             </div>
         )
     }

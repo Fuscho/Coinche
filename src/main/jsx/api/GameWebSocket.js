@@ -13,6 +13,7 @@ module.exports = {
                 var res = JSON.parse(socketResponse.body);
                 var eventContent = JSON.parse(res.content);
                 var eventType = res.headers.eventType;
+                console.log(eventContent);
                 switch (eventType) {
                     case "com.fuscho.model.notification.CardPlayEvent" :
                         GameLogic.showCardPlay(eventContent.cardPlay, eventContent.playerPosition);
@@ -25,6 +26,7 @@ module.exports = {
                         break;
                     case "com.fuscho.model.notification.EndRoundEvent" :
                         console.log(eventContent);
+                        GameLogic.addToScore(eventContent);
                         break;
                 }
             });

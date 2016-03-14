@@ -18,6 +18,7 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     reactify = require('reactify'),
+    sass = require('gulp-sass'),
     package = require('./package.json');
 
 var jsx_modules_path = package.dest.jsx;
@@ -66,22 +67,31 @@ gulp.task('jsx:min', function () {
         .pipe(livereload());
 });
 
-gulp.task('watch', ['jsx'], function () {
+gulp.task('watch', ['jsx', 'sass'], function () {
     livereload.listen();
     return gulp.watch([
         package.paths.js,
-        package.paths.templates
+        package.paths.templates,
+        package.paths.scss
     ], [
-        'jsx'
+        'jsx','sass'
     ]);
 });
+
+gulp.task('sass', function () {
+    console.log("sass");
+    return gulp.src(package.paths.scss)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest(package.dest.css));
+});
+
 
 gulp.task('build-clean', function () {
     return gulp.src(package.dest.public).pipe(clean());
 });
 
 gulp.task('build', function (cb) {
-    runSequence('build-clean', 'bower:install', 'jsx', cb);
+    runSequence('build-clean', 'bower:install', 'jsx', 'sass', cb);
 });
 
 gulp.task('default', ['build']);

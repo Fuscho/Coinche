@@ -4,6 +4,7 @@ var Store = require('../store/Store.js');
 var Immutable = require('immutable');
 
 module.exports = {
+
     initGame: function () {
         GameWebSocket.connectToNotification(this);
         GameAPI.initGame(this.onGameInitilized)
@@ -11,7 +12,7 @@ module.exports = {
 
     onGameInitilized: function (playerCards) {
         Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
-        Store.setBiddingMode(true);
+        Store.setMode("bidding")
     },
 
     updatePlayerSelectableCards: function (playerSelectableCard) {
@@ -23,15 +24,22 @@ module.exports = {
     },
 
     onPlayerBidded : function(){
-        Store.setBiddingMode(false)
+        Store.setMode("playing")
+    },
+
+    playerHasBidded : function(res){
+        if(res.bid.value != null && res.bid.suit != null){
+            Store.setBid(Immutable.fromJS(res));
+        }
     },
 
     playCard : function(playCard){
-        Store.setCurrentPlayerSelectableCard([])
+        Store.setCurrentPlayerSelectableCard([]);
         GameAPI.playCard(playCard, this.onCardPlayed);
     },
 
     onCardPlayed : function(playerCards){
+        console.log(playerCards);
         Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
     },
 
@@ -59,8 +67,22 @@ module.exports = {
         }
     },
 
-    playerHasBidded : function(res){
-        console.log(res)
+    addToScore : function(currentScore){
+        currentScore = Immutable.fromJS(currentScore);
+        var teamScore;
+        if(Store.getBid().get("player") == 0 || Store.getBid().get("player")==2){
+            teamScore = {
+                "you" : currentScore.get("bidderScore"),
+                "other" : currentScore.get("otherScore")
+            };
+        } else {
+            teamScore = {
+                "other" : currentScore.get("bidderScore"),
+                "you" : currentScore.get("otherScore")
+            };
+        }
+        Store.addToScore(Immutable.fromJS(teamScore));
+        Store.setMode("score")
     }
 
 

@@ -1,4 +1,6 @@
 var React = require('react');
+var TransitionMotion = require('react-motion').TransitionMotion;
+var spring = require('react-motion').spring;
 var PlayerAction = require('../logic/PlayerAction.js');
 
 var pointValue = [80,90,100,110,120,130,140,150];
@@ -18,7 +20,7 @@ var BiddingSpinner = React.createClass({
             pointCursor = 0;
         }
         this.setState({pointCursor: pointCursor});
-        this.props.onChange(pointValue[this.state.pointCursor])
+        this.props.onChange(pointValue[pointCursor])
     },
 
     onLessBtnClick : function(){
@@ -35,7 +37,7 @@ var BiddingSpinner = React.createClass({
             <div id="point-wanted">
                 <div className="left-spinner" onClick={this.onLessBtnClick}>-</div>
                 <div className="spinner-value">{this.getValue()}</div>
-                <div className="left-spinner" onClick={this.onMoreBtnClick}>+</div>
+                <div className="right-spinner" onClick={this.onMoreBtnClick}>+</div>
             </div>
         )
     }
@@ -45,6 +47,12 @@ var BiddingContainer = React.createClass({
 
     getInitialState: function() {
         return {value: 80, suit : null};
+    },
+
+    componentDidMount : function(){
+        setTimeout(function(){
+            $("#bid-container").addClass("appear");
+        }, 100);
     },
 
     onBitButtonClick : function(){
@@ -79,7 +87,7 @@ var BiddingContainer = React.createClass({
                         <img src="/img/suit/diamonds.png" alt="suit-diamonds" data-suit="Diamonds"/>
                     </div>
                     <div onClick={this.onSuitSelected}>
-                        <img src="/img/suit/spade.png" alt="suit-spade" data-suit="Spades"/>
+                        <img src="/img/suit/spades.png" alt="suit-spade" data-suit="Spades"/>
                     </div>
                 </div>
                 <button id="bid-btn" onClick={this.onBitButtonClick}>Prendre</button>
@@ -136,15 +144,42 @@ var CardsOnTableContainer = React.createClass({
     }
 });
 
+var ResultatContainer = React.createClass({
+
+    componentDidMount : function(){
+        setTimeout(function(){
+            $("#resultat-container").addClass("appear");
+        }, 100);
+    },
+
+    render : function(){
+       var score = this.props.score.get(this.props.score.count() - 1);
+       return (
+           <div id="resultat-container">
+               <p>
+                   Contrat rempli !<br/>
+                   Votre équipe marque <br/>
+                   <span className="points">{score.get("you")}</span> pts <br/>
+                   Vos adversaires marquent {score.get("other")} pts
+               </p>
+           </div>
+       )
+   }
+
+});
 var GameBoard = React.createClass({
     render : function(){
         var mode = null;
-        if(this.props.biddingMode){
-            mode = (<BiddingContainer/>);
-            console.log("Bidding");
-        } else {
-            mode = (<CardsOnTableContainer cardsOnTable={this.props.cardsOnTable}/>);
-            console.log("Cards on table");
+        switch(this.props.mode) {
+            case "bidding" :
+                mode = (<BiddingContainer/>);
+                break;
+            case "playing" :
+                mode = (<CardsOnTableContainer cardsOnTable={this.props.cardsOnTable}/>);
+                break;
+            case "score" :
+                mode = (<ResultatContainer score={this.props.score}/>);
+                break;
         }
         return (
             <div id="game-board">

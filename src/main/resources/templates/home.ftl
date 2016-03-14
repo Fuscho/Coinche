@@ -11,6 +11,7 @@
     <script src="js/bundle.js"></script>
     <script src="/bower_components/sockjs/sockjs.js"></script>
     <script src="/bower_components/stomp-websocket/lib/stomp.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
 </head>
 <body>
     <div id="app"></div>
