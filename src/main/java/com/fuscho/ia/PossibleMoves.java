@@ -10,6 +10,7 @@ import com.fuscho.model.player.Player;
 import com.fuscho.model.player.TeamManager;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +132,25 @@ public class PossibleMoves {
 
     public static void updatePonderation(HashMap<Card,Double> possibleMoves,Double ponderation, Card card) {
         possibleMoves.put(card, ponderation);
+    }
+
+
+    /*GET possible moves of a player where ponderation is different than 0*/
+    public static List<Card> getOtherPlayerPossibleMoves(IAPlayer iaPlayer,Player player){
+        //Get otherPLayer corresponding to the player in otherPlayers of iaPlayer
+        OtherPlayer nextOtherPlayer = iaPlayer.getOtherPlayers().stream().filter(otherPlayer -> otherPlayer.getPlayer()==player).findFirst().get();
+
+        //Get possible moves ponderation different than 0
+        Map<Card,Double> possibleMoves = nextOtherPlayer.getPossibleMoves().entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() != 0.0)
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
+
+        //Get just Card no ponderation
+        List<Card> cardsCanPlay = new ArrayList<>();
+        cardsCanPlay.addAll(possibleMoves.keySet());
+
+        return cardsCanPlay;
     }
 
 //TODO update PONDERATION when all player except one have 0 on ponderation => for this player ponderation == 1

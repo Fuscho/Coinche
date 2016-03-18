@@ -10,6 +10,8 @@ public class Card {
     private SuitCard suit;
     private ValueCard value;
 
+    public Card(){}
+
     public Card(SuitCard suit, ValueCard value){
         this.suit = suit;
         this.value = value;

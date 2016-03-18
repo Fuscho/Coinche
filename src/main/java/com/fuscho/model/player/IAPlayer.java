@@ -1,16 +1,17 @@
 package com.fuscho.model.player;
 
-import com.fuscho.ia.PossibleMoves;
-import com.fuscho.model.card.Card;
-import com.fuscho.model.card.factory.CardFactory;
-import com.fuscho.model.game.TurnRound;
-import com.fuscho.operation.Rule;
-import lombok.Data;
+        import com.fuscho.ia.MoveToPlay;
+        import com.fuscho.ia.PossibleMoves;
+        import com.fuscho.model.card.Card;
+        import com.fuscho.model.card.factory.CardFactory;
+        import com.fuscho.model.game.TurnRound;
+        import com.fuscho.operation.Rule;
+        import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.stream.Collectors;
 
 /**
  * Créer par mchoraine le 26/02/2016.
@@ -28,6 +29,14 @@ public class IAPlayer extends Player{
     public Card getRandomCard(TurnRound currentTurn) {
         List<Card> possibleMoves = Rule.getPossibleMoves(this.getCards(), currentTurn.getSuitAsked(), currentTurn.getTrumpSuit(), currentTurn.getMasterCard(), currentTurn.isPartenaireMaster(this));
         return possibleMoves.get(0);
+    }
+
+    public Card getMoveToPlay(TurnRound currentTurn){
+        //TODO INIT HASHMAP WITH CARD ON TABLE
+        List<Card> possibleMoves = Rule.getPossibleMoves(this.getCards(), currentTurn.getSuitAsked(), currentTurn.getTrumpSuit(), currentTurn.getMasterCard(), currentTurn.isPartenaireMaster(this));
+        Card cardToPlay = new Card();
+        MoveToPlay.negamax(this,this,possibleMoves,null,currentTurn.getTrumpSuit(),-MoveToPlay.infinite,MoveToPlay.infinite,cardToPlay);
+        return cardToPlay;
     }
 
     public void initPossibleMoves(List<Player> otherPlayers){

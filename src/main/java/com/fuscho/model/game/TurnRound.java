@@ -1,7 +1,10 @@
 package com.fuscho.model.game;
 
+import com.fuscho.ia.PossibleMoves;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
+import com.fuscho.model.player.IAPlayer;
+import com.fuscho.model.player.OtherPlayer;
 import com.fuscho.model.player.Player;
 import com.fuscho.operation.Rule;
 import lombok.Data;
@@ -31,6 +34,8 @@ public class TurnRound {
 
     public void play(Player player, Card card){
         if(player.equals(playerTurn)){
+            //Update all ponderation for all ia players
+            updatePonderation(player,card);
             if(cardsOnTable.size() == 0){
                 cardsOnTable.add(card);
                 suitAsked = card.getSuit();
@@ -53,5 +58,17 @@ public class TurnRound {
 
     public void winnerCollectCards() {
         winning.addCardsWin(cardsOnTable);
+    }
+
+    public void updatePonderation(Player playerPlayCard, Card cardPlay){
+        for(Player player : Game.getInstance().getPlayers()){
+            if(player instanceof IAPlayer && player != playerPlayCard){
+                //(TurnRound turnRound, Player playerPlayCard,Player iaPlayer, Card cardPlay, OtherPlayer otherPlayer)
+                IAPlayer iaPlayer = (IAPlayer) player;
+                for(OtherPlayer otherPlayer : iaPlayer.getOtherPlayers()){
+                    PossibleMoves.updatePossibleMove(this, playerPlayCard,iaPlayer,cardPlay,otherPlayer);
+                }
+            }
+        }
     }
 }
