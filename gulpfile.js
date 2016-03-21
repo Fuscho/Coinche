@@ -79,7 +79,6 @@ gulp.task('watch', ['jsx', 'sass'], function () {
 });
 
 gulp.task('sass', function () {
-    console.log("sass");
     return gulp.src(package.paths.scss)
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(package.dest.css));

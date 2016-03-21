@@ -35,5 +35,15 @@ module.exports =  {
         }).success(function(response){
             GameLogicCallback(response);
         })
+    },
+
+    nextRound : function(GameLogicCallback){
+        $.ajax({
+            url: "/api/next-round",
+            method: 'POST',
+            contentType: 'application/json'
+        }).success(function(response){
+            GameLogicCallback(response);
+        })
     }
 };

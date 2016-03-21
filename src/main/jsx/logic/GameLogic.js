@@ -55,6 +55,7 @@ module.exports = {
         }
         if (Store.getCardsOnTable().length == 4) {
             Store.setEndTurn(true);
+            setTimeout(this.goNextTurn, 800);
         }
     },
 
@@ -64,6 +65,8 @@ module.exports = {
             Store.setCardOnTable(Store.getCardsOnTableQueue());
             Store.removeCardsOnTableQueue();
             Store.setEndTurn(false);
+        } else {
+            GameAPI.nextRound(this.onGameInitilized)
         }
     },
 
