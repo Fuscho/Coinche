@@ -7,7 +7,6 @@
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/card.css">
-    <script src="js/game.js"></script>
     <script src="js/bundle.js"></script>
     <script src="/bower_components/sockjs/sockjs.js"></script>
     <script src="/bower_components/stomp-websocket/lib/stomp.js"></script>

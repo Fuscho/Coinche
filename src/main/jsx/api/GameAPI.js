@@ -1,5 +1,23 @@
 module.exports =  {
 
+    getRooms : function(GameCallback){
+        $.ajax({
+            url: "/api/room/",
+            method: "GET"
+        }).done(function (data) {
+            GameCallback(data);
+        });
+    },
+
+    createRoom : function(){
+        $.ajax({
+            url: "/api/room/create",
+            method: "POST"
+        }).done(function (data) {
+            //GameCallback(data);
+        });
+    },
+
     initGame : function(GameCallback){
         $.ajax({
             url: "/api/init",

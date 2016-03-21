@@ -10,8 +10,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
+    @RequestMapping("/auth")
+    public ModelAndView authentification() {
+        return new ModelAndView("auth");
+    }
+
     @RequestMapping("/")
     public ModelAndView index() {
+        ModelAndView home = new ModelAndView("room");
+        return home;
+    }
+
+    @RequestMapping("/game")
+    public ModelAndView game() {
         ModelAndView home = new ModelAndView("home");
         home.addObject("user", "JB");
         return home;

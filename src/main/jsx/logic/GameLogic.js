@@ -5,6 +5,18 @@ var Immutable = require('immutable');
 
 module.exports = {
 
+    getRooms : function(){
+        GameAPI.getRooms(this.onRoomsRetrieved)
+    },
+
+    onRoomsRetrieved : function(rooms){
+      console.log(rooms)
+    },
+
+    createRoom : function(){
+        GameAPI.createRoom()
+    },
+
     initGame: function () {
         GameWebSocket.connectToNotification(this);
         GameAPI.initGame(this.onGameInitilized)

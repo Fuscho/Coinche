@@ -2,10 +2,7 @@ package com.fuscho.service;
 
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
-import com.fuscho.model.game.Bidding;
-import com.fuscho.model.game.ContractPoint;
-import com.fuscho.model.game.Game;
-import com.fuscho.model.game.RoundGame;
+import com.fuscho.model.game.*;
 import com.fuscho.model.notification.BidEvent;
 import com.fuscho.model.notification.CardPlayEvent;
 import com.fuscho.model.notification.EndRoundEvent;
@@ -20,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +29,8 @@ public class GameLogicService {
 
     @Autowired
     private StompMessagingService messagingService;
+
+    private List<Room> rooms = new ArrayList<>();
 
     public void playCard(Game game, Player player, Card cardPlay){
         RoundGame roundGame = game.getCurrentRound();
@@ -74,5 +74,16 @@ public class GameLogicService {
         } else {
             bettingRound(game, game.getNextPlayer(player), new Bidding(null, null));
         }
+    }
+
+    public Integer createRoom() {
+        Room e = new Room();
+        e.addUser(AuthentificationService.getAuthUser().getPseudo());
+        rooms.add(e);
+        return rooms.size() - 1;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
     }
 }
