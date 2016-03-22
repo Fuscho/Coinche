@@ -35,7 +35,7 @@ public class TurnRound {
     public void play(Player player, Card card){
         if(player.equals(playerTurn)){
             //Update all ponderation for all ia players
-            updatePonderation(player,card);
+//            updatePonderation(player,card);
             if(cardsOnTable.size() == 0){
                 cardsOnTable.add(card);
                 suitAsked = card.getSuit();

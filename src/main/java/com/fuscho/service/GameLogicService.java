@@ -2,25 +2,21 @@ package com.fuscho.service;
 
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
-import com.fuscho.model.game.Bidding;
-import com.fuscho.model.game.ContractPoint;
-import com.fuscho.model.game.Game;
-import com.fuscho.model.game.RoundGame;
-import com.fuscho.model.notification.BidEvent;
-import com.fuscho.model.notification.CardPlayEvent;
-import com.fuscho.model.notification.EndRoundEvent;
-import com.fuscho.model.notification.PlayerTurnEvent;
+import com.fuscho.model.game.*;
+import com.fuscho.model.notification.*;
 import com.fuscho.model.player.HumanPlayer;
 import com.fuscho.model.player.IAPlayer;
 import com.fuscho.model.player.Player;
 import com.fuscho.operation.Rule;
+import com.fuscho.rest.resources.RoomResource;
 import com.fuscho.websocket.MessageBuilder;
 import com.fuscho.websocket.StompMessagingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Créer par mchoraine le 05/03/2016.
@@ -31,6 +27,8 @@ public class GameLogicService {
 
     @Autowired
     private StompMessagingService messagingService;
+
+    private Map<String,Room> rooms = new HashMap<>();
 
     public void playCard(Game game, Player player, Card cardPlay){
         RoundGame roundGame = game.getCurrentRound();
@@ -74,5 +72,18 @@ public class GameLogicService {
         } else {
             bettingRound(game, game.getNextPlayer(player), new Bidding(null, null));
         }
+    }
+
+    public Integer createRoom() {
+        Room e = new Room();
+        e.addPlayer(new HumanPlayer(AuthentificationService.getAuthUser()));
+        String id = UUID.randomUUID().toString();
+        rooms.put(id,e);
+        messagingService.send(MessageBuilder.message(new RoomCreatedEvent(e, id)));
+        return rooms.size() - 1;
+    }
+
+    public List<RoomResource> getRooms() {
+        return rooms.entrySet().stream().map(room -> RoomResource.createResourceFromRoom(room.getValue(), room.getKey())).collect(Collectors.toList());
     }
 }

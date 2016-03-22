@@ -4,6 +4,7 @@ var Immutable = require('immutable');
 
 var STATE_CHANGE_EVENT = 'state.changed';
 
+var _rooms = [];
 var _currentPlayerCards = [];
 var _currentPlayerSelectableCards = [];
 var _cardsOnTable = [];
@@ -26,6 +27,20 @@ var store = assign({}, eventEmitter.prototype, {
 
     removeStateChangeListener: function (callback) {
         this.removeListener(STATE_CHANGE_EVENT, callback);
+    },
+
+    getRooms : function(){
+        return _rooms;
+    },
+
+    setRooms : function(rooms){
+        _rooms = rooms;
+        store.emitStateChange();
+    },
+
+    addRoom : function(room){
+        _rooms.push(room);
+        store.emitStateChange();
     },
 
     setCurrentPlayerCards : function(playerCards){

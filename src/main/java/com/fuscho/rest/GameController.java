@@ -9,6 +9,7 @@ import com.fuscho.model.player.IAPlayer;
 import com.fuscho.model.player.OtherPlayer;
 import com.fuscho.model.player.Player;
 import com.fuscho.operation.Rule;
+import com.fuscho.service.AuthentificationService;
 import com.fuscho.websocket.Message;
 import com.fuscho.websocket.StompMessagingService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class GameController {
         IAPlayer player2 = new IAPlayer("IA1");
         IAPlayer player3 = new IAPlayer("IA2");
         IAPlayer player4 = new IAPlayer("IA3");
-        game.addPlayer(new HumanPlayer("Human"));
+        game.addPlayer(new HumanPlayer(AuthentificationService.getAuthUser()));
         game.addPlayer(player2);
         game.addPlayer(player3);
         game.addPlayer(player4);

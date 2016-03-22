@@ -25,8 +25,10 @@ module.exports = {
                         GameLogic.playerHasBidded(eventContent);
                         break;
                     case "com.fuscho.model.notification.EndRoundEvent" :
-                        console.log(eventContent);
                         GameLogic.addToScore(eventContent);
+                        break;
+                    case "com.fuscho.model.notification.RoomCreatedEvent" :
+                        GameLogic.addRoom(eventContent.room);
                         break;
                 }
             });

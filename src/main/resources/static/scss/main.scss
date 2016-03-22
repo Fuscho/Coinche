@@ -388,3 +388,24 @@ html, body {
   font-weight: bold;
   border: 3px solid #710e03;
 }
+
+
+#rooms {
+
+  .room {
+    width: 50%;
+    height: 100px;
+    margin: 10px auto;
+
+    .player-in-room {
+      display: inline-block;
+      width: 75px;
+      height: 75px;
+      background: blue;
+      text-align: center;
+      line-height: 75px;
+      margin: 5px 10px;
+    }
+  }
+
+}

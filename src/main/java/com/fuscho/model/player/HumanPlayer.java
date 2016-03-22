@@ -1,5 +1,6 @@
 package com.fuscho.model.player;
 
+import com.fuscho.model.User;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.game.TurnRound;
 
@@ -8,8 +9,11 @@ import com.fuscho.model.game.TurnRound;
  */
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(String name) {
-        this.setName(name);
+    private User user;
+
+    public HumanPlayer(User user) {
+        this.user = user;
+        this.setName(user.getUsername());
     }
 
     @Override
