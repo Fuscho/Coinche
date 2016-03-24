@@ -4,7 +4,6 @@ var Score = React.createClass({
 
     render: function () {
         var score = null;
-        console.log(this.props.score);
         if(this.props.score){
             score = this.props.score.map(function(item){
                 return (<div className="result">

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bidding {
+    private BidAction action;
     private String suit;
     private Integer value;
 }

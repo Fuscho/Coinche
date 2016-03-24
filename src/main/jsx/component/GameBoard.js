@@ -4,6 +4,8 @@ var spring = require('react-motion').spring;
 var PlayerAction = require('../logic/PlayerAction.js');
 
 var pointValue = [80,90,100,110,120,130,140,150];
+var ACTION_PASS = "PASS";
+var ACTION_BID = "BID";
 var BiddingSpinner = React.createClass({
 
     getInitialState: function() {
@@ -57,8 +59,15 @@ var BiddingContainer = React.createClass({
 
     onBitButtonClick : function(){
         PlayerAction.bidding({
+            action :  ACTION_BID,
             value :  this.state.value,
             suit:  this.state.suit
+        })
+    },
+
+    onPassButtonClick : function(){
+        PlayerAction.bidding({
+            action :  ACTION_PASS
         })
     },
 
@@ -91,6 +100,7 @@ var BiddingContainer = React.createClass({
                     </div>
                 </div>
                 <button id="bid-btn" onClick={this.onBitButtonClick}>Prendre</button>
+                <button id="bid-btn" onClick={this.onPassButtonClick}>Passer</button>
             </div>
         )
     }
@@ -111,17 +121,20 @@ var CardsOnTableContainer = React.createClass({
         var cardLeft;
         var cardRight;
         var cardBottom;
+        var players = this.props.players;
+        console.log("players", players);
+        console.log("cards", this.props.cardsOnTable);
         this.props.cardsOnTable.forEach(function(cardOnTable){
-            if(cardOnTable.get("player") == 0){
+            if(cardOnTable.get("player") == players.get("currentPlayer").get("name")){
                 cardBottom = (<Card card={cardOnTable.get("card")}/>);
             }
-            if(cardOnTable.get("player") == 1){
+            if(cardOnTable.get("player") == players.get("leftPlayer").get("name")){
                 cardLeft = (<Card card={cardOnTable.get("card")}/>);
             }
-            if(cardOnTable.get("player") == 2){
+            if(cardOnTable.get("player") == players.get("topPlayer").get("name")){
                 cardTop = (<Card card={cardOnTable.get("card")}/>);
             }
-            if(cardOnTable.get("player") == 3){
+            if(cardOnTable.get("player") == players.get("rightPlayer").get("name")){
                 cardRight = (<Card card={cardOnTable.get("card")}/>);
             }
         });
@@ -175,7 +188,7 @@ var GameBoard = React.createClass({
                 mode = (<BiddingContainer/>);
                 break;
             case "playing" :
-                mode = (<CardsOnTableContainer cardsOnTable={this.props.cardsOnTable}/>);
+                mode = (<CardsOnTableContainer cardsOnTable={this.props.cardsOnTable} players={this.props.players}/>);
                 break;
             case "score" :
                 mode = (<ResultatContainer score={this.props.score}/>);

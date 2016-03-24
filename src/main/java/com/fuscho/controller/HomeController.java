@@ -1,5 +1,6 @@
 package com.fuscho.controller;
 
+import com.fuscho.service.AuthentificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +19,7 @@ public class HomeController {
     @RequestMapping("/")
     public ModelAndView index() {
         ModelAndView home = new ModelAndView("room");
+        home.addObject("user", AuthentificationService.getAuthUser());
         return home;
     }
 

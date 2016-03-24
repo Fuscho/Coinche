@@ -13,11 +13,11 @@ public class MessageBuilder {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static Message message(Event event){
-        String content = null;
+        String content;
         try {
             content = objectMapper.writeValueAsString(event);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            content = null;
         }
         Map<String,Object> headers = new HashMap<>();
         headers.put(EventHeaders.EVENT_TYPE, event.getClass().getCanonicalName().toString());

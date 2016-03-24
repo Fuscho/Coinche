@@ -33,7 +33,7 @@ var CurrentPlayer = React.createClass({
     },
 
     shouldComponentUpdate : function(nextProps){
-        return nextProps.cards==this.props.cards;
+        return nextProps.cards!=this.props.cards || nextProps.bid!=this.props.bid || nextProps.selectableCards != this.props.selectableCards;
     },
 
     render: function () {
@@ -60,8 +60,7 @@ var CurrentPlayer = React.createClass({
                 )
             });
         }
-
-        if(this.props.bid && parseInt(this.props.bid.get("player"))==parseInt(this.props.player)){
+        if(this.props.bid && this.props.bid.get("player")==this.props.player.get("name")){
             var suitUrlImg = "/img/suit/"+this.props.bid.get("bid").get("suit").toLowerCase()+".png",
             bid = (
                 <div className="player-bid">

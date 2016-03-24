@@ -9,12 +9,12 @@ import lombok.Getter;
 public class BidEvent implements Event {
 
     @Getter
-    private Integer player;
+    private String player;
 
     @Getter
     private Bidding bid;
 
-    public BidEvent(Integer player, Bidding bid) {
+    public BidEvent(String player, Bidding bid) {
         this.player = player;
         this.bid = bid;
     }

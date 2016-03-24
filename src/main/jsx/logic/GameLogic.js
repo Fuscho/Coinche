@@ -21,14 +21,33 @@ module.exports = {
         GameAPI.createRoom()
     },
 
+    addIAinRoom : function(idRoom){
+        GameAPI.addIAinRoom(idRoom);
+    },
+
+    userJoinRoom : function(idRoom){
+        GameAPI.userJoinRoom(idRoom);
+    },
+
+    updateRoom : function(room){
+        Store.updateRoom(room);
+    },
+
+    setGameStarted : function(players, isGameStarted){
+        Store.setGame(Immutable.fromJS(players));
+        Store.setGameStarted(isGameStarted)
+    },
+
     initGame: function () {
-        GameWebSocket.connectToNotification(this);
-        GameAPI.initGame(this.onGameInitilized)
+        GameWebSocket.connectToNotification(Store.getUser(), this);
     },
 
     onGameInitilized: function (playerCards) {
         Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
-        Store.setMode("bidding")
+    },
+
+    playerHasToBid : function(){
+        Store.setMode("bidding");
     },
 
     updatePlayerSelectableCards: function (playerSelectableCard) {
@@ -36,11 +55,15 @@ module.exports = {
     },
 
     playerBidding : function(playerBid){
-        GameAPI.playerBidding(playerBid, this.onPlayerBidded);
+        GameAPI.playerBidding(Store.getGame().get("idGame"), playerBid, this.onPlayerBidded);
     },
 
     onPlayerBidded : function(){
         Store.setMode("playing")
+    },
+
+    playerShouldBid : function(){
+        Store.setMode("bidding")
     },
 
     playerHasBidded : function(res){
@@ -51,12 +74,11 @@ module.exports = {
 
     playCard : function(playCard){
         Store.setCurrentPlayerSelectableCard([]);
-        GameAPI.playCard(playCard, this.onCardPlayed);
+        GameAPI.playCard(Store.getGame().get("idGame"), playCard, this.onCardPlayed);
     },
 
     onCardPlayed : function(playerCards){
-        console.log(playerCards);
-        Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
+-        Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
     },
 
     showCardPlay : function(cardPlayed, player){

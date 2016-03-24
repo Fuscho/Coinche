@@ -25,9 +25,10 @@ public class Game {
         return INSTANCE;
     }
 
-    public Game(){
+    public Game(List<Player> users){
         this.cardPack = new CardPack();
         this.teamManager = new TeamManager();
+        this.players = users;
         INSTANCE = this;
     }
 
@@ -75,18 +76,6 @@ public class Game {
         }*/
         players.stream().forEach(player -> cardPack.addCards(player.getCardsWin()));
         players.stream().forEach(player -> player.setCardsWin(new ArrayList<>()));
-    }
-
-    /**
-     * Add players to the game (4 players max)
-     * @param player player to add
-     */
-    public void addPlayer(Player player){
-        if(players == null){
-            players = Arrays.asList(new Player[4]);
-        }
-        int position = players.indexOf(null);
-        players.set(position, player);
     }
 
     /**
@@ -156,4 +145,7 @@ public class Game {
         return teamManager;
     }
 
+    public Player getPlayer(String pseudo) {
+        return players.stream().filter(player -> player.getName().equals(pseudo)).findFirst().get();
+    }
 }

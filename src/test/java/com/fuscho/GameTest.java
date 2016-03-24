@@ -1,5 +1,6 @@
 package com.fuscho;
 
+import com.fuscho.model.User;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
 import com.fuscho.model.game.*;
@@ -9,6 +10,7 @@ import com.fuscho.operation.Rule;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,16 +21,12 @@ public class GameTest {
     @Test
     public void shouldPlay(){
         // Create a game
-        Game game = new Game();
         // Add player to game
-        Player player1 = new HumanPlayer("Player1");
-        Player player2 = new HumanPlayer("Player2");
-        Player player3 = new HumanPlayer("Player3");
-        Player player4 = new HumanPlayer("Player4");
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
-        game.addPlayer(player4);
+        Player player1 = new HumanPlayer(new User("player1"));
+        Player player2 = new HumanPlayer(new User("player1"));
+        Player player3 = new HumanPlayer(new User("Player3"));
+        Player player4 = new HumanPlayer(new User("Player4"));
+        Game game = new Game(Arrays.asList(player1, player2, player3, player4));
         // Launch the game and round
         game.launchGame();
         RoundGame roundGame = game.startRound();

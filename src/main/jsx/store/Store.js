@@ -5,6 +5,8 @@ var Immutable = require('immutable');
 var STATE_CHANGE_EVENT = 'state.changed';
 
 var _rooms = [];
+var _isGameStarted = false;
+var _gamePlayers = [];
 var _currentPlayerCards = [];
 var _currentPlayerSelectableCards = [];
 var _cardsOnTable = [];
@@ -12,8 +14,9 @@ var _cardsOnTableQueue = [];
 var _cardsHistory = [];
 var _endTurn = false;
 var _currentMode = false;
-var _currentBid = null;
+var _currentBid = Immutable.fromJS({});
 var _score = Immutable.fromJS([]);
+var _currentUser = window.user;
 
 var store = assign({}, eventEmitter.prototype, {
 
@@ -29,6 +32,10 @@ var store = assign({}, eventEmitter.prototype, {
         this.removeListener(STATE_CHANGE_EVENT, callback);
     },
 
+    getUser : function(){
+        return _currentUser;
+    },
+
     getRooms : function(){
         return _rooms;
     },
@@ -41,6 +48,35 @@ var store = assign({}, eventEmitter.prototype, {
     addRoom : function(room){
         _rooms.push(room);
         store.emitStateChange();
+    },
+
+    updateRoom : function(roomToUpdate){
+        _rooms = _rooms.map(function(room){
+            if(room.id == roomToUpdate.id){
+                return roomToUpdate;
+            } else {
+                return room;
+            }
+        });
+        store.emitStateChange();
+    },
+
+    isGameStarted : function(){
+        return _isGameStarted;
+    },
+
+    setGameStarted : function(isGameStarted){
+        _isGameStarted = isGameStarted;
+        store.emitStateChange();
+    },
+
+    setGame : function(players){
+        _gamePlayers = players;
+        store.emitStateChange();
+    },
+
+    getGame : function(){
+        return _gamePlayers;
     },
 
     setCurrentPlayerCards : function(playerCards){

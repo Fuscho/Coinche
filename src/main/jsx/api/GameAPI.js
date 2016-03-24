@@ -13,25 +13,37 @@ module.exports =  {
         $.ajax({
             url: "/api/room/create",
             method: "POST"
-        }).done(function (data) {
-            //GameCallback(data);
         });
     },
 
-    initGame : function(GameCallback){
+    addIAinRoom : function(idRoom){
         $.ajax({
-            url: "/api/init",
-            method: "POST"
-        }).done(function (data) {
-            GameCallback(data);
-        });
+            url: "/api/room/add",
+            method: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                idRoom: idRoom
+            })
+        })
     },
 
-    playerBidding: function(playerBid, GameLogicCallback){
+    userJoinRoom : function(idRoom) {
         $.ajax({
-            url: "/api/bid",
+            url: "/api/room/join",
+            method: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                idRoom: idRoom
+            })
+        })
+    },
+
+    playerBidding: function(gameID, playerBid, GameLogicCallback){
+        $.ajax({
+            url: "/api/bid/"+gameID,
             method: 'POST',
             data: JSON.stringify({
+                action : playerBid.action,
                 value: playerBid.value,
                 suit: playerBid.suit
             }),
@@ -41,9 +53,9 @@ module.exports =  {
         })
     },
 
-    playCard : function(cardPlayed, GameLogicCallback){
+    playCard : function(gameID, cardPlayed, GameLogicCallback){
         $.ajax({
-            url: "/api/play",
+            url: "/api/play/"+gameID,
             method: 'POST',
             data: JSON.stringify({
                 value: cardPlayed.get("value"),

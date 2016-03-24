@@ -14,5 +14,5 @@ public class CardPlayEvent implements Event {
     private Card cardPlay;
 
     @Getter
-    private Integer playerPosition;
+    private String player;
 }

@@ -1,6 +1,7 @@
 package com.fuscho.model.player;
 
 
+import com.fuscho.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -33,10 +34,10 @@ public class TeamManagerTest {
 
     @Test
     public void getAdversaryTeam(){
-        Player player1 = new HumanPlayer("IA1");
-        Player player2 = new HumanPlayer("IA2");
-        Player player3 = new HumanPlayer("IA3");
-        Player player4 = new HumanPlayer("IA4");
+        Player player1 = new HumanPlayer(new User("IA1"));
+        Player player2 = new HumanPlayer(new User("IA2"));
+        Player player3 = new HumanPlayer(new User("IA3"));
+        Player player4 = new HumanPlayer(new User("IA4"));
 
         Team team1 = new Team(player1,player3);
         Team team2 = new Team(player2,player4);
@@ -72,10 +73,10 @@ public class TeamManagerTest {
 
     @Test
     public void getIfAdversary(){
-        Player player1 = new HumanPlayer("IA1");
-        Player player2 = new HumanPlayer("IA2");
-        Player player3 = new HumanPlayer("IA3");
-        Player player4 = new HumanPlayer("IA4");
+        Player player1 = new HumanPlayer(new User("IA1"));
+        Player player2 = new HumanPlayer(new User("IA2"));
+        Player player3 = new HumanPlayer(new User("IA3"));
+        Player player4 = new HumanPlayer(new User("IA4"));
 
         Team team1 = new Team(player1,player3);
         Team team2 = new Team(player2,player4);

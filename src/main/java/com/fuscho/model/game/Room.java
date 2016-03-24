@@ -1,11 +1,11 @@
 package com.fuscho.model.game;
 
-import com.fuscho.model.User;
 import com.fuscho.model.player.Player;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,7 +14,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Room {
-    private List<Player> users = new ArrayList<>();
+    private Player creator;
+    private List<Player> users;
+
+    public Room(Player creator){
+        this.creator = creator;
+        this.users = new ArrayList<>(Arrays.asList(creator));
+    }
 
     public void addPlayer(Player user){
         users.add(user);

@@ -1,15 +1,16 @@
 package com.fuscho.model.game;
 
+import com.fuscho.model.User;
 import com.fuscho.model.card.Card;
 import com.fuscho.model.card.SuitCard;
 import com.fuscho.model.card.ValueCard;
 import com.fuscho.model.player.HumanPlayer;
-import com.fuscho.model.player.IAPlayer;
 import com.fuscho.model.player.Player;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Créer par mchoraine le 27/02/2016.
@@ -18,17 +19,17 @@ public class RoundGameTest {
 
     @Test
     public void shouldCountScore(){
-        Player player1 = new HumanPlayer("IA1");
-        Player player2 = new HumanPlayer("IA2");
-        Player player3 = new HumanPlayer("IA3");
-        Player player4 = new HumanPlayer("IA4");
+        Player player1 = new HumanPlayer(new User("IA1"));
+        Player player2 = new HumanPlayer(new User("IA2"));
+        Player player3 = new HumanPlayer(new User("IA3"));
+        Player player4 = new HumanPlayer(new User("IA4"));
 
         player1.addCards(new ArrayList<Card>(){{add(new Card(SuitCard.Hearts, ValueCard.Ace));}});
         player2.addCards(new ArrayList<Card>(){{add(new Card(SuitCard.Hearts, ValueCard.Jack));}});
         player3.addCards(new ArrayList<Card>(){{add(new Card(SuitCard.Clubs, ValueCard.Ten));}});
         player4.addCards(new ArrayList<Card>(){{add(new Card(SuitCard.Hearts, ValueCard.Queen));}});
 
-        Game game = new Game();
+        Game game = new Game(Arrays.asList(player1, player2, player3, player4));
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.addPlayer(player3);

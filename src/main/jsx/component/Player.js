@@ -4,7 +4,7 @@ var Player = React.createClass({
     render : function(){
         var player = "player-"+this.props.position;
         var bid = null;
-        if(this.props.bid && parseInt(this.props.bid.get("player"))==parseInt(this.props.player)){
+        if(this.props.bid && this.props.bid.get("player")==this.props.player){
             bid = (
                 <div className="player-bid">
                     <div className="bid-suit">{this.props.bid.get("bid").get("suit")}</div>
@@ -16,7 +16,7 @@ var Player = React.createClass({
             <div id={player}>
                 <div className="profil">
                     <div className="avatar"></div>
-                    <div className="player-name">IA</div>
+                    <div className="player-name">{this.props.player}</div>
                 </div>
                 {bid}
             </div>

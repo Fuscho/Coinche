@@ -1,5 +1,6 @@
 package com.fuscho.websocket;
 
+import com.fuscho.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -25,6 +26,12 @@ public class StompMessagingService implements ApplicationListener<ContextStarted
     @Async
     public Void send(Message msg) {
         this.messagingTemplate.convertAndSend("/topic/notifications", msg);
+        return null;
+    }
+
+    @Async
+    public Void send(String user, Message msg) {
+        this.messagingTemplate.convertAndSendToUser(user, "/queue/notifications", msg);
         return null;
     }
 

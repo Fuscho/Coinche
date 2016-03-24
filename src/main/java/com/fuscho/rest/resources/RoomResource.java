@@ -14,12 +14,14 @@ import java.util.stream.Collectors;
 public class RoomResource {
 
     private String id;
+    private String creator;
     private List<String> usersName;
 
     public static RoomResource createResourceFromRoom(Room room, String id){
         RoomResource roomResource = new RoomResource();
         roomResource.setUsersName(room.getUsers().stream().map(Player::getName).collect(Collectors.toList()));
         roomResource.setId(id);
+        roomResource.setCreator(room.getCreator().getName());
         return roomResource;
     }
 }

@@ -8,15 +8,15 @@ import com.fuscho.model.player.HumanPlayer;
 import com.fuscho.model.player.IAPlayer;
 import com.fuscho.model.player.Player;
 import com.fuscho.operation.Rule;
-import com.fuscho.rest.resources.RoomResource;
 import com.fuscho.websocket.MessageBuilder;
 import com.fuscho.websocket.StompMessagingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Créer par mchoraine le 05/03/2016.
@@ -28,20 +28,24 @@ public class GameLogicService {
     @Autowired
     private StompMessagingService messagingService;
 
-    private Map<String,Room> rooms = new HashMap<>();
+    private Map<String,Game> games = new HashMap<>();
+
+
+    public Game getGame(String gameID) {
+        return games.get(gameID);
+    }
 
     public void playCard(Game game, Player player, Card cardPlay){
         RoundGame roundGame = game.getCurrentRound();
         roundGame.playerPlayCard(player, cardPlay);
-        Integer playerPosition = game.getPlayers().indexOf(player);
-        messagingService.send(MessageBuilder.message(new CardPlayEvent(cardPlay, playerPosition)));
+        messagingService.send(MessageBuilder.message(new CardPlayEvent(cardPlay, player.getName())));
         Player nextPlayerTurn = roundGame.getCurrentTurn().getPlayerTurn();
         if(!roundGame.isEndRound()){
             if(nextPlayerTurn instanceof IAPlayer){
                 Card randomCard = nextPlayerTurn.getRandomCard(roundGame.getCurrentTurn());
                 playCard(game, nextPlayerTurn, randomCard);
             } else if (nextPlayerTurn instanceof HumanPlayer){
-                messagingService.send(MessageBuilder.message(new PlayerTurnEvent(Rule.getPossibleMoves(nextPlayerTurn.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(nextPlayerTurn)))));
+                messagingService.send(nextPlayerTurn.getName(), MessageBuilder.message(new PlayerTurnEvent(Rule.getPossibleMoves(nextPlayerTurn.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(nextPlayerTurn)))));
             }
         } else {
             Game.getInstance().endRound();
@@ -62,28 +66,34 @@ public class GameLogicService {
             suit = SuitCard.valueOf(bid.getSuit());
         }
         roundGame.playerBid(player, bidPoint, suit);
-        Integer playerPosition = game.getPlayers().indexOf(player);
-        messagingService.send(MessageBuilder.message(new BidEvent(playerPosition, bid)));
+        messagingService.send(MessageBuilder.message(new BidEvent(player.getName(), bid)));
         if(roundGame.getContractRound().getFinalContract() != null){
             Player playerTurn = game.getPlayers().get(0);
             roundGame.startTurn(playerTurn);
             List<Card> possibleMoves = Rule.getPossibleMoves(playerTurn.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(playerTurn));
             messagingService.send(MessageBuilder.message(new PlayerTurnEvent(possibleMoves)));
         } else {
-            bettingRound(game, game.getNextPlayer(player), new Bidding(null, null));
+            Player nextPlayer = game.getNextPlayer(player);
+            log.info("{} has to bid", player.getName());
+            if(nextPlayer instanceof HumanPlayer){
+                messagingService.send(nextPlayer.getName(), MessageBuilder.message(new PlayerBidTurnEvent()));
+            } else {
+                bettingRound(game, nextPlayer, new Bidding(BidAction.PASS, null, null));
+            }
         }
     }
 
-    public Integer createRoom() {
-        Room e = new Room();
-        e.addPlayer(new HumanPlayer(AuthentificationService.getAuthUser()));
-        String id = UUID.randomUUID().toString();
-        rooms.put(id,e);
-        messagingService.send(MessageBuilder.message(new RoomCreatedEvent(e, id)));
-        return rooms.size() - 1;
+    public void startGame(List<Player> players, String idRoom) {
+        games.put(idRoom, new Game(players));
+        games.get(idRoom).launchGame();
+        games.get(idRoom).startRound();
+        games.get(idRoom).getPlayers().forEach(player -> {
+            if(player instanceof HumanPlayer){
+                messagingService.send(player.getName(), MessageBuilder.message(new GameStartedEvent(idRoom, player.getName(), players)));
+                messagingService.send(player.getName(), MessageBuilder.message(new PlayerCardsEvent(player.getCards())));
+            }
+        });
+        messagingService.send(players.get(0).getName(), MessageBuilder.message(new PlayerBidTurnEvent()));
     }
 
-    public List<RoomResource> getRooms() {
-        return rooms.entrySet().stream().map(room -> RoomResource.createResourceFromRoom(room.getValue(), room.getKey())).collect(Collectors.toList());
-    }
 }
