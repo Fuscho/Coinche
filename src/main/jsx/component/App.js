@@ -56,7 +56,7 @@ var RoomContainer = React.createClass({
                     <Player position="left" bid={this.state.bid} player={this.state.players.get("leftPlayer")}/>
                     <Player position="right" bid={this.state.bid} player={this.state.players.get("rightPlayer")}/>
                     <CurrentPlayer cards={this.state.playerCards} selectableCards={this.state.playerSelectableCards} bid={this.state.bid} bid={this.state.bid} player={this.state.players.get("currentPlayer")}/>
-                    <GameBoard mode={this.state.mode} cardsOnTable={this.state.cardsOnTable} score={this.state.score} players={this.state.players}/>
+                    <GameBoard mode={this.state.mode} cardsOnTable={this.state.cardsOnTable} score={this.state.score} players={this.state.players} currentBid={this.state.bid}/>
                     <Score score={this.state.score}/>
                 </div>
             )

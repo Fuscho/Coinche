@@ -41,10 +41,9 @@ public class GameLogicService {
         messagingService.send(MessageBuilder.message(new CardPlayEvent(cardPlay, player.getName())));
         Player nextPlayerTurn = roundGame.getCurrentTurn().getPlayerTurn();
         if (!roundGame.isEndRound()) {
-            if (nextPlayerTurn instanceof IAPlayer) {
-                Card randomCard = nextPlayerTurn.getRandomCard(roundGame.getCurrentTurn());
-                playCard(game, nextPlayerTurn, randomCard);
-            } else if (nextPlayerTurn instanceof HumanPlayer) {
+            if (isIAPlayer(nextPlayerTurn)) {
+                IAPlayTurn(game, nextPlayerTurn);
+            } else if (isHumanPlayer(nextPlayerTurn)) {
                 messagingService.send(nextPlayerTurn.getName(), MessageBuilder.message(new PlayerTurnEvent(Rule.getPossibleMoves(nextPlayerTurn.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(nextPlayerTurn)))));
             }
         } else {
@@ -53,9 +52,20 @@ public class GameLogicService {
             Integer otherScore = game.getTeamManager().getAdversaryTeam(roundGame.getContractRound().getBidder()).getRoundScore();
             Integer askedPoint = game.getCurrentRound().getContractRound().getFinalContract().getAskedPoint().getNbPoint();
             boolean success = bidderScore >= askedPoint;
-            messagingService.send(MessageBuilder.message(new EndRoundEvent(success, bidderScore, otherScore)));
-            this.newRound(game);
+            messagingService.send(MessageBuilder.message(new RoundResultEvent(success, bidderScore, otherScore)));
+            this.startNewRound(game);
         }
+    }
+
+    private void IAPlayTurn(Game game, Player nextPlayerTurn) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        RoundGame roundGame = game.getCurrentRound();
+        Card randomCard = nextPlayerTurn.getRandomCard(roundGame.getCurrentTurn());
+        playCard(game, nextPlayerTurn, randomCard);
     }
 
     public void bettingRound(Game game, Player player, Bidding bid) {
@@ -73,12 +83,16 @@ public class GameLogicService {
         if (roundGame.getContractRound().getFinalContract() != null) {
             Player playerTurn = game.getPlayers().get(game.getStartingPlayer());
             roundGame.startTurn(playerTurn);
-            List<Card> possibleMoves = Rule.getPossibleMoves(playerTurn.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(playerTurn));
-            messagingService.send(MessageBuilder.message(new PlayerTurnEvent(possibleMoves)));
+            if (isHumanPlayer(playerTurn)) {
+                List<Card> possibleMoves = Rule.getPossibleMoves(playerTurn.getCards(), roundGame.getCurrentTurn().getSuitAsked(), roundGame.getCurrentTurn().getTrumpSuit(), roundGame.getCurrentTurn().getMasterCard(), roundGame.getCurrentTurn().isPartenaireMaster(playerTurn));
+                messagingService.send(MessageBuilder.message(new PlayerTurnEvent(possibleMoves)));
+            } else if(isIAPlayer(playerTurn)){
+                IAPlayTurn(game, playerTurn);
+            }
         } else {
             Player nextPlayer = game.getNextPlayer(player);
             log.info("{} has to bid", player.getName());
-            if (nextPlayer instanceof HumanPlayer) {
+            if (isHumanPlayer(nextPlayer)) {
                 messagingService.send(nextPlayer.getName(), MessageBuilder.message(new PlayerBidTurnEvent()));
             } else {
                 bettingRound(game, nextPlayer, new Bidding(BidAction.PASS, null, null));
@@ -92,7 +106,7 @@ public class GameLogicService {
         game.launchGame();
         game.startRound();
         game.getPlayers().forEach(player -> {
-            if (player instanceof HumanPlayer) {
+            if (isHumanPlayer(player)) {
                 messagingService.send(player.getName(), MessageBuilder.message(new GameStartedEvent(idRoom, player.getName(), players)));
                 messagingService.send(player.getName(), MessageBuilder.message(new PlayerCardsEvent(player.getCards())));
             }
@@ -101,14 +115,33 @@ public class GameLogicService {
         messagingService.send(startingPlayer.getName(), MessageBuilder.message(new PlayerBidTurnEvent()));
     }
 
-    public void newRound(Game game) {
+    public void startNewRound(Game game) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         game.startRound();
         game.getPlayers().forEach(player -> {
-            if (player instanceof HumanPlayer) {
+            if (isHumanPlayer(player)) {
                 messagingService.send(player.getName(), MessageBuilder.message(new PlayerCardsEvent(player.getCards())));
             }
         });
         Player startingPlayer = game.getPlayers().get(game.getStartingPlayer());
-        messagingService.send(startingPlayer.getName(), MessageBuilder.message(new PlayerBidTurnEvent()));
+        if (isHumanPlayer(startingPlayer)) {
+            messagingService.send(startingPlayer.getName(), MessageBuilder.message(new PlayerBidTurnEvent()));
+        } else {
+            bettingRound(game, startingPlayer, new Bidding(BidAction.PASS, null, null));
+        }
     }
+
+    private boolean isHumanPlayer(Player startingPlayer) {
+        return startingPlayer instanceof HumanPlayer;
+    }
+
+    private boolean isIAPlayer(Player nextPlayerTurn) {
+        return nextPlayerTurn instanceof IAPlayer;
+    }
+
 }
+

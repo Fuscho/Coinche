@@ -43,6 +43,10 @@ module.exports = {
     },
 
     onGameInitilized: function (playerCards) {
+        Store.setBid(Immutable.fromJS({}));
+        if(Store.getMode() != "bidding"){
+            Store.setMode("playing");
+        }
         Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
     },
 
@@ -109,7 +113,7 @@ module.exports = {
     addToScore : function(currentScore){
         currentScore = Immutable.fromJS(currentScore);
         var teamScore;
-        if(Store.getBid().get("player") == Store.getGame().get("currentPlayer") || Store.getBid().get("player")== Store.getGame().get("topPlayer")){
+        if(Store.getBid().get("player") == Store.getGame().get("currentPlayer").get("name") || Store.getBid().get("player")== Store.getGame().get("topPlayer").get("name")){
             teamScore = {
                 "you" : currentScore.get("bidderScore"),
                 "other" : currentScore.get("otherScore"),

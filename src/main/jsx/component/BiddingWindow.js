@@ -42,7 +42,7 @@ var BiddingWindow = React.createClass({
     render: function () {
         return (
             <div id="bid-container">
-                <BiddingSpinner onChange={this.onSpinnerChanged}/>
+                <BiddingSpinner onChange={this.onSpinnerChanged} currentBid={this.props.currentBid}/>
                 <div id="suit-wanted">
                     <div onClick={this.onSuitSelected}>
                         <img src="/img/suit/hearts.png" alt="suit-hearts" data-suit="Hearts"/>

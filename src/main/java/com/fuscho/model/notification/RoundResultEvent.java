@@ -7,7 +7,7 @@ import lombok.Getter;
  * Créer par mchoraine le 05/03/2016.
  */
 @AllArgsConstructor
-public class EndRoundEvent implements Event {
+public class RoundResultEvent implements Event {
 
     @Getter
     private Boolean success;

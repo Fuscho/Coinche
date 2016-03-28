@@ -8,7 +8,21 @@ var BiddingSpinner = React.createClass({
     },
 
     getValue: function () {
-        return GameConstant.POINT_VALUE[this.state.pointCursor];
+        var pointvalue = GameConstant.POINT_VALUE[this.state.pointCursor];
+        if(this.props.currentBid!=null && this.props.currentBid.get("bid") != null) {
+            var bidValue = this.props.currentBid.get("bid").get("value");
+            console.log("minPoint", bidValue);
+            console.log("pointvalue", pointvalue);
+            if (bidValue == null || pointvalue > bidValue) {
+                console.log("OK")
+                return pointvalue;
+            } else {
+                console.log("Not OK")
+                this.onMoreBtnClick();
+            }
+        } else {
+            return pointvalue;
+        }
     },
 
     onMoreBtnClick: function () {

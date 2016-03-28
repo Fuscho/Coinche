@@ -39,8 +39,10 @@ module.exports = {
                     case "com.fuscho.model.notification.BidEvent" :
                         GameLogic.playerHasBidded(eventContent);
                         break;
-                    case "com.fuscho.model.notification.EndRoundEvent" :
-                        GameLogic.addToScore(eventContent);
+                    case "com.fuscho.model.notification.RoundResultEvent" :
+                        setTimeout(function () {
+                            GameLogic.addToScore(eventContent);
+                        }, 1000);
                         break;
                 }
             };

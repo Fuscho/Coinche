@@ -11,7 +11,7 @@ var GameBoard = React.createClass({
         var mode = null;
         switch (this.props.mode) {
             case "bidding" :
-                mode = (<BiddingWindow/>);
+                mode = (<BiddingWindow currentBid={this.props.currentBid}/>);
                 break;
             case "playing" :
                 mode = (<CardsOnTableContainer cardsOnTable={this.props.cardsOnTable} players={this.props.players}/>);
