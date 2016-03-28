@@ -10,6 +10,9 @@ import lombok.Getter;
 public class EndRoundEvent implements Event {
 
     @Getter
+    private Boolean success;
+
+    @Getter
     private Integer bidderScore;
 
     @Getter

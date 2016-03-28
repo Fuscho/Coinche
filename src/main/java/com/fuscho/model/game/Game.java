@@ -5,6 +5,7 @@ import com.fuscho.model.player.IAPlayer;
 import com.fuscho.model.player.Player;
 import com.fuscho.model.player.Team;
 import com.fuscho.model.player.TeamManager;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -19,17 +20,13 @@ public class Game {
     private CardPack cardPack;
     private TeamManager teamManager;
     private RoundGame currentRound;
-    private static Game INSTANCE;
-
-    public static Game getInstance(){
-        return INSTANCE;
-    }
+    @Getter
+    private Integer startingPlayer = 0;
 
     public Game(List<Player> users){
         this.cardPack = new CardPack();
         this.teamManager = new TeamManager();
         this.players = users;
-        INSTANCE = this;
     }
 
     /**
@@ -56,7 +53,7 @@ public class Game {
             team.setRoundScore(0);
         }
 
-        currentRound = new RoundGame();
+        currentRound = new RoundGame(this);
         return currentRound;
     }
 
@@ -76,6 +73,7 @@ public class Game {
         }*/
         players.stream().forEach(player -> cardPack.addCards(player.getCardsWin()));
         players.stream().forEach(player -> player.setCardsWin(new ArrayList<>()));
+        this.startingPlayer = (startingPlayer + 1) % 4;
     }
 
     /**

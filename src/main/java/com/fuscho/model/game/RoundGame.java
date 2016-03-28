@@ -18,12 +18,15 @@ import java.util.List;
 @Data
 @Slf4j
 public class RoundGame {
+    private final Game game;
     private ContractRound contractRound = new ContractRound();
     private TurnRound currentTurn;
     private List<Card> lastTrick = new ArrayList<>();
     public boolean endRound = false;
 
-    public RoundGame(){}
+    public RoundGame(Game game){
+        this.game = game;
+    }
 
     public void playerPlayCard(Player player, Card card) {
         log.info("{} play : {}", player, card);
@@ -45,19 +48,19 @@ public class RoundGame {
     }
 
     public void startTurn(Player player) {
-        currentTurn = new TurnRound(player, contractRound.getTrumpSuit());
+        currentTurn = new TurnRound(game, player, contractRound.getTrumpSuit());
         endRound = false;
     }
 
     public void nextPlayer() {
         if(currentTurn.getCardsOnTable().size() < 4){
-            currentTurn.setPlayerTurn(Game.getInstance().getNextPlayer(currentTurn.getPlayerTurn()));
+            currentTurn.setPlayerTurn(game.getNextPlayer(currentTurn.getPlayerTurn()));
         } else {
             log.info("We have a winner : {} {}", currentTurn.getMasterCard(), currentTurn.getWinning() );
             currentTurn.winnerCollectCards();
             lastTrick = currentTurn.getCardsOnTable();
             //Calculate TurnScore
-            Team winnerTeam = Game.getInstance().getTeamManager().getPlayerTeam(currentTurn.getWinning());
+            Team winnerTeam = game.getTeamManager().getPlayerTeam(currentTurn.getWinning());
             winnerTeam.addToRoundScore(Score.valueOfTurn(currentTurn.getCardsOnTable(),currentTurn.getTrumpSuit()));
 
             if(currentTurn.getWinning().getCards().size() != 0){
@@ -69,7 +72,7 @@ public class RoundGame {
 
                 endRound = true;
                 //Calculate total score for each team
-                Score.valueOfRound(Game.getInstance().getTeamManager().getTeams(),contractRound,currentTurn.getWinning());
+                Score.valueOfRound(game.getTeamManager().getTeams(),contractRound,currentTurn.getWinning());
 
             }
         }

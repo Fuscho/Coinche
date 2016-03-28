@@ -77,7 +77,7 @@ public class MoveToPlay {
     //Ex sous coupé pondération de -10...
  **/
 
-    public static int negamax(IAPlayer iaPlayer, Player currentPlayer, List<Card> cardsToPlay, Map<Player,Card> cardsPlay, SuitCard trumpSuit, int alpha, int beta, Card cardToPlay){
+    public static int negamax(Game game, IAPlayer iaPlayer, Player currentPlayer, List<Card> cardsToPlay, Map<Player,Card> cardsPlay, SuitCard trumpSuit, int alpha, int beta, Card cardToPlay){
         int val = 0;
         int best = - infinite;
 
@@ -96,13 +96,13 @@ public class MoveToPlay {
                     .map(Map.Entry::getKey)
                     .findFirst().get();
             //If masterPlayer isn't partner of iaPlayer => value of turn is neg
-            if(Game.getInstance().getPlayerPartner(iaPlayer)!=masterPlayer){
+            if(game.getPlayerPartner(iaPlayer)!=masterPlayer){
                 valueOfTurn = - valueOfTurn;
             }
             return valueOfTurn;
         }else{
             //Get Player object  corresponding to the next player
-            Player nextPlayer = Game.getInstance().getNextPlayer(currentPlayer);
+            Player nextPlayer = game.getNextPlayer(currentPlayer);
             //Get next Player possible Moves (Ponderation != 0)
             List<Card> nextPlayerPossibleCards = PossibleMoves.getOtherPlayerPossibleMoves(iaPlayer,nextPlayer);
             for(Card card : cardsToPlay ){
@@ -110,7 +110,7 @@ public class MoveToPlay {
                 Card cardToPlayTMP = new Card();
                 cardsPlayTMP.put(currentPlayer,card);
                 //Analyse nextPLayer moves
-                val = -negamax(iaPlayer,nextPlayer,nextPlayerPossibleCards,cardsPlayTMP,trumpSuit,-beta,-alpha,cardToPlayTMP);
+                val = -negamax(game, iaPlayer,nextPlayer,nextPlayerPossibleCards,cardsPlayTMP,trumpSuit,-beta,-alpha,cardToPlayTMP);
                 if(val > best){
                     cardToPlay.setSuit(card.getSuit());
                     cardToPlay.setValue(card.getValue());

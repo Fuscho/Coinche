@@ -35,7 +35,7 @@ public class IAPlayer extends Player{
         //TODO INIT HASHMAP WITH CARD ON TABLE
         List<Card> possibleMoves = Rule.getPossibleMoves(this.getCards(), currentTurn.getSuitAsked(), currentTurn.getTrumpSuit(), currentTurn.getMasterCard(), currentTurn.isPartenaireMaster(this));
         Card cardToPlay = new Card();
-        MoveToPlay.negamax(this,this,possibleMoves,null,currentTurn.getTrumpSuit(),-MoveToPlay.infinite,MoveToPlay.infinite,cardToPlay);
+        MoveToPlay.negamax(currentTurn.getGame(), this,this,possibleMoves,null,currentTurn.getTrumpSuit(),-MoveToPlay.infinite,MoveToPlay.infinite,cardToPlay);
         return cardToPlay;
     }
 

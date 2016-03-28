@@ -1,16 +1,12 @@
 var React = require('react');
+var CurrentBid = require("./CurrentBid.js");
 
 var Player = React.createClass({
-    render : function(){
-        var player = "player-"+this.props.position;
+    render: function () {
+        var player = "player-" + this.props.position;
         var bid = null;
-        if(this.props.bid && this.props.bid.get("player")==this.props.player){
-            bid = (
-                <div className="player-bid">
-                    <div className="bid-suit">{this.props.bid.get("bid").get("suit")}</div>
-                    <div className="bid-value">{this.props.bid.get("bid").get("value")}</div>
-                </div>
-            )
+        if (this.props.bid && this.props.bid.get("player") == this.props.player.get("name")) {
+            bid = (<CurrentBid bid={this.props.bid} />)
         }
         return (
             <div id={player}>

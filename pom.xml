@@ -21,6 +21,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<spring-boot.add.resources>true</spring-boot.add.resources>
+		<spring.loaded.version>1.2.4.RELEASE</spring.loaded.version>
+		<commons-lang.version>3.0</commons-lang.version>
+		<lombok.version>1.16.6</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -35,7 +39,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.6</version>
+			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,7 +65,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.0</version>
+			<version>${commons-lang.version}</version>
 		</dependency>
 
 		<dependency>
@@ -77,13 +81,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework</groupId>
-						<artifactId>springloaded</artifactId>
-						<version>1.2.4.RELEASE</version>
-					</dependency>
-				</dependencies>
+				<version>1.2.2.RELEASE</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<agent>${settings.localRepository}/org/springframework/springloaded/${spring.loaded.version}/springloaded-${spring.loaded.version}.jar</agent>
+					<jvmArguments>-noverify</jvmArguments>
+					<addResources>${spring-boot.add.resources}</addResources>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

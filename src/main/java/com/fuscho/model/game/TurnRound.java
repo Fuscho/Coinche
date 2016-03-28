@@ -20,6 +20,7 @@ import java.util.List;
 @Data
 public class TurnRound {
 
+    private final Game game;
     private List<Card> cardsOnTable = new ArrayList<>();
     private SuitCard suitAsked;
     private SuitCard trumpSuit;
@@ -27,9 +28,10 @@ public class TurnRound {
     private Card masterCard;
     private Player playerTurn;
 
-    public TurnRound(Player player, SuitCard trumpSuit){
+    public TurnRound(Game game, Player player, SuitCard trumpSuit){
         this.playerTurn = player;
         this.trumpSuit = trumpSuit;
+        this.game = game;
     }
 
     public void play(Player player, Card card){
@@ -53,7 +55,7 @@ public class TurnRound {
     }
 
     public Boolean isPartenaireMaster(Player player) {
-        return winning != null && winning.equals(Game.getInstance().getPlayerPartner(player));
+        return winning != null && winning.equals(game.getPlayerPartner(player));
     }
 
     public void winnerCollectCards() {
@@ -61,14 +63,13 @@ public class TurnRound {
     }
 
     public void updatePonderation(Player playerPlayCard, Card cardPlay){
-        for(Player player : Game.getInstance().getPlayers()){
-            if(player instanceof IAPlayer && player != playerPlayCard){
-                //(TurnRound turnRound, Player playerPlayCard,Player iaPlayer, Card cardPlay, OtherPlayer otherPlayer)
-                IAPlayer iaPlayer = (IAPlayer) player;
-                for(OtherPlayer otherPlayer : iaPlayer.getOtherPlayers()){
-                    PossibleMoves.updatePossibleMove(this, playerPlayCard,iaPlayer,cardPlay,otherPlayer);
-                }
+        //(TurnRound turnRound, Player playerPlayCard,Player iaPlayer, Card cardPlay, OtherPlayer otherPlayer)
+        game.getPlayers().stream().filter(player -> player instanceof IAPlayer && player != playerPlayCard).forEach(player -> {
+            //(TurnRound turnRound, Player playerPlayCard,Player iaPlayer, Card cardPlay, OtherPlayer otherPlayer)
+            IAPlayer iaPlayer = (IAPlayer) player;
+            for (OtherPlayer otherPlayer : iaPlayer.getOtherPlayers()) {
+                PossibleMoves.updatePossibleMove(this, playerPlayCard, iaPlayer, cardPlay, otherPlayer);
             }
-        }
+        });
     }
 }

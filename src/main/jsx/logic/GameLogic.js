@@ -78,7 +78,7 @@ module.exports = {
     },
 
     onCardPlayed : function(playerCards){
--        Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
+        Store.setCurrentPlayerCards(Immutable.fromJS(playerCards));
     },
 
     showCardPlay : function(cardPlayed, player){
@@ -103,23 +103,23 @@ module.exports = {
             Store.setCardOnTable(Store.getCardsOnTableQueue());
             Store.removeCardsOnTableQueue();
             Store.setEndTurn(false);
-        } else {
-            GameAPI.nextRound(this.onGameInitilized)
         }
     },
 
     addToScore : function(currentScore){
         currentScore = Immutable.fromJS(currentScore);
         var teamScore;
-        if(Store.getBid().get("player") == 0 || Store.getBid().get("player")==2){
+        if(Store.getBid().get("player") == Store.getGame().get("currentPlayer") || Store.getBid().get("player")== Store.getGame().get("topPlayer")){
             teamScore = {
                 "you" : currentScore.get("bidderScore"),
-                "other" : currentScore.get("otherScore")
+                "other" : currentScore.get("otherScore"),
+                "success" : currentScore.get("success")
             };
         } else {
             teamScore = {
                 "other" : currentScore.get("bidderScore"),
-                "you" : currentScore.get("otherScore")
+                "you" : currentScore.get("otherScore"),
+                "success" : currentScore.get("success")
             };
         }
         Store.addToScore(Immutable.fromJS(teamScore));

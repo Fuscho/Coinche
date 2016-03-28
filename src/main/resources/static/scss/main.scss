@@ -266,6 +266,15 @@ html, body {
     margin-top: -60px;
     left: 20px;
   }
+  .player-bid {
+    position: inherit;
+    left: 155px;
+    top: 50%;
+    margin-top: 30px;
+    .bid-suit {
+      left : 13px;
+    }
+  }
 }
 
 #player-right {
@@ -279,6 +288,12 @@ html, body {
     margin-top: -60px;
     right: 20px;
   }
+  .player-bid {
+    position: inherit;
+    left: 135px;
+    top: 50%;
+    margin-top: 30px;
+  }
 }
 
 #player-top {
@@ -291,6 +306,12 @@ html, body {
     top: 20px;
     margin-left: -75px;
     left: 50%;
+  }
+  .player-bid {
+    left: 50%;
+    position: absolute;
+    top: 130px;
+    margin-left: -45px;
   }
 }
 

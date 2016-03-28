@@ -30,11 +30,6 @@ public class RoundGameTest {
         player4.addCards(new ArrayList<Card>(){{add(new Card(SuitCard.Hearts, ValueCard.Queen));}});
 
         Game game = new Game(Arrays.asList(player1, player2, player3, player4));
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
-        game.addPlayer(player4);
-
         game.launchGame();
         RoundGame roundGame = game.startRound();
         game.getPlayers().stream().forEach(player -> player.setCards(new ArrayList<>()));

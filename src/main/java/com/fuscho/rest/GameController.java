@@ -43,19 +43,19 @@ public class GameController {
         return null;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/next-round")
-    public List<Card> nexRound(){
-        Game game = Game.getInstance();
-        RoundGame currentRound = game.getCurrentRound();
-        Player humanPlayer = Game.getInstance().getPlayers().get(0);
-        List<Card> result = humanPlayer.getCards();
-        if(currentRound.endRound){
-            game.startRound();
-        } else {
-            log.error("Not the end");
-        }
-        return result;
-    }
+//    @RequestMapping(method = RequestMethod.POST, value = "/next-round")
+//    public List<Card> nexRound(){
+//        Game game = Game.getInstance();
+//        RoundGame currentRound = game.getCurrentRound();
+//        Player humanPlayer = Game.getInstance().getPlayers().get(0);
+//        List<Card> result = humanPlayer.getCards();
+//        if(currentRound.endRound){
+//            game.startRound();
+//        } else {
+//            log.error("Not the end");
+//        }
+//        return result;
+//    }
 
 
 
